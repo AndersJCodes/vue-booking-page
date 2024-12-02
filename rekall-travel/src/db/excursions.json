@@ -1,0 +1,24 @@
+[
+    {
+      "id": "mars_safari",
+      "name": "Mars Safari",
+      "description": "Explore the rugged Martian terrain with expert guides.",
+      "price": 20000,
+      "duration": "3 days"
+    },
+    {
+      "id": "titan_sea_cruise",
+      "name": "Titan Sea Cruise",
+      "description": "Sail the methane lakes of Titan, Saturn's largest moon.",
+      "price": 25000,
+      "duration": "5 days"
+    },
+    {
+      "id": "io_volcano_tour",
+      "name": "Io Volcano Tour",
+      "description": "Witness Jupiter's volcanic moon up close.",
+      "price": 30000,
+      "duration": "2 days"
+    }
+  ]
+  

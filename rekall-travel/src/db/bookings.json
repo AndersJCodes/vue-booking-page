@@ -1,0 +1,33 @@
+[
+    {
+      "id": "booking_001",
+      "customerName": "John Doe",
+      "destination": "mars_colony",
+      "class": "Cryo Luxury",
+      "departureStation": "earth_orbit_station",
+      "extras": ["moonwalk_training", "mars_safari"],
+      "equipment": ["moonwalk_suit"],
+      "totalPrice": 1025000
+    },
+    {
+      "id": "booking_002",
+      "customerName": "Alice Johnson",
+      "destination": "venus_cloud_city",
+      "class": "Cryo Luxury",
+      "departureStation": "moon_base_alpha",
+      "extras": ["astro_photography"],
+      "equipment": ["astro_kit"],
+      "totalPrice": 1205000
+    },
+    {
+      "id": "booking_003",
+      "customerName": "Elena Rivera",
+      "destination": "solar_farewell",
+      "class": "Enlightened Passage",
+      "departureStation": "earth_orbit_station",
+      "extras": [],
+      "equipment": [],
+      "totalPrice": 500000
+    }
+  ]
+  

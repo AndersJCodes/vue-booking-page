@@ -1,0 +1,21 @@
+[
+    {
+      "id": "moonwalk_suit",
+      "name": "Moonwalk Suit",
+      "pricePerDay": 1000,
+      "requiredFor": ["moonwalk_training"]
+    },
+    {
+      "id": "survival_kit",
+      "name": "Space Survival Kit",
+      "pricePerDay": 500,
+      "requiredFor": ["space_survival_training"]
+    },
+    {
+      "id": "astro_kit",
+      "name": "AstroPhotography Kit",
+      "pricePerDay": 700,
+      "requiredFor": ["astro_photography"]
+    }
+  ]
+  

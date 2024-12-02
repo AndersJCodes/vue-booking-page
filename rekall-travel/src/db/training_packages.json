@@ -1,0 +1,24 @@
+[
+    {
+      "id": "moonwalk_training",
+      "name": "Moonwalk Training",
+      "description": "Learn to navigate low-gravity environments.",
+      "price": 5000,
+      "duration": "1 week"
+    },
+    {
+      "id": "space_survival_training",
+      "name": "Space Survival Training",
+      "description": "Prepare for emergencies in space.",
+      "price": 8000,
+      "duration": "2 weeks"
+    },
+    {
+      "id": "astro_photography",
+      "name": "AstroPhotography",
+      "description": "Capture stunning images of space like a pro.",
+      "price": 4000,
+      "duration": "3 days"
+    }
+  ]
+  
