@@ -25,13 +25,10 @@ import { useRoute, useRouter } from 'vue-router'
 import type { Destination } from '@/types'
 import hotelsData from '@/db/hotels.json'
 import HotelList from '@/components/HotelList.vue' // Ensure correct path
-
-const route = useRoute()
-const router = useRouter()
-
-// Import destinations from JSON file
 import destinationsData from '@/db/destinations.json'
 import type { Hotel } from '@/types'
+
+const route = useRoute()
 
 const destinations: Destination[] = destinationsData
 
