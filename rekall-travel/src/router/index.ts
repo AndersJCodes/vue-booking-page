@@ -13,7 +13,7 @@ const router = createRouter({
       // Dynamic segments for booking details
       path: '/booking/options/:destination/:travelers/:travelDate',
       name: 'BookingOptions',
-      component: () => import('../views/BookingView.vue'),
+      component: () => import('../views/BookingOptions.vue'),
       props: true,
     },
     // Add more routes as needed
