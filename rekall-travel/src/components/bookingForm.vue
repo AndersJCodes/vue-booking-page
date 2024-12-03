@@ -48,44 +48,17 @@
 import { reactive } from 'vue'
 import { useRouter } from 'vue-router'
 import type { BookingDetails, Destination } from '@/types'
+import destinationsData from '../db/destionations.json'
 
-// Local booking state
+const destinations: Destination[] = destinationsData
+const router = useRouter()
 const localBooking = reactive<Partial<BookingDetails>>({
   destination: '',
   travelers: 1,
   travelDate: '',
 })
 
-// Mock destinations, replace with API call or store in a real app
-const destinations: Destination[] = [
-  {
-    id: 'mars_colony',
-    name: 'Mars Colony',
-    description: 'Experience life on the Red Planet at the first human colony.',
-    pricePerPerson: 1000000,
-    duration: '6 months',
-    departureFrom: ['Earth Orbit Station', 'Moon Base Alpha'],
-  },
-  {
-    id: 'venus_cloud_city',
-    name: 'Venus Cloud City',
-    description: "Float above Venus' surface in luxury cloud cities.",
-    pricePerPerson: 1200000,
-    duration: '1 year',
-    departureFrom: ['Earth Orbit Station', 'Moon Base Alpha'],
-  },
-  {
-    id: 'solar_farewell',
-    name: 'Solar Farewell Voyage',
-    description: 'A one-way journey to the Sun for a spectacular final act.',
-    pricePerPerson: 500000,
-    duration: 'Final',
-    departureFrom: ['Earth Orbit Station'],
-  },
-]
-
 // Router instance
-const router = useRouter()
 
 // Increment travelers
 const increment = () => {
@@ -130,7 +103,7 @@ const handleSubmit = () => {
 <style scoped>
 .flex-row {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   gap: 1rem;
 }
 
@@ -140,7 +113,7 @@ const handleSubmit = () => {
 }
 
 select {
-  width: 100%;
+  /* width: 100%; */
   display: inline-block;
 }
 
