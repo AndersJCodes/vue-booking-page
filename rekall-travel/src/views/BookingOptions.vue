@@ -1,7 +1,7 @@
 <template>
   <div class="booking-options">
     <h1>Booking Options</h1>
-    <div v-if="destinationData && travelDateParam.value">
+    <div v-if="destinationData && travelDateParam">
       <p><strong>Destination:</strong> {{ destinationData.name }}</p>
       <p><strong>Number of Travelers:</strong> {{ travelers }}</p>
       <p><strong>Travel Date:</strong> {{ formattedTravelDate }}</p>

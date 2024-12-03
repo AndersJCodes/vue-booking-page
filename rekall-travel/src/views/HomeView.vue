@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import BookingComponent from '@/components/bookingForm.vue'
+import BookingForm from '@/components/BookingForm.vue'
 </script>
 
 <template>
   <main>
-    <BookingComponent />
+    <BookingForm />
   </main>
 </template>
