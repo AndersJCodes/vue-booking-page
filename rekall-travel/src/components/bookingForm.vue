@@ -48,7 +48,7 @@
 import { reactive } from 'vue'
 import { useRouter } from 'vue-router'
 import type { BookingDetails, Destination } from '@/types'
-import destinationsData from '../db/destionations.json'
+import destinationsData from '../db/destinations.json'
 
 const destinations: Destination[] = destinationsData
 const router = useRouter()
@@ -101,9 +101,6 @@ const handleSubmit = () => {
 </script>
 
 <style scoped>
-.booking-form {
-}
-
 .flex-row {
   display: flex;
   flex-direction: row;
