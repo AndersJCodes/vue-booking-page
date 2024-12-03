@@ -101,6 +101,9 @@ const handleSubmit = () => {
 </script>
 
 <style scoped>
+.booking-form {
+}
+
 .flex-row {
   display: flex;
   flex-direction: row;

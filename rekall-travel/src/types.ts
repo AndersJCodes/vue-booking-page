@@ -13,4 +13,13 @@ interface Destination {
   departureFrom: string[]
 }
 
-export type { BookingDetails, Destination }
+interface Hotel {
+  id: string
+  destinationId: string
+  name: string
+  description: string
+  pricePerNight: number
+  rating: number
+}
+
+export type { BookingDetails, Destination, Hotel }

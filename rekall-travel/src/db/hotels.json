@@ -1,0 +1,74 @@
+[
+  {
+    "id": "hotel_1",
+    "destinationId": "mars_colony",
+    "name": "Red Planet Resort",
+    "description": "Luxury accommodations on the Martian surface with breathtaking views.",
+    "pricePerNight": 5000,
+    "rating": 4.8
+  },
+  {
+    "id": "hotel_2",
+    "destinationId": "mars_colony",
+    "name": "Martian Meadows Inn",
+    "description": "Comfortable stays with state-of-the-art facilities.",
+    "pricePerNight": 3000,
+    "rating": 4.5
+  },
+  {
+    "id": "hotel_3",
+    "destinationId": "mars_colony",
+    "name": "Celestial Suites",
+    "description": "Elegant suites offering a serene environment.",
+    "pricePerNight": 4500,
+    "rating": 4.7
+  },
+  {
+    "id": "hotel_4",
+    "destinationId": "venus_cloud_city",
+    "name": "Venusian Heights Hotel",
+    "description": "Stay above the clouds in luxury.",
+    "pricePerNight": 6000,
+    "rating": 4.9
+  },
+  {
+    "id": "hotel_5",
+    "destinationId": "venus_cloud_city",
+    "name": "Cloud Nine Retreat",
+    "description": "Experience tranquility amidst the clouds.",
+    "pricePerNight": 3500,
+    "rating": 4.6
+  },
+  {
+    "id": "hotel_6",
+    "destinationId": "venus_cloud_city",
+    "name": "Ethereal Escape",
+    "description": "Modern amenities with panoramic views.",
+    "pricePerNight": 4000,
+    "rating": 4.7
+  },
+  {
+    "id": "hotel_7",
+    "destinationId": "solar_farewell",
+    "name": "Sunset Lodge",
+    "description": "Witness the final journey with comfort.",
+    "pricePerNight": 7000,
+    "rating": 4.9
+  },
+  {
+    "id": "hotel_8",
+    "destinationId": "solar_farewell",
+    "name": "Helios Haven",
+    "description": "Premium stay with exclusive services.",
+    "pricePerNight": 8000,
+    "rating": 5.0
+  },
+  {
+    "id": "hotel_9",
+    "destinationId": "solar_farewell",
+    "name": "Radiant Retreat",
+    "description": "Luxury accommodations designed for the ultimate experience.",
+    "pricePerNight": 7500,
+    "rating": 4.8
+  }
+]
