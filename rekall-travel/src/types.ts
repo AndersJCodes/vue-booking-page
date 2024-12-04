@@ -1,7 +1,10 @@
+// src/types/index.ts
+
 interface BookingDetails {
   destination: string
   travelers: number
   travelDate: string
+  numberOfDays: number
 }
 
 interface Destination {
