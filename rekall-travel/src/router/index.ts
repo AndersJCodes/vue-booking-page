@@ -1,28 +1,25 @@
-// src/router/index.ts
+import { createRouter, createWebHistory } from 'vue-router';
+import HomeView from "@/views/HomeView.vue";
+import BlogView from "@/views/BlogView.vue";
+import BlogPostView from "@/views/BlogPostView.vue";
+import AboutMars from "@/views/AboutMars.vue";
+import AboutVenus from "@/views/AboutVenus.vue";
+import AboutSun from "@/views/AboutSun.vue";
+import Hotels from "@/views/Hotels.vue";
 
-import { createRouter, createWebHistory } from 'vue-router'
-import type { RouteRecordRaw } from 'vue-router'
-import HomeView from '@/views/HomeView.vue'
-import Hotels from '@/views/Hotels.vue' // Import the new Hotels component
-
-const routes: Array<RouteRecordRaw> = [
-  {
-    path: '/',
-    name: 'home',
-    component: HomeView,
-  },
-  {
-    path: '/hotels',
-    name: 'Hotels',
-    component: Hotels,
-    props: (route) => ({ query: route.query }), // Pass query as props
-  },
-  // Add more routes as needed
-]
+const routes = [
+  { path: "/", name: "home", component: HomeView },
+  { path: "/blog", name: "blog", component: BlogView },
+  { path: "/blog/:id", name: "blogPost", component: BlogPostView, props: true },
+  { path: "/about/mars", name: "aboutMars", component: AboutMars },
+  { path: "/about/venus", name: "aboutVenus", component: AboutVenus },
+  { path: "/about/sun", name: "aboutSun", component: AboutSun },
+  { path: "/hotels", name: "hotels", component: Hotels },
+];
 
 const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
+  history: createWebHistory(),
   routes,
-})
+});
 
-export default router
+export default router;
