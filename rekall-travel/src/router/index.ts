@@ -3,7 +3,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import type { RouteRecordRaw } from 'vue-router'
 import HomeView from '@/views/HomeView.vue'
-import Hotels from '@/views/Hotels.vue' // Import the new Hotels component
+import Hotels from '@/views/DestionationsView.vue' // Import the new Hotels component
 
 const routes: Array<RouteRecordRaw> = [
   {
