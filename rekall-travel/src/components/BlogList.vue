@@ -9,6 +9,12 @@
           :to="{ name: 'blogPost', params: { id: post.id } }"
           class="blog-post"
         >
+        <img
+        :src="post.image"
+        :alt="post.title"
+        class="blog-post-image"
+        />
+
           <h2>{{ post.title }}</h2>
           <p>{{ post.content.slice(0, 150) }}...</p>
         </router-link>
@@ -17,13 +23,12 @@
   </template>
   
   <script lang="ts">
-  import { defineComponent, ref } from "vue";
-  import type { BlogPost } from '@/types';
+  import { defineComponent } from "vue";
   
   export default defineComponent({
     data() {
       return {
-        blogPosts: ref<BlogPost[]>([]),
+        blogPosts: [],
         loading: true,
         error: null as string | null,
       };
@@ -45,10 +50,6 @@
   </script>
   
   <style scoped>
-  .blog-list {
-    padding: 20px;
-  }
-  
   .blog-container {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -71,11 +72,20 @@
     box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
   }
   
-  .loading,
-  .error {
-    text-align: center;
+  .blog-post h2 {
+    margin-top: 15px;
     font-size: 1.2rem;
-    margin-top: 20px;
+  }
+  
+  .blog-post p {
+    margin: 10px 0 0;
+    font-size: 1rem;
+  }
+  
+  .blog-post-image {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
   }
   </style>
   

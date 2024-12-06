@@ -9,7 +9,7 @@
               <router-link
                 :to="{ name: 'blogPost', params: { id: post.id } }"
                 class="sidebar-link"
-                :class="{ 'current-post': post.id === id }"
+                :class="{ 'current-post': post.id === route.params.id }"
               >
                 {{ post.title }}
               </router-link>
@@ -19,51 +19,87 @@
         </aside>
   
         <!-- Main Blog Post Content -->
-        <article class="blog-content">
-          <h1>{{ post?.title }}</h1>
-          <p>{{ post?.content }}</p>
-          <router-link to="/blog" class="back-link">← Back</router-link>
+        <article class="blog-content" v-if="currentPost">
+          <img
+            :src="currentPost.image"
+            :alt="currentPost.title"
+            class="blog-post-image"
+          />
+          <h1>{{ currentPost.title }}</h1>
+          <p v-for="paragraph in currentPost.content.split('\n')" :key="paragraph" class="blog-paragraph">
+            {{ paragraph }}
+          </p>
+          <router-link to="/blog" class="back-link">← Back to Blog</router-link>
         </article>
+  
+        <p v-else class="error-message">Blog post not found. Please check the URL.</p>
       </div>
     </div>
   </template>
   
   <script lang="ts">
-  import { defineComponent } from "vue";
+  import { defineComponent, ref, watch } from "vue";
+  import { useRoute } from "vue-router";
   
   export default defineComponent({
-    props: {
-      id: {
-        type: String,
-        required: true,
-      },
-    },
-    data() {
-      return {
-        blogPosts: [] as { id: string; title: string; content: string }[],
-        post: null as { id: string; title: string; content: string } | null,
-        loading: true,
-        error: null as string | null,
-      };
-    },
-    async created() {
-      try {
-        const response = await fetch("/src/db/blogPosts.json");
-        if (!response.ok) {
-          throw new Error("Failed to load blog posts");
-        }
-        const posts = await response.json();
-        this.blogPosts = posts;
-        this.post = this.blogPosts.find((post) => post.id === this.id) || null;
+    setup() {
+      const route = useRoute();
   
-        if (!this.post) {
-          throw new Error("Blog post not found");
+      const blogPosts = ref([] as { id: string; title: string; content: string; image: string }[]);
+      const currentPost = ref(null as { id: string; title: string; content: string; image: string } | null);
+      const loading = ref(true);
+      const error = ref(null as string | null);
+  
+      const fetchBlogPosts = async () => {
+        try {
+          const response = await fetch("/src/db/blogPosts.json");
+          if (!response.ok) {
+            throw new Error("Failed to load blog posts");
+          }
+          blogPosts.value = await response.json();
+          setCurrentPost();
+        } catch (err) {
+          console.error(err);
+          error.value = err instanceof Error ? err.message : "An error occurred";
+        } finally {
+          loading.value = false;
         }
-      } catch (err) {
-        this.error = err instanceof Error ? err.message : "An error occurred";
-      } finally {
-        this.loading = false;
-      }
+      };
+  
+      const setCurrentPost = () => {
+    if (!loading.value) {
+        const normalizedRouteId = (route.params.id as string).replace("-", "_");
+        currentPost.value = blogPosts.value.find((post) => post.id === normalizedRouteId) || null;
+
+        console.log("Route ID:", route.params.id); // Debugging
+        console.log("Normalized ID:", normalizedRouteId); // Debugging
+        console.log("Matched Post:", currentPost.value); // Debugging
+
+        if (!currentPost.value) {
+        error.value = "Blog post not found.";
+        }
+    }
+    };
+
+  
+      // Watch for route changes to update the current post
+      watch(
+        () => route.params.id,
+        () => {
+          setCurrentPost();
+        }
+      );
+  
+      // Fetch blog posts on component creation
+      fetchBlogPosts();
+  
+      return {
+        route,
+        blogPosts,
+        currentPost,
+        loading,
+        error,
+      };
     },
   });
   </script>
@@ -118,7 +154,28 @@
   }
   
   .blog-content h1 {
-    margin-top: 0;
+    margin-top: 15px;
+  }
+  
+  .blog-paragraph {
+    margin-bottom: 15px;
+    line-height: 1.6;
+  }
+  
+  .blog-post-image {
+    max-width: 80%;
+    height: auto;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  .error-message {
+    text-align: center;
+    color: red;
+    font-size: 1.2rem;
   }
   
   .back-link {
