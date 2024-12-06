@@ -92,18 +92,19 @@ const handleSubmit = () => {
   if (destination.value && travelDate.value && numberOfDays.value) {
     // Navigate to the Hotels route with query params
     router.push({
-      name: 'Hotels',
+      name: 'hotels', // Ensure this matches the route name in index.ts
       query: {
         destination: destination.value,
         travelers: travelers.value.toString(),
         startDate: travelDate.value,
         days: numberOfDays.value.toString(),
       },
-    })
+    });
   } else {
-    alert('Please fill in all required fields.')
+    alert('Please fill in all required fields.');
   }
-}
+};
+
 </script>
 
 <style scoped>

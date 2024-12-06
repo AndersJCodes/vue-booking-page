@@ -1,18 +1,35 @@
 <template>
     <div class="blog-post-view">
-      <div v-if="loading" class="loading">Loading blog post...</div>
-      <div v-else-if="error" class="error">{{ error }}</div>
-      <div v-else>
-        <h1>{{ post?.title }}</h1>
-        <p>{{ post?.content }}</p>
-        <router-link to="/blog" class="back-link">← Back to Blog</router-link>
+      <div class="content-wrapper">
+        <!-- Sidebar with Blog Links -->
+        <aside class="blog-sidebar">
+          <h3>Other Blog Posts</h3>
+          <ul v-if="blogPosts.length">
+            <li v-for="post in blogPosts" :key="post.id">
+              <router-link
+                :to="{ name: 'blogPost', params: { id: post.id } }"
+                class="sidebar-link"
+                :class="{ 'current-post': post.id === id }"
+              >
+                {{ post.title }}
+              </router-link>
+            </li>
+          </ul>
+          <p v-else>Loading blog posts...</p>
+        </aside>
+  
+        <!-- Main Blog Post Content -->
+        <article class="blog-content">
+          <h1>{{ post?.title }}</h1>
+          <p>{{ post?.content }}</p>
+          <router-link to="/blog" class="back-link">← Back</router-link>
+        </article>
       </div>
     </div>
   </template>
   
   <script lang="ts">
   import { defineComponent } from "vue";
-  import type { BlogPost } from '@/types';
   
   export default defineComponent({
     props: {
@@ -23,6 +40,7 @@
     },
     data() {
       return {
+        blogPosts: [] as { id: string; title: string; content: string }[],
         post: null as { id: string; title: string; content: string } | null,
         loading: true,
         error: null as string | null,
@@ -34,8 +52,10 @@
         if (!response.ok) {
           throw new Error("Failed to load blog posts");
         }
-        const blogPosts = await response.json() as BlogPost[];
-        this.post = blogPosts.find((post) => post.id === this.id) || null;
+        const posts = await response.json();
+        this.blogPosts = posts;
+        this.post = this.blogPosts.find((post) => post.id === this.id) || null;
+  
         if (!this.post) {
           throw new Error("Blog post not found");
         }
@@ -50,7 +70,55 @@
   
   <style scoped>
   .blog-post-view {
+    display: flex;
     padding: 20px;
+  }
+  
+  .content-wrapper {
+    display: flex;
+    width: 100%;
+  }
+  
+  .blog-sidebar {
+    width: 25%;
+    padding-right: 20px;
+    border-right: 1px solid #ddd;
+  }
+  
+  .blog-sidebar h3 {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+  }
+  
+  .blog-sidebar ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .sidebar-link {
+    text-decoration: none;
+    color: #007bff;
+    display: block;
+    margin-bottom: 10px;
+    transition: color 0.3s;
+  }
+  
+  .sidebar-link:hover {
+    color: #0056b3;
+  }
+  
+  .current-post {
+    font-weight: bold;
+    color: #000;
+  }
+  
+  .blog-content {
+    width: 75%;
+    padding-left: 20px;
+  }
+  
+  .blog-content h1 {
+    margin-top: 0;
   }
   
   .back-link {
@@ -62,13 +130,6 @@
   
   .back-link:hover {
     text-decoration: underline;
-  }
-  
-  .loading,
-  .error {
-    text-align: center;
-    font-size: 1.2rem;
-    margin-top: 20px;
   }
   </style>
   

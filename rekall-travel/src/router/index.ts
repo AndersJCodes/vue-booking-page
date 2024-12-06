@@ -2,19 +2,19 @@ import { createRouter, createWebHistory } from 'vue-router';
 import HomeView from "@/views/HomeView.vue";
 import BlogView from "@/views/BlogView.vue";
 import BlogPostView from "@/views/BlogPostView.vue";
+import HotelsView from "@/views/Hotels.vue";
 import AboutMars from "@/views/AboutMars.vue";
 import AboutVenus from "@/views/AboutVenus.vue";
 import AboutSun from "@/views/AboutSun.vue";
-import Hotels from "@/views/Hotels.vue";
 
 const routes = [
   { path: "/", name: "home", component: HomeView },
   { path: "/blog", name: "blog", component: BlogView },
   { path: "/blog/:id", name: "blogPost", component: BlogPostView, props: true },
+  { path: "/hotels", name: "hotels", component: HotelsView },
   { path: "/about/mars", name: "aboutMars", component: AboutMars },
   { path: "/about/venus", name: "aboutVenus", component: AboutVenus },
   { path: "/about/sun", name: "aboutSun", component: AboutSun },
-  { path: "/hotels", name: "hotels", component: Hotels },
 ];
 
 const router = createRouter({
