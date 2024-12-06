@@ -7,6 +7,7 @@
         offers a unique opportunity to live and work on a planet that was once a
         distant dream.
       </p>
+      <img src="@/assets/images/Mars-resort.webp" alt="Mars Resort" class="about-image" />
       <h2>Highlights</h2>
       <ul>
         <li>Stay in cutting-edge habitats designed for Martian conditions.</li>
@@ -34,6 +35,13 @@
   
   h1, h2 {
     color: #a50000;
+  }
+  
+  .about-image {
+    max-width: 100%;
+    margin: 20px 0;
+    border-radius: 8px;
+    border: 2px solid #ddd;
   }
   
   ul {

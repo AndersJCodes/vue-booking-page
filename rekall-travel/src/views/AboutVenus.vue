@@ -7,6 +7,7 @@
         harsh surface, where you can experience unparalleled comfort and
         breathtaking views.
       </p>
+      <img src="@/assets/images/Venus-resort.webp" alt="Venus Resort" class="about-image" />
       <h2>Highlights</h2>
       <ul>
         <li>Relax in luxury accommodations with panoramic cloud views.</li>
@@ -33,6 +34,13 @@
   
   h1, h2 {
     color: #ffa500;
+  }
+  
+  .about-image {
+    max-width: 100%;
+    margin: 20px 0;
+    border-radius: 8px;
+    border: 2px solid #ddd;
   }
   
   ul {
