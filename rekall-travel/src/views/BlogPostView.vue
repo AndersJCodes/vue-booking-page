@@ -26,7 +26,11 @@
             class="blog-post-image"
           />
           <h1>{{ currentPost.title }}</h1>
-          <p v-for="paragraph in currentPost.content.split('\n')" :key="paragraph" class="blog-paragraph">
+          <p
+            v-for="paragraph in currentPost.content.split('\n')"
+            :key="paragraph"
+            class="blog-paragraph"
+          >
             {{ paragraph }}
           </p>
           <router-link to="/blog" class="back-link">← Back to Blog</router-link>
@@ -38,67 +42,30 @@
   </template>
   
   <script lang="ts">
-  import { defineComponent, ref, watch } from "vue";
+  import { defineComponent, computed, onMounted } from "vue";
   import { useRoute } from "vue-router";
+  import { useBlogStore } from "@/stores/blog";
   
   export default defineComponent({
     setup() {
       const route = useRoute();
+      const blogStore = useBlogStore();
   
-      const blogPosts = ref([] as { id: string; title: string; content: string; image: string }[]);
-      const currentPost = ref(null as { id: string; title: string; content: string; image: string } | null);
-      const loading = ref(true);
-      const error = ref(null as string | null);
+      // Fetch blog posts when the component is mounted
+      onMounted(() => {
+        blogStore.fetchBlogPosts();
+      });
   
-      const fetchBlogPosts = async () => {
-        try {
-          const response = await fetch("/src/db/blogPosts.json");
-          if (!response.ok) {
-            throw new Error("Failed to load blog posts");
-          }
-          blogPosts.value = await response.json();
-          setCurrentPost();
-        } catch (err) {
-          console.error(err);
-          error.value = err instanceof Error ? err.message : "An error occurred";
-        } finally {
-          loading.value = false;
-        }
-      };
-  
-      const setCurrentPost = () => {
-    if (!loading.value) {
-        const normalizedRouteId = (route.params.id as string).replace("-", "_");
-        currentPost.value = blogPosts.value.find((post) => post.id === normalizedRouteId) || null;
-
-        console.log("Route ID:", route.params.id); // Debugging
-        console.log("Normalized ID:", normalizedRouteId); // Debugging
-        console.log("Matched Post:", currentPost.value); // Debugging
-
-        if (!currentPost.value) {
-        error.value = "Blog post not found.";
-        }
-    }
-    };
-
-  
-      // Watch for route changes to update the current post
-      watch(
-        () => route.params.id,
-        () => {
-          setCurrentPost();
-        }
+      // Access blog posts and the current post via Pinia
+      const blogPosts = computed(() => blogStore.blogPosts);
+      const currentPost = computed(() =>
+        blogStore.getBlogPostById(route.params.id as string)
       );
-  
-      // Fetch blog posts on component creation
-      fetchBlogPosts();
   
       return {
         route,
         blogPosts,
         currentPost,
-        loading,
-        error,
       };
     },
   });

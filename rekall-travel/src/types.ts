@@ -30,6 +30,7 @@ interface BlogPost {
   id: string;
   title: string;
   content: string;
+  image: string; // Include any other properties you have
 }
 
 type BlogPostList = BlogPost[]; // A list of blog posts
