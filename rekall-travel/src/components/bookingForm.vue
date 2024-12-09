@@ -197,7 +197,10 @@ onMounted(() => {
 const handleSubmit = () => {
   if (!destination.value || !travelDate.value || numberOfDays.value <= 0) {
     alert('Please fill in all required fields.');
-    return;
+  } else {
+    router.push({
+      name: 'hotels',
+    });
   }
   console.log('Booking submitted:', {
     destination: destination.value,
