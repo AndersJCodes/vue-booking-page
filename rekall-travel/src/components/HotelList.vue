@@ -102,7 +102,7 @@ const selectHotel = (hotel: Hotel) => {
   padding: 0.5rem 1rem;
   cursor: pointer;
   background-color: #28a745;
-  color: white;
+  color: rgb(15, 14, 14);
   border: none;
   border-radius: 4px;
 }

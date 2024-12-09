@@ -1,0 +1,39 @@
+[
+    {
+      "id": "blog_001",
+      "title": "Life on Mars: A Day in the Colony",
+      "content": "Experience life on the Red Planet...",
+      "image": "/src/assets/images/Blog-001.webp"
+    },
+    {
+      "id": "blog_002",
+      "title": "Floating in Luxury: Venus Cloud City Adventures",
+      "content": "Discover luxury above the clouds...",
+      "image": "/src/assets/images/Blog-002.webp"
+    },
+    {
+      "id": "blog_003",
+      "title": "The Solar Farewell: A Tribute to Life’s Brilliance",
+      "content": "A profound journey towards the Sun...",
+      "image": "/src/assets/images/Blog-003.webp"
+    },
+    {
+      "id": "blog_004",
+      "title": "Mars: Where Adventure Meets Innovation",
+      "content": "Explore the vast Martian landscapes...",
+      "image": "/src/assets/images/Blog-004.webp"
+    },
+    {
+      "id": "blog_005",
+      "title": "Ready for Launch? Here’s How to Prepare for Space Travel",
+      "content": "Get ready for your space adventure...",
+      "image": "/src/assets/images/Blog-005.webp"
+    },
+    {
+      "id": "blog_006",
+      "title": "The Joy of Weightlessness: Embrace the Freedom of Zero Gravity",
+      "content": "Float and glide in zero gravity...",
+      "image": "/src/assets/images/Blog-006.webp"
+    }
+  ]
+  

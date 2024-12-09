@@ -1,9 +1,23 @@
 <script setup lang="ts">
-import BookingForm from '@/components/BookingForm.vue'
+  import BookingComponent from '@/components/BookingForm.vue';
+  import BlogList from '@/components/BlogList.vue';
 </script>
 
 <template>
   <main>
-    <BookingForm />
+    <BookingComponent />
+    <section class="blog-section">
+      <h2>Latest Blog Posts</h2>
+      <BlogList />
+    </section>
   </main>
 </template>
+
+<style scoped>
+.blog-section {
+  margin-top: 40px;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-top: 2px solid #ddd;
+}
+</style>

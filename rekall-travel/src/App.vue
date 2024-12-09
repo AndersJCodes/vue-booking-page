@@ -1,44 +1,46 @@
-<script setup lang="ts">
-import { RouterLink, RouterView } from 'vue-router'
-</script>
-
 <template>
-  <header>
-    <nav>
-      <RouterLink to="/">Home</RouterLink>
+  <div id="app">
+    <nav class="navbar">
+      <div class="nav-links">
+        <router-link to="/" class="nav-link">Home</router-link>
+        <router-link to="/blog" class="nav-link">Blog</router-link>
+      </div>
+      <div class="destinations">
+        <router-link to="/about/mars" class="nav-link">| Mars</router-link>
+        <router-link to="/about/venus" class="nav-link">| Venus</router-link>
+        <router-link to="/about/sun" class="nav-link">| The Sun</router-link>
+      </div>
     </nav>
-  </header>
-
-  <RouterView />
+    <router-view />
+  </div>
 </template>
 
+<script lang="ts">
+export default {};
+</script>
+
 <style scoped>
-header {
-  line-height: 1.5;
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  background-color: #333;
+  padding: 10px 30px;
 }
 
-nav {
-  width: 100%;
-  font-size: 12px;
-  margin-bottom: 1rem;
-  text-align: center;
+.destinations {
+  display: flex;
+  align-items: center;
 }
 
-nav a.router-link-exact-active {
-  color: var(--color-text);
+.nav-link {
+  margin: 0 15px;
+  text-decoration: none;
+  color: #fff;
+  font-size: 1.2rem;
+  transition: color 0.3s;
 }
 
-nav a.router-link-exact-active:hover {
-  background-color: transparent;
-}
-
-nav a {
-  display: inline-block;
-  padding: 0 1rem;
-  border-left: 1px solid var(--color-border);
-}
-
-nav a:first-of-type {
-  border: 0;
+.nav-link:hover {
+  color: #007bff;
 }
 </style>
