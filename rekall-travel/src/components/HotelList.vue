@@ -1,10 +1,11 @@
 <!-- src/components/HotelList.vue -->
 
 <template>
-  <div class="hotel-list">
+  <div class="hotel-component">
     <h2>Available Hotels in {{ destinationName }}</h2>
-    <div v-if="filteredHotels.length">
+    <div class="hotel-list" v-if="filteredHotels.length">
       <div v-for="hotel in filteredHotels" :key="hotel.id" class="hotel-option">
+        <img :src="hotel.image" :alt="hotel.name" />
         <h3>{{ hotel.name }}</h3>
         <p>{{ hotel.description }}</p>
         <p><strong>Price per Night:</strong> ${{ hotel.pricePerNight }}</p>
@@ -36,11 +37,11 @@ const props = defineProps<{
 const router = useRouter()
 
 // Compute the end date based on startDate and days
-const endDate = computed(() => {
+/* const endDate = computed(() => {
   const date = new Date(props.startDate)
   date.setDate(date.getDate() + props.days)
   return date.toISOString().split('T')[0] // Format as YYYY-MM-DD
-})
+}) */
 
 // Filter hotels based on destinationId
 const filteredHotels = computed(
@@ -57,33 +58,39 @@ const destinationName = computed(() => destinationInfo.value?.name || 'Unknown D
 
 // Handle hotel selection
 const selectHotel = (hotel: Hotel) => {
-  // Navigate to a booking confirmation or details page with selected hotel info
-  // For simplicity, we'll alert the selection. Replace this with actual navigation as needed.
-  alert(`You have selected ${hotel.name}`)
-
-  // Example navigation (uncomment and implement as needed):
-  /*
   router.push({
-    name: 'BookingConfirmation',
+    name: 'excursions', // Name of the route to navigate to
     query: {
       hotelId: hotel.id,
-      destination: props.destinationId,
+      destinationId: props.destinationId,
       travelers: props.travelers.toString(),
       startDate: props.startDate,
       days: props.days.toString(),
     },
   })
-  */
 }
 </script>
 
 <style scoped>
-.hotel-list {
+.hotel-component {
   margin-top: 2rem;
 }
 
-.hotel-list h2 {
+.hotel-component h2 {
   margin-bottom: 1rem;
+}
+
+.hotel-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1rem;
+}
+
+.hotel-option img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 5px;
 }
 
 .hotel-option {

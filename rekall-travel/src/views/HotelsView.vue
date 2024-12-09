@@ -18,48 +18,41 @@
     <div v-else>
       <p>Invalid or missing search parameters. Please go back and try again.</p>
     </div>
-    
-    <section class="blog-section">
-      <h2>Latest Blog Posts</h2>
-      <BlogList />
-    </section>
   </div>
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
-import type { Destination } from '@/types';
-import destinationsData from '@/db/destinations.json';
-import HotelList from '@/components/HotelList.vue';
-import BlogList from '@/components/BlogList.vue';
+import { computed } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
+import type { Destination } from '@/types'
+import destinationsData from '@/db/destinations.json'
+import HotelList from '@/components/HotelList.vue'
 
-const route = useRoute();
-const router = useRouter();
+const route = useRoute()
 
 // Extract query parameters
-const destination = computed(() => route.query.destination as string);
-const travelers = computed(() => parseInt(route.query.travelers as string, 10) || 1);
-const startDate = computed(() => route.query.startDate as string);
-const days = computed(() => parseInt(route.query.days as string, 10) || 10);
+const destination = computed(() => route.query.destination as string)
+const travelers = computed(() => parseInt(route.query.travelers as string, 10) || 1)
+const startDate = computed(() => route.query.startDate as string)
+const days = computed(() => parseInt(route.query.days as string, 10) || 10)
 
 // Validate presence of required parameters
 const isValidParams = computed(() => {
-  return destination.value && startDate.value && days.value;
-});
+  return destination.value && startDate.value && days.value
+})
 
 // Find destination name from destinations data
-const destinationData: Destination[] = destinationsData;
+const destinationData: Destination[] = destinationsData
 const destinationInfo = computed(() =>
-  destinationData.find((dest) => dest.id === destination.value)
-);
-const destinationName = computed(() => destinationInfo.value?.name || 'Unknown Destination');
+  destinationData.find((dest) => dest.id === destination.value),
+)
+const destinationName = computed(() => destinationInfo.value?.name || 'Unknown Destination')
 
 // Format the start date for display
 const formattedStartDate = computed(() => {
-  const date = new Date(startDate.value);
-  return date.toLocaleDateString();
-});
+  const date = new Date(startDate.value)
+  return date.toLocaleDateString()
+})
 </script>
 
 <style scoped>

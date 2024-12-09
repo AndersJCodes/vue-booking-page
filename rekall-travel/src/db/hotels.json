@@ -27,25 +27,31 @@
     "id": "hotel_4",
     "destinationId": "venus_cloud_city",
     "name": "Venusian Heights Hotel",
-    "description": "Stay above the clouds in luxury.",
-    "pricePerNight": 6000,
-    "rating": 4.9
+    "image": "https://via.placeholder.com/600x400",
+    "description": "Experience unparalleled luxury with breathtaking views and world-class amenities.",
+    "pricePerNight": 9000,
+    "rating": 4.9,
+    "category": "Luxury"
   },
   {
     "id": "hotel_5",
     "destinationId": "venus_cloud_city",
     "name": "Cloud Nine Retreat",
-    "description": "Experience tranquility amidst the clouds.",
-    "pricePerNight": 3500,
-    "rating": 4.6
+    "image": "https://via.placeholder.com/600x400",
+    "description": "Enjoy comfortable accommodations with essential amenities in a peaceful setting.",
+    "pricePerNight": 4000,
+    "rating": 4.7,
+    "category": "Standard"
   },
   {
     "id": "hotel_6",
     "destinationId": "venus_cloud_city",
-    "name": "Ethereal Escape",
-    "description": "Modern amenities with panoramic views.",
-    "pricePerNight": 4000,
-    "rating": 4.7
+    "name": "Ethereal Budget Inn",
+    "image": "https://via.placeholder.com/600x400",
+    "description": "Affordable stays with basic facilities, perfect for budget-conscious travelers.",
+    "pricePerNight": 2500,
+    "rating": 4.5,
+    "category": "Budget"
   },
   {
     "id": "hotel_7",
