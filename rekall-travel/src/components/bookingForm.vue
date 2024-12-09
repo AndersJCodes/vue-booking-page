@@ -1,4 +1,5 @@
 <!-- src/views/BookingForm.vue -->
+<!-- src/views/BookingForm.vue -->
 
 <template>
   <div class="booking-form">
@@ -20,7 +21,7 @@
         <div class="form-section traveler-dropdown">
           <label for="travelers">Travelers:</label>
           <button class="dropdown-toggle" @click.prevent="toggleDropdown">
-            Lägg till gäster
+            Add Travelers
             <span class="guest-summary">({{ totalGuests }})</span>
           </button>
 
@@ -48,9 +49,15 @@
               <div class="guest-item">
                 <label>Barn/Ungdom <span>(0 - 17 år)</span></label>
                 <div class="guest-controls">
-                  <button @click="updateGuests('children', -1)" :disabled="guests.children <= 0">-</button>
+                  <button
+                    @click="updateGuests('children', -1)"
+                    :disabled="isSolarFarewell || guests.children <= 0"
+                  >-</button>
                   <span>{{ guests.children }}</span>
-                  <button @click="updateGuests('children', 1)">+</button>
+                  <button
+                    @click="updateGuests('children', 1)"
+                    :disabled="isSolarFarewell"
+                  >+</button>
                 </div>
               </div>
             </div>
@@ -92,7 +99,14 @@
         <!-- Trip Type -->
         <div class="form-section">
           <label for="trip-type">Trip Type:</label>
-          <select v-model="tripType" id="trip-type" @change="updateQuery('tripType', tripType)" required>
+          <select
+            v-model="tripType"
+            id="trip-type"
+            @change="updateQuery('tripType', tripType)"
+            required
+            :disabled="isSolarFarewell"
+            :class="{ disabled: isSolarFarewell }"
+          >
             <option value="one-way">One-way</option>
             <option value="round-trip">Round-trip</option>
           </select>
@@ -118,17 +132,22 @@ const router = useRouter();
 const route = useRoute();
 
 // Booking data
-const destination = ref<string>(''); // Uppdatering: Synkas med URL
-const travelDate = ref<string>(''); // Uppdatering: Synkas med URL
-const tripType = ref<string>('one-way'); // Uppdatering: Synkas med URL
-const guests = ref({ adults: 0, children: 0, seniors: 0 }); // Uppdatering: Synkas med URL
-
-const selectedOption = ref<number | string>(''); // Track selected option
-const numberOfDays = ref<number>(10); // Uppdatering: Synkas med URL
+const destination = ref<string>('');
+const travelDate = ref<string>('');
+const tripType = ref<string>('one-way');
+const guests = ref({ adults: 0, children: 0, seniors: 0 });
+const selectedOption = ref<number | string>('');
+const numberOfDays = ref<number>(10);
 const daysOptions = [10, 20, 30];
 const customDaysFlag = 'custom';
 const customDaysValue = ref<number | null>(null);
 const isDropdownOpen = ref(false);
+
+// Check if the selected destination is "Solar Farewell Voyage"
+const isSolarFarewell = computed(() => {
+  const selectedDestination = destinations.find(dest => dest.id === destination.value);
+  return selectedDestination?.name === 'Solar Farewell Voyage';
+});
 
 // Toggle dropdown visibility
 const toggleDropdown = () => {
@@ -140,7 +159,6 @@ const totalGuests = computed(() => {
   return guests.value.adults + guests.value.children + guests.value.seniors;
 });
 
-// Uppdatering: Lägg till logik för att uppdatera antal dagar och URL
 const updateNumberOfDays = () => {
   if (customDaysValue.value && customDaysValue.value > 0) {
     numberOfDays.value = customDaysValue.value;
@@ -148,7 +166,6 @@ const updateNumberOfDays = () => {
   }
 };
 
-// Uppdatering: Lägg till logik för att uppdatera URL vid val av dagar
 watch(selectedOption, (newValue) => {
   if (newValue !== customDaysFlag) {
     numberOfDays.value = Number(newValue);
@@ -158,7 +175,6 @@ watch(selectedOption, (newValue) => {
   }
 });
 
-// Uppdatering: Lägg till funktion för att synka antal gäster med URL
 const updateGuests = (type: 'adults' | 'children' | 'seniors', change: number) => {
   if (guests.value[type] + change >= 0) {
     guests.value[type] += change;
@@ -166,13 +182,11 @@ const updateGuests = (type: 'adults' | 'children' | 'seniors', change: number) =
   }
 };
 
-// Uppdatering: Lägg till funktion för att uppdatera URL med nya query-parametrar
 const updateQuery = (key: string, value: string | number | null) => {
   const updatedQuery = { ...route.query, [key]: value };
   router.push({ query: updatedQuery });
 };
 
-// Uppdatering: Initialisera formulär från URL-query-parametrar
 onMounted(() => {
   const query = route.query;
   if (query.destination) destination.value = query.destination as string;
@@ -193,7 +207,6 @@ onMounted(() => {
   }
 });
 
-// Uppdatering: Lägg till funktion för att hantera formulärskick
 const handleSubmit = () => {
   if (!destination.value || !travelDate.value || numberOfDays.value <= 0) {
     alert('Please fill in all required fields.');
@@ -213,7 +226,7 @@ const handleSubmit = () => {
 </script>
 
 <style scoped>
-/************************** Form Container **************************/
+
 .form-container {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -226,7 +239,7 @@ const handleSubmit = () => {
   gap: 0.5rem;
 }
 
-/************************** Dropdown Styling **************************/
+
 .traveler-dropdown {
   position: relative;
 }
@@ -235,13 +248,13 @@ const handleSubmit = () => {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0.75rem 1.5rem;
+  padding: 0.75rem 1 rem;
   font-size: 1rem;
-  font-weight: bold;
+
   color: #333;
-  background-color: #f5f5f5;
-  border: 1px solid #ddd;
-  border-radius: 6px;
+  background-color: transparent;
+  border: 1px solid black;
+  border-radius: 2px;
   cursor: pointer;
   transition: all 0.3s ease;
 }
@@ -343,8 +356,8 @@ const handleSubmit = () => {
 
 /************************** Submit Button **************************/
 .submit-button {
-  padding: 0.75rem 2rem;
-  font-size: 1.2rem;
+  padding: 0.75rem 1rem;
+  font-size: 1.5rem;
   font-weight: bold;
   color: white;
   background-color: #2ecc71;
@@ -359,4 +372,5 @@ const handleSubmit = () => {
   background-color: #27ae60;
   transform: scale(1.05);
 }
+
 </style>
