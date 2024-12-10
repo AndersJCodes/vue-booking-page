@@ -1,5 +1,5 @@
 <!-- src/views/BookingForm.vue -->
-<!-- src/views/BookingForm.vue -->
+
 
 <template>
   <div class="booking-form">
@@ -9,7 +9,7 @@
         <!-- Choose Destination -->
         <div class="form-section">
           <label for="destination">Select Destination:</label>
-          <select v-model="destination" id="destination" @change="updateQuery('destination', destination)" required>
+          <select v-model="destination" id="destination" required>
             <option disabled value="">Choose destination</option>
             <option v-for="dest in destinations" :key="dest.id" :value="dest.id">
               {{ dest.name }}
@@ -17,66 +17,38 @@
           </select>
         </div>
 
-        <!-- Number of Travelers with Dropdown -->
+        <!-- Number of Travelers -->
         <div class="form-section traveler-dropdown">
           <label for="travelers">Travelers:</label>
           <button class="dropdown-toggle" @click.prevent="toggleDropdown">
             Add Travelers
             <span class="guest-summary">({{ totalGuests }})</span>
           </button>
-
-          <!-- Dropdown Menu -->
           <div v-if="isDropdownOpen" class="dropdown-menu">
             <div class="guest-group">
-              <div class="guest-item">
-                <label>Vuxen <span>(18 - 64 år)</span></label>
+              <div class="guest-item" v-for="(label, type) in guestTypes" :key="type">
+                <label>{{ label }}</label>
                 <div class="guest-controls">
-                  <button @click="updateGuests('adults', -1)" :disabled="guests.adults <= 0">-</button>
-                  <span>{{ guests.adults }}</span>
-                  <button @click="updateGuests('adults', 1)">+</button>
-                </div>
-              </div>
-
-              <div class="guest-item">
-                <label>Senior <span>(Över 65 år)</span></label>
-                <div class="guest-controls">
-                  <button @click="updateGuests('seniors', -1)" :disabled="guests.seniors <= 0">-</button>
-                  <span>{{ guests.seniors }}</span>
-                  <button @click="updateGuests('seniors', 1)">+</button>
-                </div>
-              </div>
-
-              <div class="guest-item">
-                <label>Barn/Ungdom <span>(0 - 17 år)</span></label>
-                <div class="guest-controls">
-                  <button
-                    @click="updateGuests('children', -1)"
-                    :disabled="isSolarFarewell || guests.children <= 0"
-                  >-</button>
-                  <span>{{ guests.children }}</span>
-                  <button
-                    @click="updateGuests('children', 1)"
-                    :disabled="isSolarFarewell"
-                  >+</button>
+                  <button @click="updateGuests(type, -1)" :disabled="guests[type] <= 0">-</button>
+                  <span>{{ guests[type] }}</span>
+                  <button @click="updateGuests(type, 1)">+</button>
                 </div>
               </div>
             </div>
-
-            <!-- Klar Button -->
-            <button class="done-button" @click="toggleDropdown">Klar</button>
+            <button class="done-button" @click="toggleDropdown">Done</button>
           </div>
         </div>
 
         <!-- Travel Date -->
         <div class="form-section">
           <label for="travel-date">Travel Date:</label>
-          <input type="date" id="travel-date" v-model="travelDate" @change="updateQuery('travelDate', travelDate)" required />
+          <input type="date" id="travel-date" v-model="travelDate" required />
         </div>
 
         <!-- Number of Days -->
         <div class="form-section">
           <label for="number-of-days">Number of Days:</label>
-          <select v-model="selectedOption" id="number-of-days" @change="updateQuery('days', numberOfDays)" required>
+          <select v-model="selectedOption" id="number-of-days" required>
             <option disabled value="">Select number of days</option>
             <option v-for="days in daysOptions" :key="days" :value="days">
               {{ days }}
@@ -96,22 +68,6 @@
           </div>
         </div>
 
-        <!-- Trip Type -->
-        <div class="form-section">
-          <label for="trip-type">Trip Type:</label>
-          <select
-            v-model="tripType"
-            id="trip-type"
-            @change="updateQuery('tripType', tripType)"
-            required
-            :disabled="isSolarFarewell"
-            :class="{ disabled: isSolarFarewell }"
-          >
-            <option value="one-way">One-way</option>
-            <option value="round-trip">Round-trip</option>
-          </select>
-        </div>
-
         <!-- Submit Button -->
         <div class="form-section">
           <button type="submit" class="submit-button">Submit Booking</button>
@@ -122,19 +78,17 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch, onMounted, computed } from 'vue';
-import { useRouter, useRoute } from 'vue-router';
+import { ref, computed } from 'vue';
+import { useRouter } from 'vue-router';
 import type { Destination } from '@/types';
 import destinationsData from '@/db/destinations.json';
 
 const destinations: Destination[] = destinationsData;
 const router = useRouter();
-const route = useRoute();
 
 // Booking data
 const destination = ref<string>('');
 const travelDate = ref<string>('');
-const tripType = ref<string>('one-way');
 const guests = ref({ adults: 0, children: 0, seniors: 0 });
 const selectedOption = ref<number | string>('');
 const numberOfDays = ref<number>(10);
@@ -143,87 +97,55 @@ const customDaysFlag = 'custom';
 const customDaysValue = ref<number | null>(null);
 const isDropdownOpen = ref(false);
 
-// Check if the selected destination is "Solar Farewell Voyage"
-const isSolarFarewell = computed(() => {
-  const selectedDestination = destinations.find(dest => dest.id === destination.value);
-  return selectedDestination?.name === 'Solar Farewell Voyage';
-});
+// Total guests
+const totalGuests = computed(() => guests.value.adults + guests.value.children + guests.value.seniors);
+
+const guestTypes = {
+  adults: 'Adults',
+  seniors: 'Seniors',
+  children: 'Children',
+};
+
+// Update number of days
+const updateNumberOfDays = () => {
+  if (customDaysValue.value && customDaysValue.value > 0) {
+    numberOfDays.value = customDaysValue.value;
+  }
+};
+
+// Update guests count
+const updateGuests = (type: 'adults' | 'children' | 'seniors', change: number) => {
+  if (guests.value[type] + change >= 0) {
+    guests.value[type] += change;
+  }
+};
 
 // Toggle dropdown visibility
 const toggleDropdown = () => {
   isDropdownOpen.value = !isDropdownOpen.value;
 };
 
-// Total guests summary
-const totalGuests = computed(() => {
-  return guests.value.adults + guests.value.children + guests.value.seniors;
-});
-
-const updateNumberOfDays = () => {
-  if (customDaysValue.value && customDaysValue.value > 0) {
-    numberOfDays.value = customDaysValue.value;
-    updateQuery('days', customDaysValue.value);
-  }
-};
-
-watch(selectedOption, (newValue) => {
-  if (newValue !== customDaysFlag) {
-    numberOfDays.value = Number(newValue);
-    updateQuery('days', numberOfDays.value);
-  } else {
-    numberOfDays.value = customDaysValue.value || 0;
-  }
-});
-
-const updateGuests = (type: 'adults' | 'children' | 'seniors', change: number) => {
-  if (guests.value[type] + change >= 0) {
-    guests.value[type] += change;
-    updateQuery(type, guests.value[type]);
-  }
-};
-
-const updateQuery = (key: string, value: string | number | null) => {
-  const updatedQuery = { ...route.query, [key]: value };
-  router.push({ query: updatedQuery });
-};
-
-onMounted(() => {
-  const query = route.query;
-  if (query.destination) destination.value = query.destination as string;
-  if (query.adults) guests.value.adults = parseInt(query.adults as string);
-  if (query.children) guests.value.children = parseInt(query.children as string);
-  if (query.seniors) guests.value.seniors = parseInt(query.seniors as string);
-  if (query.travelDate) travelDate.value = query.travelDate as string;
-  if (query.tripType) tripType.value = query.tripType as string;
-  if (query.days) {
-    const days = parseInt(query.days as string);
-    if (daysOptions.includes(days)) {
-      selectedOption.value = days;
-    } else {
-      selectedOption.value = customDaysFlag;
-      customDaysValue.value = days;
-      numberOfDays.value = days;
-    }
-  }
-});
-
+// Handle form submission
 const handleSubmit = () => {
   if (!destination.value || !travelDate.value || numberOfDays.value <= 0) {
     alert('Please fill in all required fields.');
-  } else {
-    router.push({
-      name: 'hotels',
-    });
+    return;
   }
-  console.log('Booking submitted:', {
-    destination: destination.value,
-    travelDate: travelDate.value,
-    tripType: tripType.value,
-    guests: guests.value,
-    days: numberOfDays.value,
+
+  router.push({
+    name: 'hotels',
+    query: {
+      destination: destination.value,
+      travelers: totalGuests.value,
+      startDate: travelDate.value,
+      days: numberOfDays.value,
+    },
   });
 };
 </script>
+
+
+
 
 <style scoped>
 

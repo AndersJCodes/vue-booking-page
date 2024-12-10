@@ -16,51 +16,45 @@
       />
     </div>
     <div v-else>
-      <p>Invalid or missing search parameters. Please go back and try again.</p>
+      <p>Invalid or missing search parameters. Please use the form on the homepage to search for hotels.</p>
+      <router-link to="/">Go Back to Homepage</router-link>
     </div>
-    
-    <section class="blog-section">
-      <h2>Latest Blog Posts</h2>
-      <BlogList />
-    </section>
   </div>
 </template>
 
 <script setup lang="ts">
 import { computed } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
+import { useRoute } from 'vue-router';
 import type { Destination } from '@/types';
 import destinationsData from '@/db/destinations.json';
 import HotelList from '@/components/HotelList.vue';
-import BlogList from '@/components/BlogList.vue';
 
 const route = useRoute();
-const router = useRouter();
 
 // Extract query parameters
-const destination = computed(() => route.query.destination as string);
+const destination = computed(() => route.query.destination as string || '');
 const travelers = computed(() => parseInt(route.query.travelers as string, 10) || 1);
-const startDate = computed(() => route.query.startDate as string);
-const days = computed(() => parseInt(route.query.days as string, 10) || 10);
+const startDate = computed(() => route.query.startDate as string || '');
+const days = computed(() => parseInt(route.query.days as string, 10) || 0);
 
-// Validate presence of required parameters
-const isValidParams = computed(() => {
-  return destination.value && startDate.value && days.value;
-});
+// Validate parameters
+const isValidParams = computed(() => destination.value && startDate.value && days.value > 0);
 
-// Find destination name from destinations data
+// Find destination name
 const destinationData: Destination[] = destinationsData;
-const destinationInfo = computed(() =>
-  destinationData.find((dest) => dest.id === destination.value)
+const destinationName = computed(() =>
+  destinationData.find((dest) => dest.id === destination.value)?.name || 'Unknown Destination'
 );
-const destinationName = computed(() => destinationInfo.value?.name || 'Unknown Destination');
 
-// Format the start date for display
+// Format the start date
 const formattedStartDate = computed(() => {
   const date = new Date(startDate.value);
   return date.toLocaleDateString();
 });
 </script>
+
+
+
 
 <style scoped>
 .hotels-page {
@@ -74,14 +68,17 @@ const formattedStartDate = computed(() => {
   margin-bottom: 1.5rem;
 }
 
-.hotel-list {
-  margin-top: 2rem;
+.back-link {
+  display: inline-block;
+  margin-top: 1rem;
+  padding: 0.5rem 1rem;
+  background-color: #007bff;
+  color: white;
+  text-decoration: none;
+  border-radius: 5px;
 }
 
-.blog-section {
-  margin-top: 40px;
-  padding: 20px;
-  background-color: #f9f9f9;
-  border-top: 2px solid #ddd;
+.back-link:hover {
+  background-color: #0056b3;
 }
 </style>

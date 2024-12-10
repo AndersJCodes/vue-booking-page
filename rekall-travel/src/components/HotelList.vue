@@ -1,5 +1,4 @@
 <!-- src/components/HotelList.vue -->
-
 <template>
   <div class="hotel-list">
     <h2>Available Hotels in {{ destinationName }}</h2>
@@ -19,54 +18,35 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
-import type { Destination, Hotel } from '@/types'
-import destinationsData from '@/db/destinations.json'
-import hotelsData from '@/db/hotels.json'
+import { computed } from 'vue';
+import type { Destination, Hotel } from '@/types';
+import destinationsData from '@/db/destinations.json';
+import hotelsData from '@/db/hotels.json';
 
 // Define the props expected
 const props = defineProps<{
-  destinationId: string
-  travelers: number
-  startDate: string
-  days: number
-}>()
-
-
+  destinationId: string;
+  travelers: number;
+  startDate: string;
+  days: number;
+}>();
 
 // Filter hotels based on destinationId
-const filteredHotels = computed(
-  () => hotelsData.filter((hotel) => hotel.destinationId === props.destinationId),
-  // You can add more filtering logic based on travelers, dates, etc.
-)
+const filteredHotels = computed(() =>
+  hotelsData.filter((hotel) => hotel.destinationId === props.destinationId)
+);
 
 // Find destination name
-const destinationData: Destination[] = destinationsData
+const destinationData: Destination[] = destinationsData;
 const destinationInfo = computed(() =>
-  destinationData.find((dest) => dest.id === props.destinationId),
-)
-const destinationName = computed(() => destinationInfo.value?.name || 'Unknown Destination')
+  destinationData.find((dest) => dest.id === props.destinationId)
+);
+const destinationName = computed(() => destinationInfo.value?.name || 'Unknown Destination');
 
 // Handle hotel selection
 const selectHotel = (hotel: Hotel) => {
-  // Navigate to a booking confirmation or details page with selected hotel info
-  // For simplicity, we'll alert the selection. Replace this with actual navigation as needed.
-  alert(`You have selected ${hotel.name}`)
-
-  // Example navigation (uncomment and implement as needed):
-  /*
-  router.push({
-    name: 'BookingConfirmation',
-    query: {
-      hotelId: hotel.id,
-      destination: props.destinationId,
-      travelers: props.travelers.toString(),
-      startDate: props.startDate,
-      days: props.days.toString(),
-    },
-  })
-  */
-}
+  alert(`You have selected ${hotel.name}`);
+};
 </script>
 
 <style scoped>
@@ -94,7 +74,7 @@ const selectHotel = (hotel: Hotel) => {
   padding: 0.5rem 1rem;
   cursor: pointer;
   background-color: #28a745;
-  color: rgb(15, 14, 14);
+  color: white;
   border: none;
   border-radius: 4px;
 }
