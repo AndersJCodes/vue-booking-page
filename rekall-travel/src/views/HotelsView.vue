@@ -16,19 +16,24 @@
       />
     </div>
     <div v-else>
-      <p>Invalid or missing search parameters. Please go back and try again.</p>
+      <p>
+        Invalid or missing search parameters. Please use the form on the homepage to search for
+        hotels.
+      </p>
+      <router-link to="/">Go Back to Homepage</router-link>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { computed } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
+import { useRoute } from 'vue-router'
 import type { Destination } from '@/types'
 import destinationsData from '@/db/destinations.json'
 import HotelList from '@/components/HotelList.vue'
 
 const route = useRoute()
+const router = useRouter()
 
 // Extract query parameters
 const destination = computed(() => route.query.destination as string)
@@ -48,7 +53,7 @@ const destinationInfo = computed(() =>
 )
 const destinationName = computed(() => destinationInfo.value?.name || 'Unknown Destination')
 
-// Format the start date for display
+// Format the start date
 const formattedStartDate = computed(() => {
   const date = new Date(startDate.value)
   return date.toLocaleDateString()
@@ -67,14 +72,17 @@ const formattedStartDate = computed(() => {
   margin-bottom: 1.5rem;
 }
 
-.hotel-list {
-  margin-top: 2rem;
+.back-link {
+  display: inline-block;
+  margin-top: 1rem;
+  padding: 0.5rem 1rem;
+  background-color: #007bff;
+  color: white;
+  text-decoration: none;
+  border-radius: 5px;
 }
 
-.blog-section {
-  margin-top: 40px;
-  padding: 20px;
-  background-color: #f9f9f9;
-  border-top: 2px solid #ddd;
+.back-link:hover {
+  background-color: #0056b3;
 }
 </style>

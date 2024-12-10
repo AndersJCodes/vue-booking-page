@@ -1,5 +1,4 @@
 <!-- src/components/HotelList.vue -->
-
 <template>
   <div class="hotel-component">
     <h2>Available Hotels in {{ destinationName }}</h2>
@@ -34,9 +33,8 @@ const props = defineProps<{
 }>()
 
 // Filter hotels based on destinationId
-const filteredHotels = computed(
-  () => hotelsData.filter((hotel) => hotel.destinationId === props.destinationId),
-  // You can add more filtering logic based on travelers, dates, etc.
+const filteredHotels = computed(() =>
+  hotelsData.filter((hotel) => hotel.destinationId === props.destinationId),
 )
 
 // Find destination name
@@ -99,7 +97,7 @@ const selectHotel = (hotel: Hotel) => {
   padding: 0.5rem 1rem;
   cursor: pointer;
   background-color: #28a745;
-  color: rgb(15, 14, 14);
+  color: white;
   border: none;
   border-radius: 4px;
 }
