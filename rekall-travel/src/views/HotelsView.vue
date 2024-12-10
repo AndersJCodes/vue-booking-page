@@ -6,6 +6,9 @@
       <p><strong>Travelers:</strong> {{ travelers }}</p>
       <p><strong>Start Date:</strong> {{ formattedStartDate }}</p>
       <p><strong>Number of Days:</strong> {{ days }}</p>
+      <div>
+        <TotalPrice />
+      </div>
 
       <!-- Hotel List Component -->
       <HotelList
@@ -31,6 +34,7 @@ import { useRoute } from 'vue-router'
 import type { Destination } from '@/types'
 import destinationsData from '@/db/destinations.json'
 import HotelList from '@/components/HotelList.vue'
+import TotalPrice from '@/components/TotalPrice.vue'
 
 const route = useRoute()
 
