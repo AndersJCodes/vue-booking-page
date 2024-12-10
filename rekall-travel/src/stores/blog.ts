@@ -13,6 +13,7 @@ export const useBlogStore = defineStore("blog", {
           throw new Error("Failed to fetch blog posts");
         }
         this.blogPosts = await response.json();
+        console.log("Fetched blog posts:", this.blogPosts); // Log fetched posts
       } catch (error) {
         console.error("Error fetching blog posts:", error);
       }
@@ -21,7 +22,9 @@ export const useBlogStore = defineStore("blog", {
   getters: {
     getBlogPostById: (state) => (id: string) => {
       const normalizedId = id.replace("-", "_"); // Normalize ID format
-      return state.blogPosts.find((post) => post.id === normalizedId);
+      const post = state.blogPosts.find((post) => post.id === normalizedId);
+      console.log("Fetching post by ID:", id, "Found post:", post); // Log found post
+      return post;
     },
   },
 });

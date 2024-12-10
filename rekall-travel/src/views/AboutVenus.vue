@@ -1,6 +1,6 @@
 <template>
     <div class="about-page">
-      <h1>About Venus</h1>
+      <h1>Enjoy Venus</h1>
       <p>
         Venus, often called Earth's twin, is a planet of striking beauty and
         extremes. Our floating Cloud City offers a luxurious escape above the

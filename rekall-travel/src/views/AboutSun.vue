@@ -1,6 +1,6 @@
 <template>
   <div class="about-page">
-    <h1>About The Sun</h1>
+    <h1>Embrace The Sun</h1>
     <p>
       The Sun, our star and the center of the solar system, is not just a source
       of life but a symbol of profound meaning and transformation. Our Solar

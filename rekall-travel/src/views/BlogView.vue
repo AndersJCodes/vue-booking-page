@@ -9,8 +9,11 @@
         :to="{ name: 'blogPost', params: { id: post.id } }"
         class="blog-post"
       >
-        <h2>{{ post.title }}</h2>
-        <p>{{ post.content.slice(0, 150) }}...</p>
+        <div class="post-layout">
+          <img :src="post.image" alt="Blog Post Image" class="blog-post-image" />
+          <h2 class="blog-title">{{ post.title }}</h2>
+        </div>
+        <p class="preview-content">{{ post.content.slice(0, 150) }}...</p>
       </router-link>
     </div>
   </div>
@@ -76,6 +79,27 @@ export default defineComponent({
 .blog-post:hover {
   transform: translateY(-5px);
   box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+}
+
+.post-layout {
+  display: flex; /* Use flexbox for layout */
+  align-items: center; /* Center align items vertically */
+}
+
+.blog-post-image {
+  max-width: 100px; /* Set a fixed width for the image */
+  height: auto;
+  margin-right: 20px; /* Space between image and title */
+  border-radius: 8px;
+}
+
+.blog-title {
+  margin: 0; /* Remove default margin */
+  font-size: 1.5rem; /* Adjust title size */
+}
+
+.preview-content {
+  margin-top: 10px; /* Space between title and content */
 }
 
 .loading,
