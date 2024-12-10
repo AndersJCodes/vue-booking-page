@@ -18,11 +18,11 @@
     <div v-else>
       <p>Invalid or missing search parameters. Please go back and try again.</p>
     </div>
-    
-    <section class="blog-section">
+
+   <!--  <section class="blog-section">
       <h2>Latest Blog Posts</h2>
       <BlogList />
-    </section>
+    </section> -->
   </div>
 </template>
 
@@ -32,7 +32,7 @@ import { useRoute, useRouter } from 'vue-router';
 import type { Destination } from '@/types';
 import destinationsData from '@/db/destinations.json';
 import HotelList from '@/components/HotelList.vue';
-import BlogList from '@/components/BlogList.vue';
+/* import BlogList from '@/components/BlogList.vue'; */
 
 const route = useRoute();
 const router = useRouter();

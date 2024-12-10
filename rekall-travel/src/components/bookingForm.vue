@@ -207,20 +207,21 @@ onMounted(() => {
   }
 });
 
+// Handle form submission
 const handleSubmit = () => {
   if (!destination.value || !travelDate.value || numberOfDays.value <= 0) {
     alert('Please fill in all required fields.');
-  } else {
-    router.push({
-      name: 'hotels',
-    });
+    return;
   }
-  console.log('Booking submitted:', {
-    destination: destination.value,
-    travelDate: travelDate.value,
-    tripType: tripType.value,
-    guests: guests.value,
-    days: numberOfDays.value,
+
+  router.push({
+    name: 'hotels',
+    query: {
+      destination: destination.value,
+      travelers: totalGuests.value,
+      startDate: travelDate.value,
+      days: numberOfDays.value,
+    },
   });
 };
 </script>
