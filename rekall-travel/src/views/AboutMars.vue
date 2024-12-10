@@ -1,6 +1,6 @@
 <template>
     <div class="about-page">
-      <h1>About Mars</h1>
+      <h1>Welcome to Mars</h1>
       <p>
         Mars, the Red Planet, is a symbol of adventure, exploration, and humanity's
         ability to thrive in the most challenging environments. Our Mars Colony
