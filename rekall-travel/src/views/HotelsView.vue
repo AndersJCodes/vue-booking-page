@@ -33,7 +33,6 @@ import destinationsData from '@/db/destinations.json'
 import HotelList from '@/components/HotelList.vue'
 
 const route = useRoute()
-const router = useRouter()
 
 // Extract query parameters
 const destination = computed(() => route.query.destination as string)

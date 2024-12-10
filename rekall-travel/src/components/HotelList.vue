@@ -23,7 +23,9 @@ import { computed } from 'vue'
 import type { Destination, Hotel } from '@/types'
 import destinationsData from '@/db/destinations.json'
 import hotelsData from '@/db/hotels.json'
+import { useRouter } from 'vue-router'
 
+const router = useRouter()
 // Define the props expected
 const props = defineProps<{
   destinationId: string
