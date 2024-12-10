@@ -21,7 +21,6 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
-import { useRouter } from 'vue-router'
 import type { Destination, Hotel } from '@/types'
 import destinationsData from '@/db/destinations.json'
 import hotelsData from '@/db/hotels.json'
@@ -33,15 +32,6 @@ const props = defineProps<{
   startDate: string
   days: number
 }>()
-
-const router = useRouter()
-
-// Compute the end date based on startDate and days
-/* const endDate = computed(() => {
-  const date = new Date(props.startDate)
-  date.setDate(date.getDate() + props.days)
-  return date.toISOString().split('T')[0] // Format as YYYY-MM-DD
-}) */
 
 // Filter hotels based on destinationId
 const filteredHotels = computed(
