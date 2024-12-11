@@ -32,12 +32,9 @@ const props = defineProps<{
   days: number
 }>()
 
-
-
 // Filter hotels based on destinationId
 const filteredHotels = computed(
   () => hotelsData.filter((hotel) => hotel.destinationId === props.destinationId),
-  // You can add more filtering logic based on travelers, dates, etc.
 )
 
 // Find destination name
@@ -49,23 +46,7 @@ const destinationName = computed(() => destinationInfo.value?.name || 'Unknown D
 
 // Handle hotel selection
 const selectHotel = (hotel: Hotel) => {
-  // Navigate to a booking confirmation or details page with selected hotel info
-  // For simplicity, we'll alert the selection. Replace this with actual navigation as needed.
   alert(`You have selected ${hotel.name}`)
-
-  // Example navigation (uncomment and implement as needed):
-  /*
-  router.push({
-    name: 'BookingConfirmation',
-    query: {
-      hotelId: hotel.id,
-      destination: props.destinationId,
-      travelers: props.travelers.toString(),
-      startDate: props.startDate,
-      days: props.days.toString(),
-    },
-  })
-  */
 }
 </script>
 

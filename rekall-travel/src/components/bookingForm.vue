@@ -1,5 +1,4 @@
 <!-- src/views/BookingForm.vue -->
-<!-- src/views/BookingForm.vue -->
 
 <template>
   <div class="booking-form">
@@ -18,7 +17,7 @@
         </div>
 
         <!-- Number of Travelers with Dropdown -->
-        <div class="form-section traveler-dropdown">
+        <div class="form-section traveler-dropdown" ref="dropdownContainer">
           <label for="travelers">Travelers:</label>
           <button class="dropdown-toggle" @click.prevent="toggleDropdown">
             Add Travelers
@@ -28,6 +27,7 @@
           <!-- Dropdown Menu -->
           <div v-if="isDropdownOpen" class="dropdown-menu">
             <div class="guest-group">
+              <!-- Adult Guests -->
               <div class="guest-item">
                 <label>Vuxen <span>(18 - 64 år)</span></label>
                 <div class="guest-controls">
@@ -37,6 +37,7 @@
                 </div>
               </div>
 
+              <!-- Senior Guests -->
               <div class="guest-item">
                 <label>Senior <span>(Över 65 år)</span></label>
                 <div class="guest-controls">
@@ -46,6 +47,7 @@
                 </div>
               </div>
 
+              <!-- Children Guests -->
               <div class="guest-item">
                 <label>Barn/Ungdom <span>(0 - 17 år)</span></label>
                 <div class="guest-controls">
@@ -62,7 +64,7 @@
               </div>
             </div>
 
-            <!-- Klar Button -->
+            <!-- Done Button -->
             <button class="done-button" @click="toggleDropdown">Klar</button>
           </div>
         </div>
@@ -187,7 +189,18 @@ const updateQuery = (key: string, value: string | number | null) => {
   router.push({ query: updatedQuery });
 };
 
+// Close dropdown if clicked outside
+const closeDropdownIfClickedOutside = (event: MouseEvent) => {
+  const dropdownContainer = document.querySelector('.traveler-dropdown');
+  if (dropdownContainer && !dropdownContainer.contains(event.target as Node)) {
+    isDropdownOpen.value = false;
+  }
+};
+
 onMounted(() => {
+  // Set up event listener for clicks outside
+  document.addEventListener('click', closeDropdownIfClickedOutside);
+
   const query = route.query;
   if (query.destination) destination.value = query.destination as string;
   if (query.adults) guests.value.adults = parseInt(query.adults as string);
@@ -227,7 +240,7 @@ const handleSubmit = () => {
 </script>
 
 <style scoped>
-
+/* Styling for form layout, traveler dropdown, buttons, etc. */
 .form-container {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -240,7 +253,7 @@ const handleSubmit = () => {
   gap: 0.5rem;
 }
 
-
+/* Dropdown menu for traveler selection */
 .traveler-dropdown {
   position: relative;
 }
@@ -251,7 +264,6 @@ const handleSubmit = () => {
   align-items: center;
   padding: 0.75rem 1 rem;
   font-size: 1rem;
-
   color: #333;
   background-color: transparent;
   border: 1px solid black;
@@ -337,6 +349,7 @@ const handleSubmit = () => {
   background-color: #0056b3;
 }
 
+/* Done Button Styling */
 .done-button {
   display: block;
   margin: 1rem auto 0;
@@ -355,11 +368,11 @@ const handleSubmit = () => {
   background-color: #218838;
 }
 
-/************************** Submit Button **************************/
+/* Submit Button */
 .submit-button {
-  padding: 0.75rem 1rem;
+  padding: 0.75rem rem;
   font-size: 1.5rem;
-  font-weight: bold;
+  font-weight: ;
   color: white;
   background-color: #2ecc71;
   border: none;
@@ -367,11 +380,11 @@ const handleSubmit = () => {
   cursor: pointer;
   transition: background-color 0.3s ease, transform 0.2s ease;
   text-transform: uppercase;
+  margin-top: 1.7rem;
 }
 
 .submit-button:hover {
   background-color: #27ae60;
   transform: scale(1.05);
 }
-
 </style>

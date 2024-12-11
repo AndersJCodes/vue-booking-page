@@ -6,6 +6,7 @@ import HotelsView from "@/views/Hotels.vue";
 import AboutMars from "@/views/AboutMars.vue";
 import AboutVenus from "@/views/AboutVenus.vue";
 import AboutSun from "@/views/AboutSun.vue";
+import CartView from "@/views/CartView.vue";
 
 const routes = [
   { path: "/", name: "home", component: HomeView },
@@ -15,6 +16,7 @@ const routes = [
   { path: "/about/mars", name: "aboutMars", component: AboutMars },
   { path: "/about/venus", name: "aboutVenus", component: AboutVenus },
   { path: "/about/sun", name: "aboutSun", component: AboutSun },
+  { path: "/cart", name: "cart", component: CartView },
 ];
 
 const router = createRouter({

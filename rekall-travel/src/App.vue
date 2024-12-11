@@ -9,6 +9,7 @@
         <router-link to="/about/mars" class="nav-link">| Mars</router-link>
         <router-link to="/about/venus" class="nav-link">| Venus</router-link>
         <router-link to="/about/sun" class="nav-link">| The Sun</router-link>
+        <router-link to="/cart" class="nav-link">Go to Cart</router-link>
       </div>
     </nav>
     <router-view />
