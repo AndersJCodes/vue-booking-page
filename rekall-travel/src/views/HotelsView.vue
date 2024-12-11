@@ -25,33 +25,16 @@
       </p>
       <router-link to="/">Go Back to Homepage</router-link>
     </div>
-<<<<<<< HEAD:rekall-travel/src/views/Hotels.vue
-
-   <!--  <section class="blog-section">
-      <h2>Latest Blog Posts</h2>
-      <BlogList />
-    </section> -->
-=======
->>>>>>> development:rekall-travel/src/views/HotelsView.vue
   </div>
 </template>
 
 <script setup lang="ts">
-<<<<<<< HEAD:rekall-travel/src/views/Hotels.vue
-import { computed } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
-import type { Destination } from '@/types';
-import destinationsData from '@/db/destinations.json';
-import HotelList from '@/components/HotelList.vue';
-/* import BlogList from '@/components/BlogList.vue'; */
-=======
 import { computed } from 'vue'
 import { useRoute } from 'vue-router'
 import type { Destination } from '@/types'
 import destinationsData from '@/db/destinations.json'
 import HotelList from '@/components/HotelList.vue'
 import TotalPrice from '@/components/TotalPrice.vue'
->>>>>>> development:rekall-travel/src/views/HotelsView.vue
 
 const route = useRoute()
 

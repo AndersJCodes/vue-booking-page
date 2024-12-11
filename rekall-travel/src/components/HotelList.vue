@@ -35,13 +35,10 @@ const props = defineProps<{
 }>()
 
 // Filter hotels based on destinationId
-<<<<<<< HEAD
-const filteredHotels = computed(
-  () => hotelsData.filter((hotel) => hotel.destinationId === props.destinationId),
-=======
+
 const filteredHotels = computed(() =>
   hotelsData.filter((hotel) => hotel.destinationId === props.destinationId),
->>>>>>> development
+
 )
 
 // Find destination name
@@ -53,9 +50,8 @@ const destinationName = computed(() => destinationInfo.value?.name || 'Unknown D
 
 // Handle hotel selection
 const selectHotel = (hotel: Hotel) => {
-<<<<<<< HEAD
-  alert(`You have selected ${hotel.name}`)
-=======
+
+
   router.push({
     name: 'excursions', // Name of the route to navigate to
     query: {
@@ -66,7 +62,7 @@ const selectHotel = (hotel: Hotel) => {
       days: props.days.toString(),
     },
   })
->>>>>>> development
+
 }
 </script>
 
