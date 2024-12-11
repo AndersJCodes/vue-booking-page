@@ -5,7 +5,8 @@
     "name": "Red Planet Resort",
     "description": "Luxury accommodations on the Martian surface with breathtaking views.",
     "pricePerNight": 5000,
-    "rating": 4.8
+    "rating": 4.8,
+    "detailedDescription": "Experience the beauty of Mars from the comfort of the Red Planet Resort, featuring luxurious rooms with panoramic views of the Martian landscape."
   },
   {
     "id": "hotel_2",
@@ -13,7 +14,8 @@
     "name": "Martian Meadows Inn",
     "description": "Comfortable stays with state-of-the-art facilities.",
     "pricePerNight": 3000,
-    "rating": 4.5
+    "rating": 4.5,
+    "detailedDescription": "Enjoy a relaxing stay at Martian Meadows Inn, where modern amenities meet the rugged beauty of Mars."
   },
   {
     "id": "hotel_3",
@@ -21,7 +23,8 @@
     "name": "Celestial Suites",
     "description": "Elegant suites offering a serene environment.",
     "pricePerNight": 4500,
-    "rating": 4.7
+    "rating": 4.7,
+    "detailedDescription": "Celestial Suites provide a tranquil escape with elegant decor and stunning views of the Martian horizon."
   },
   {
     "id": "hotel_4",
@@ -31,7 +34,8 @@
     "description": "Experience unparalleled luxury with breathtaking views and world-class amenities.",
     "pricePerNight": 9000,
     "rating": 4.9,
-    "category": "Luxury"
+    "category": "Luxury",
+    "detailedDescription": "Venusian Heights Hotel offers opulent accommodations with exquisite dining and breathtaking views of the clouds."
   },
   {
     "id": "hotel_5",
@@ -41,7 +45,8 @@
     "description": "Enjoy comfortable accommodations with essential amenities in a peaceful setting.",
     "pricePerNight": 4000,
     "rating": 4.7,
-    "category": "Standard"
+    "category": "Standard",
+    "detailedDescription": "Cloud Nine Retreat provides a serene atmosphere with comfortable rooms and easy access to local attractions."
   },
   {
     "id": "hotel_6",
@@ -51,30 +56,34 @@
     "description": "Affordable stays with basic facilities, perfect for budget-conscious travelers.",
     "pricePerNight": 2500,
     "rating": 3.5,
-    "category": "Budget"
+    "category": "Budget",
+    "detailedDescription": "Ethereal Budget Inn offers essential amenities at an affordable price, making it ideal for budget travelers."
   },
   {
     "id": "hotel_7",
     "destinationId": "solar_farewell",
-    "name": "Sunset Lodge",
-    "description": "Witness the final journey with comfort.",
-    "pricePerNight": 7000,
-    "rating": 4.9
+    "name": "Sunny Bunks",
+    "description": "Shared cabins with bunk beds, perfect for budget travelers looking to meet new people.",
+    "pricePerNight": 50,
+    "rating": 3.0,
+    "detailedDescription": "Sunny Bunks offers a hostel-like experience with shared accommodations featuring comfortable bunk beds, ideal for solo travelers or groups."
   },
   {
     "id": "hotel_8",
     "destinationId": "solar_farewell",
-    "name": "Helios Haven",
-    "description": "Premium stay with exclusive services.",
-    "pricePerNight": 8000,
-    "rating": 5.0
+    "name": "Helios Haven Private Cabin",
+    "description": "A spacious private cabin featuring modern amenities and a cozy atmosphere.",
+    "pricePerNight": 200,
+    "rating": 4.5,
+    "detailedDescription": "Helios Haven Private Cabin includes a queen-sized bed, a private bathroom, and stunning views of the solar system through large windows."
   },
   {
     "id": "hotel_9",
     "destinationId": "solar_farewell",
-    "name": "Radiant Retreat",
-    "description": "Luxury accommodations designed for the ultimate experience.",
-    "pricePerNight": 7500,
-    "rating": 4.8
+    "name": "Supernova Superior Suite",
+    "description": "An opulent luxury suite with premium furnishings, offering the ultimate experience for those looking to indulge during their journey.",
+    "pricePerNight": 500,
+    "rating": 5.0,
+    "detailedDescription": "The Supernova Superior Suite features a king-sized bed, an en-suite bathroom with a soaking tub, and a private balcony with personalized service."
   }
 ]
