@@ -10,7 +10,7 @@
         <router-link to="/about/venus" class="nav-link">| Venus</router-link>
         <router-link to="/about/sun" class="nav-link">| The Sun</router-link>
         <!-- Uppdaterad kundkorg-ikon med en egen klass -->
-        <router-link to="/cart" class="nav-link cart-link">| <CaShoppingCart/></router-link>
+        <router-link to="/cart" class="nav-link cart-link">| <LiCart/></router-link>
       </div>
     </nav>
     <!-- Temaknapp utanför navbar -->
@@ -24,7 +24,7 @@
 <script lang="ts" setup>
 import { onMounted, ref } from 'vue';
 import { applySavedTheme, toggleThemeFunction } from '@/theme/theme';
-import { CaShoppingCart } from '@kalimahapps/vue-icons';
+import { LiCart } from '@kalimahapps/vue-icons';
 
 // Reactiv variabel för att följa temastatus
 const isDark = ref(false);
