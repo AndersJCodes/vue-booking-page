@@ -9,7 +9,8 @@
         <router-link to="/about/mars" class="nav-link">| Mars</router-link>
         <router-link to="/about/venus" class="nav-link">| Venus</router-link>
         <router-link to="/about/sun" class="nav-link">| The Sun</router-link>
-        <router-link to="/cart" class="nav-link">Go to Cart</router-link>
+        <!-- Uppdaterad kundkorg-ikon med en egen klass -->
+        <router-link to="/cart" class="nav-link cart-link">🛒</router-link>
       </div>
     </nav>
     <!-- Temaknapp utanför navbar -->
@@ -64,6 +65,16 @@ onMounted(() => {
 
 .nav-link:hover {
   color: #007bff;
+}
+
+/* Specifik stil för kundkorg-ikonen */
+.cart-link {
+  color: #fff;  /* Gör kundkorgsikonen vit */
+  font-size: 1.5rem;  /* Större storlek för ikonen */
+}
+
+.cart-link:hover {
+  color: #ff6347; /* Färgen när användaren håller musen över ikonen */
 }
 
 .theme-toggle {
