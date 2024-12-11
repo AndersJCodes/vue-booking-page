@@ -8,6 +8,12 @@
     </nav>
     <DestinationsStart v-if="!isDestinationSelected" />
     <router-view v-else />
+    <section v-if="isDestinationSelected" class="hotel-section">
+      <h2>Available Hotels</h2>
+      <div class="hotel-list">
+        <HotelCard v-for="hotel in filteredHotels" :key="hotel.id" :hotel="hotel" />
+      </div>
+    </section>
     <section class="blog-section">
       <h2>Latest Blog Posts</h2>
       <BlogList />
@@ -18,13 +24,16 @@
 <script lang="ts">
     import BlogList from '@/components/BlogList.vue'; // Import the BlogList component
     import DestinationsStart from '@/components/DestinationsStart.vue'; // Import the DestinationsStart component
+    import HotelCard from '@/components/HotelCard.vue'; // Import the HotelCard component
     import { computed } from 'vue';
     import { useRoute } from 'vue-router';
+    import hotelsData from '@/db/hotels.json'; // Import the hotels data
 
     export default {
     components: {
         BlogList, // Register the BlogList component
         DestinationsStart, // Register the DestinationsStart component
+        HotelCard, // Register the HotelCard component
     },
     setup() {
         const route = useRoute();
@@ -36,8 +45,21 @@
                    route.path.includes('/destinations/sun');
         });
 
+        // Computed property to filter hotels based on the selected destination
+        const filteredHotels = computed(() => {
+            if (route.path.includes('/destinations/mars')) {
+                return hotelsData.filter(hotel => hotel.destinationId === 'mars_colony');
+            } else if (route.path.includes('/destinations/venus')) {
+                return hotelsData.filter(hotel => hotel.destinationId === 'venus_cloud_city');
+            } else if (route.path.includes('/destinations/sun')) {
+                return hotelsData.filter(hotel => hotel.destinationId === 'solar_farewell');
+            }
+            return [];
+        });
+
         return {
             isDestinationSelected,
+            filteredHotels,
         };
     },
     };
@@ -82,10 +104,25 @@
     .nav-link:hover {
         text-decoration: underline;
     }
+    .hotel-section {
+        margin-top: 2rem;
+        padding: 2rem;
+        background-color: #dddddd74;
+        color: black;
+        border-radius: 20px;
+    }
+
+    .hotel-list {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
     .blog-section {
-        margin-top: 40px;
-        padding: 20px;
-        background-color: #f9f9f9;
-        border-top: 2px solid #ddd;
+        margin-top: 2rem;
+        padding: 1.5rem;
+        background-color: #dddddd74;
+        border-radius: 20px;
+        color: black;
     }
 </style>
