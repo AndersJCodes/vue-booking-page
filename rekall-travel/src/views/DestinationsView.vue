@@ -14,6 +14,9 @@
         <HotelCard v-for="hotel in filteredHotels" :key="hotel.id" :hotel="hotel" />
       </div>
     </section>
+    <section v-if="isDestinationSelected" class="experiences-section">
+        <h2>Experiences</h2>
+    </section>
     <section class="blog-section">
       <h2>Latest Blog Posts</h2>
       <BlogList />
@@ -104,7 +107,7 @@
     .nav-link:hover {
         text-decoration: underline;
     }
-    .hotel-section {
+    .hotel-section, .blog-section, .experiences-section {
         margin-top: 2rem;
         padding: 2rem;
         background-color: #dddddd74;
@@ -118,11 +121,4 @@
         justify-content: center;
     }
 
-    .blog-section {
-        margin-top: 2rem;
-        padding: 1.5rem;
-        background-color: #dddddd74;
-        border-radius: 20px;
-        color: black;
-    }
 </style>
