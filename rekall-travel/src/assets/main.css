@@ -11,3 +11,37 @@ body {
   display: flex;
 }
 
+/* Light Mode */
+:root {
+  --background-color: #ffffff;
+  --text-color: #000000;
+  --link-color: #007bff;
+}
+
+/* Dark Mode */
+[data-theme="dark"] {
+  --background-color: #5e5b5b;
+  --text-color: #ffffff;
+  --link-color: #bb86fc;
+}
+
+/* Basstil som använder variabler */
+/* Basstil som använder variabler */
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--background-color);
+  color: var(--text-color);
+  font-family: Arial, sans-serif;
+  transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+}
+
+a {
+  color: var(--link-color);
+  text-decoration: none;
+  transition: color 0.3s ease-in-out;
+}
+
+a:hover {
+  text-decoration: underline;
+}
