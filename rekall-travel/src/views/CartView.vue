@@ -8,20 +8,28 @@
       <p><strong>Travel Date:</strong> {{ cartItems.travelDate }}</p>
       <p><strong>Number of Days:</strong> {{ cartItems.numberOfDays }}</p>
       <p><strong>Selected Hotel:</strong> {{ cartItems.selectedHotel?.name || 'None selected' }}</p>
-      <!-- Lägg till knappar för att gå vidare till betalning eller ändra kundkorg -->
+      <!-- Lägg till knappar för att gå vidare till betalning -->
       <button @click="goToPayment">Go to Payment</button>
     </div>
     <div v-else>
       <p>Your cart is empty. Please make a booking.</p>
+    </div>
+
+    <!-- Modal för att visa Bank ID -->
+    <div v-if="showModal" class="modal">
+      <div class="modal-content">
+        <span @click="closeModal" class="close">&times;</span>
+        <h2>Open Your Bank ID</h2>
+        <!-- Här använder vi den uppdaterade sökvägen för BankID-bilden -->
+        <img src="@/assets/images/BankID.png" alt="Bank ID" class="bankid-image" />
+      </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { useCartStore } from '@/stores/cart';
-import { computed } from 'vue';
-
-
+import { computed, ref } from 'vue';
 
 const cartStore = useCartStore();
 
@@ -34,10 +42,17 @@ const cartItems = computed(() => ({
   selectedHotel: cartStore.selectedHotel as { name: string } | null,
 }));
 
+// State för att visa/ dölja modal
+const showModal = ref(false);
+
+// Funktion för att öppna modal
 const goToPayment = () => {
-  // Navigera till betalningssidan (kan skapas som en annan vy)
-  alert('Open Yor Bank ID');
-  // router.push({ name: 'payment' })
+  showModal.value = true;
+};
+
+// Funktion för att stänga modal
+const closeModal = () => {
+  showModal.value = false;
 };
 </script>
 
@@ -64,5 +79,42 @@ button {
 
 button:hover {
   background-color: #218838;
+}
+
+/* Stil för modal */
+.modal {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Mörk bakgrund */
+  z-index: 1000;
+}
+
+.modal-content {
+  background-color: #fff;
+  padding: 2rem;
+  border-radius: 10px;
+  text-align: center;
+  max-width: 500px;
+  width: 80%;
+}
+
+.close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 2rem;
+  cursor: pointer;
+}
+
+.bankid-image {
+  width: 100%;  /* Gör bilden responsiv */
+  max-width: 400px;
+  margin-top: 1rem;
 }
 </style>
