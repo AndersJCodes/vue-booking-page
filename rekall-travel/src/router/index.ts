@@ -8,14 +8,12 @@ import DestinationsView from '@/views/DestinationsView.vue'
 import Mars from '@/components/AboutMars.vue'
 import Venus from '@/components/AboutVenus.vue'
 import Sun from '@/components/AboutSun.vue'
-import Offers from '@/views/Offers.vue'
-
+import OffersView from '@/views/OffersView.vue'
 const routes = [
   { path: '/', name: 'home', component: HomeView },
   { path: '/blog', name: 'blog', component: BlogView },
   { path: '/blog/:id', name: 'blogPost', component: BlogPostView, props: true },
   { path: '/hotels', name: 'hotels', component: HotelsView },
-  { path: '/offers', name: 'offers', component: Offers },
   {
     path: '/destinations',
     component: DestinationsView,
@@ -26,6 +24,7 @@ const routes = [
     ],
   },
   { path: '/excursions', name: 'excursions', component: ExcursionsView },
+  { path: '/offers', name: 'offers', component: OffersView },
 ]
 
 const router = createRouter({
