@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <!-- Behåll din navbar-struktur -->
     <nav class="navbar">
       <div class="nav-links">
         <router-link to="/" class="nav-link">Home</router-link>
@@ -9,14 +10,16 @@
         <router-link to="/about/mars" class="nav-link">| Mars</router-link>
         <router-link to="/about/venus" class="nav-link">| Venus</router-link>
         <router-link to="/about/sun" class="nav-link">| The Sun</router-link>
-        <!-- Uppdaterad kundkorg-ikon med en egen klass -->
         <router-link to="/cart" class="nav-link cart-link">| <LiCart/></router-link>
       </div>
     </nav>
+
     <!-- Temaknapp utanför navbar -->
     <button @click="toggleTheme" class="theme-toggle">
       {{ isDark ? '☀️ ' : '🌙 ' }}
     </button>
+
+    <!-- Använd router-view här för att visa rätt komponent -->
     <router-view />
   </div>
 </template>
@@ -68,14 +71,13 @@ onMounted(() => {
   color: #007bff;
 }
 
-/* Specifik stil för kundkorg-ikonen */
 .cart-link {
-  color: #fff;  /* Gör kundkorgsikonen vit */
-  font-size: 1.5rem;  /* Större storlek för ikonen */
+  color: #fff;
+  font-size: 1.5rem;
 }
 
 .cart-link:hover {
-  color: #ff6347; /* Färgen när användaren håller musen över ikonen */
+  color: #ff6347;
 }
 
 .theme-toggle {
@@ -90,7 +92,6 @@ onMounted(() => {
   cursor: pointer;
   border-radius: 5px;
   transition: background-color 0.3s, color 0.3s, transform 0.2s;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
 }
 
 .theme-toggle:hover {

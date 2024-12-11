@@ -1,3 +1,11 @@
+<<<<<<< HEAD
+=======
+<script setup lang="ts">
+  import BookingComponent from '@/components/BookingForm.vue';
+  import BlogList from '@/components/BlogList.vue';
+</script>
+
+>>>>>>> development
 <template>
   <main>
     <BookingComponent />
