@@ -4,6 +4,7 @@
       <router-link to="/" class="nav-link">Home</router-link>
       <router-link to="/blog" class="nav-link">Blog</router-link>
       <router-link to="/destinations" class="nav-link">Destinations</router-link>
+      <router-link to="/offers" class="nav-link">Offers</router-link>
     </div>
   </nav>
 </template>
