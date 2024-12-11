@@ -5,9 +5,9 @@ import BlogPostView from '@/views/BlogPostView.vue'
 import HotelsView from '@/views/HotelsView.vue'
 import ExcursionsView from '@/views/ExcursionsView.vue'
 import DestinationsView from '@/views/DestinationsView.vue'
-import Mars from '@/components/Mars.vue'
-import Venus from '@/components/Venus.vue'
-import Sun from '@/components/Sun.vue'
+import Mars from '@/components/AboutMars.vue'
+import Venus from '@/components/AboutVenus.vue'
+import Sun from '@/components/AboutSun.vue'
 import Offers from '@/views/Offers.vue'
 
 const routes = [
