@@ -1,3 +1,4 @@
+<!-- this component is used to display the total price of the booking It uses the price store to get the total price and formats it to Swedish locale -->
 <template>
   <div class="total-price">Totalt Pris: {{ formattedTotalPrice }} kr</div>
 </template>
