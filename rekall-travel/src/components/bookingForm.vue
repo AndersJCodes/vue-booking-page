@@ -19,7 +19,7 @@
         <!-- Number of Travelers with Dropdown -->
         <div class="form-section traveler-dropdown" ref="dropdownContainer">
           <label for="travelers">Travelers:</label>
-          <button class="dropdown-toggle" @click.prevent="toggleDropdown">
+          <button type="button" class="dropdown-toggle" @click.prevent="toggleDropdown">
             Add Travelers
             <span class="guest-summary">({{ totalGuests }})</span>
           </button>
@@ -182,7 +182,7 @@ const updateGuests = (type: 'adults' | 'children' | 'seniors', change: number) =
     guests.value[type] += change;
     updateQuery(type, guests.value[type]);
   }
-};
+}
 
 const updateQuery = (key: string, value: string | number | null) => {
   const updatedQuery = { ...route.query, [key]: value };
@@ -222,9 +222,14 @@ onMounted(() => {
 
 // Handle form submission
 const handleSubmit = () => {
-  if (!destination.value || !travelDate.value || numberOfDays.value <= 0) {
-    alert('Please fill in all required fields.');
-    return;
+  if (
+    !destination.value ||
+    !travelDate.value ||
+    numberOfDays.value <= 0 ||
+    totalGuests.value === 0
+  ) {
+    alert('Please fill in all required fields.')
+    return
   }
 
   router.push({
@@ -235,8 +240,8 @@ const handleSubmit = () => {
       startDate: travelDate.value,
       days: numberOfDays.value,
     },
-  });
-};
+  })
+}
 </script>
 
 <style scoped>
@@ -378,7 +383,9 @@ const handleSubmit = () => {
   border: none;
   border-radius: 8px;
   cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.2s ease;
+  transition:
+    background-color 0.3s ease,
+    transform 0.2s ease;
   text-transform: uppercase;
   margin-top: 1.7rem;
 }
