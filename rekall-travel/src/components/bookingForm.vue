@@ -1,5 +1,6 @@
 <!-- src/views/BookingForm.vue -->
 
+
 <template>
   <div class="booking-form">
     <h1>Book Your Space Adventure</h1>
@@ -8,7 +9,7 @@
         <!-- Choose Destination -->
         <div class="form-section">
           <label for="destination">Select Destination:</label>
-          <select v-model="destination" id="destination" required>
+          <select v-model="destination" id="destination" @change="updateQuery('destination', destination)" required>
             <option disabled value="">Choose destination</option>
             <option v-for="dest in destinations" :key="dest.id" :value="dest.id">
               {{ dest.name }}
@@ -19,10 +20,12 @@
         <!-- Number of Travelers with Dropdown -->
         <div class="form-section traveler-dropdown" ref="dropdownContainer">
           <label for="travelers">Travelers:</label>
-          <button type="button" class="dropdown-toggle" @click.prevent="toggleDropdown">
+          <button class="dropdown-toggle" @click.prevent="toggleDropdown">
             Add Travelers
             <span class="guest-summary">({{ totalGuests }})</span>
           </button>
+
+          <!-- Dropdown Menu -->
           <div v-if="isDropdownOpen" class="dropdown-menu">
             <div class="guest-group">
               <!-- Adult Guests -->
@@ -50,14 +53,14 @@
                 <label>Barn/Ungdom <span>(0 - 17 år)</span></label>
                 <div class="guest-controls">
                   <button
-                    type="button"
                     @click="updateGuests('children', -1)"
-                    :disabled="guests.children <= 0"
-                  >
-                    -
-                  </button>
+                    :disabled="isSolarFarewell || guests.children <= 0"
+                  >-</button>
                   <span>{{ guests.children }}</span>
-                  <button type="button" @click="updateGuests('children', 1)">+</button>
+                  <button
+                    @click="updateGuests('children', 1)"
+                    :disabled="isSolarFarewell"
+                  >+</button>
                 </div>
               </div>
             </div>
@@ -70,13 +73,13 @@
         <!-- Travel Date -->
         <div class="form-section">
           <label for="travel-date">Travel Date:</label>
-          <input type="date" id="travel-date" v-model="travelDate" required />
+          <input type="date" id="travel-date" v-model="travelDate" @change="updateQuery('travelDate', travelDate)" required />
         </div>
 
         <!-- Number of Days -->
         <div class="form-section">
           <label for="number-of-days">Number of Days:</label>
-          <select v-model="selectedOption" id="number-of-days" required>
+          <select v-model="selectedOption" id="number-of-days" @change="updateQuery('days', numberOfDays)" required>
             <option disabled value="">Select number of days</option>
             <option v-for="days in daysOptions" :key="days" :value="days">
               {{ days }}
@@ -96,6 +99,22 @@
           </div>
         </div>
 
+        <!-- Trip Type -->
+        <div class="form-section">
+          <label for="trip-type">Trip Type:</label>
+          <select
+            v-model="tripType"
+            id="trip-type"
+            @change="updateQuery('tripType', tripType)"
+            required
+            :disabled="isSolarFarewell"
+            :class="{ disabled: isSolarFarewell }"
+          >
+            <option value="one-way">One-way</option>
+            <option value="round-trip">Round-trip</option>
+          </select>
+        </div>
+
         <!-- Submit Button -->
         <div class="form-section">
           <button type="submit" class="submit-button">Submit Booking</button>
@@ -106,51 +125,70 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue'
-import { useRouter } from 'vue-router'
-import type { Destination } from '@/types'
-import destinationsData from '@/db/destinations.json'
+import { ref, watch, onMounted, computed } from 'vue';
+import { useRouter, useRoute } from 'vue-router';
+import type { Destination } from '@/types';
+import destinationsData from '@/db/destinations.json';
 
-const destinations: Destination[] = destinationsData
-const router = useRouter()
+const destinations: Destination[] = destinationsData;
+const router = useRouter();
+const route = useRoute();
 
 // Booking data
-const destination = ref<string>('')
-const travelDate = ref<string>('')
-const guests = ref({ adults: 0, children: 0, seniors: 0 })
-const selectedOption = ref<number | string>('')
-const tripType = ref<string>('')
-const numberOfDays = ref<number>(10)
-const daysOptions = [10, 20, 30]
-const customDaysFlag = 'custom'
-const customDaysValue = ref<number | null>(null)
-const isDropdownOpen = ref(false)
+const destination = ref<string>('');
+const travelDate = ref<string>('');
+const tripType = ref<string>('one-way');
+const guests = ref({ adults: 0, children: 0, seniors: 0 });
+const selectedOption = ref<number | string>('');
+const numberOfDays = ref<number>(10);
+const daysOptions = [10, 20, 30];
+const customDaysFlag = 'custom';
+const customDaysValue = ref<number | null>(null);
+const isDropdownOpen = ref(false);
 
-// Total guests
-const totalGuests = computed(
-  () => guests.value.adults + guests.value.children + guests.value.seniors,
-)
-
+// Check if the selected destination is "Solar Farewell Voyage"
+const isSolarFarewell = computed(() => {
+  const selectedDestination = destinations.find(dest => dest.id === destination.value);
+  return selectedDestination?.name === 'Solar Farewell Voyage';
+});
 
 // Toggle dropdown visibility
 const toggleDropdown = () => {
   isDropdownOpen.value = !isDropdownOpen.value;
 };
 
-// Update number of days
+// Total guests summary
+const totalGuests = computed(() => {
+  return guests.value.adults + guests.value.children + guests.value.seniors;
+});
+
 const updateNumberOfDays = () => {
   if (customDaysValue.value && customDaysValue.value > 0) {
-    numberOfDays.value = customDaysValue.value
-  }
-}
-
-// Update guests count
-const updateGuests = (type: 'adults' | 'children' | 'seniors', change: number) => {
-  if (guests.value[type] + change >= 0) {
-    guests.value[type] += change
+    numberOfDays.value = customDaysValue.value;
+    updateQuery('days', customDaysValue.value);
   }
 };
 
+watch(selectedOption, (newValue) => {
+  if (newValue !== customDaysFlag) {
+    numberOfDays.value = Number(newValue);
+    updateQuery('days', numberOfDays.value);
+  } else {
+    numberOfDays.value = customDaysValue.value || 0;
+  }
+});
+
+const updateGuests = (type: 'adults' | 'children' | 'seniors', change: number) => {
+  if (guests.value[type] + change >= 0) {
+    guests.value[type] += change;
+    updateQuery(type, guests.value[type]);
+  }
+};
+
+const updateQuery = (key: string, value: string | number | null) => {
+  const updatedQuery = { ...route.query, [key]: value };
+  router.push({ query: updatedQuery });
+};
 
 // Close dropdown if clicked outside
 const closeDropdownIfClickedOutside = (event: MouseEvent) => {
@@ -164,7 +202,7 @@ onMounted(() => {
   // Set up event listener for clicks outside
   document.addEventListener('click', closeDropdownIfClickedOutside);
 
-  const query = router.currentRoute.value.query;
+  const query = route.query;
   if (query.destination) destination.value = query.destination as string;
   if (query.adults) guests.value.adults = parseInt(query.adults as string);
   if (query.children) guests.value.children = parseInt(query.children as string);
@@ -341,9 +379,7 @@ const handleSubmit = () => {
   border: none;
   border-radius: 8px;
   cursor: pointer;
-  transition:
-    background-color 0.3s ease,
-    transform 0.2s ease;
+  transition: background-color 0.3s ease, transform 0.2s ease;
   text-transform: uppercase;
   margin-top: 1.7rem;
 }
