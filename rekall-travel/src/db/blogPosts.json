@@ -1,40 +1,39 @@
 [
     {
       "id": "blog_001",
-      "title": "Explore the Final Frontier: Our Stellar Destinations",
-      "content": "At Rekall Travel, we take pride in offering the most diverse and breathtaking space travel experiences. Whether you dream of treading the red sands of Mars or floating gracefully above the clouds of Venus, we have something for every kind of adventurer.\n\nMars Colony: Begin your interplanetary journey by settling into the Mars Colony. Imagine waking up to a Martian sunrise, participating in cutting-edge research, or simply marveling at the vast canyons and ancient riverbeds. Our Mars Safari excursion allows you to delve deeper into this enigmatic planet’s rugged terrain, making every step feel like a leap for humankind.\n\nVenus Cloud City: Looking for luxury? Venus Cloud City is the epitome of elegance. Suspended high above the planet's toxic surface, these floating cities feature premium accommodations, stunning views, and gourmet cuisine. It’s the perfect blend of adventure and indulgence.\n\nSolar Farewell Voyage: For those seeking a truly unique and meaningful journey, the Solar Farewell Voyage is an emotional farewell to life as we know it. As you venture closer to the Sun, you'll witness a spectacular cosmic display, leaving behind a legacy that burns bright.\n\nFrom research expeditions to luxurious escapes, your journey into the cosmos is only a booking away.",
+      "title": "Life on Mars: A Day in the Colony",
+      "content": "Experience life on the Red Planet...",
       "image": "/src/assets/images/Blog-001.webp"
-
     },
     {
       "id": "blog_002",
-      "title": "Space Travel Simplified: Your Gateway to the Stars",
-      "content": "Gone are the days when space travel was only for astronauts. At Rekall Travel, we’ve redefined space exploration, making it accessible, safe, and comfortable for everyone.\n\nOur journeys are designed with you in mind, from start to finish. Begin your adventure with training programs tailored to prepare you for space travel, including Moonwalk Training and Space Survival Training. We ensure you're equipped with the skills and confidence to explore the unknown.\n\nWorried about the technicalities? Don’t be. Our state-of-the-art spacecraft offer luxurious seating, cryogenic options for long journeys, and on-board entertainment to keep you comfortable as you travel lightyears away from Earth.\n\nMoreover, our departure stations, including Earth Orbit Station and Moon Base Alpha, make boarding simple. With our all-inclusive packages, from gear rentals to excursions, you can focus on what matters most: the thrill of the journey.\n\nYour dream of exploring the stars is now closer than ever. Let us handle the complexities while you focus on creating memories that are truly out of this world.",
+      "title": "Floating in Luxury: Venus Cloud City Adventures",
+      "content": "Discover luxury above the clouds...",
       "image": "/src/assets/images/Blog-002.webp"
     },
     {
       "id": "blog_003",
       "title": "The Solar Farewell: A Tribute to Life’s Brilliance",
-      "content": "The Solar Farewell Voyage isn’t just a trip; it’s an experience that embodies the profound beauty of the universe and the courage of those who embrace it.\n\nDesigned for individuals seeking a dignified farewell, this one-way journey takes you to the heart of our solar system. The voyage begins at Earth Orbit Station, where you’ll board our specialized craft equipped with every comfort for the journey ahead.\n\nAs you travel closer to the Sun, you'll be treated to stunning views of the inner planets. The journey’s climax is a mesmerizing cosmic display as the Sun fills your view with its brilliant hues of gold and orange, symbolizing the radiant end of a fulfilled life.\n\nThis service is for those who wish to leave a legacy as bright as the Sun itself. A team of compassionate professionals ensures that every detail of your voyage is handled with care and respect, creating a final experience as unique as you are.\n\nThe Solar Farewell isn’t the end; it’s the beginning of your eternal place in the universe.",
+      "content": "A profound journey towards the Sun...",
       "image": "/src/assets/images/Blog-003.webp"
     },
     {
       "id": "blog_004",
       "title": "Mars: Where Adventure Meets Innovation",
-      "content": "Mars has captured humanity’s imagination for centuries, and now it’s finally within your reach. At Rekall Travel, we’ve turned the dream of living on the Red Planet into a reality.\n\nThe Mars Colony offers an unparalleled blend of adventure and innovation. Guests can immerse themselves in colony life, engage in scientific experiments, and even enjoy leisure activities tailored for Martian gravity.\n\nBut the adventure doesn’t end there. Our exclusive Mars Safari excursion takes you beyond the colony to explore ancient river valleys, towering volcanoes, and the breathtaking Valles Marineris canyon system. With expert guides and state-of-the-art equipment, you’ll experience Mars like never before.\n\nWhether you’re a budding scientist or simply seeking an escape unlike any other, Mars promises to be a journey you’ll never forget.",
+      "content": "Explore the vast Martian landscapes...",
       "image": "/src/assets/images/Blog-004.webp"
     },
     {
       "id": "blog_005",
       "title": "Ready for Launch? Here’s How to Prepare for Space Travel",
-      "content": "Planning your first space adventure? At Rekall Travel, we’re here to help you get ready for the journey of a lifetime.\n\nBefore your trip, we recommend enrolling in our Moonwalk Training program. In just a week, you’ll learn the fundamentals of navigating low-gravity environments, ensuring you’re confident and capable when exploring the cosmos.\n\nOur Space Survival Training is another essential step. In this two-week course, you’ll master emergency protocols, familiarize yourself with spacecraft systems, and build the skills needed for a safe and enjoyable trip.\n\nEquipment is also key to a successful adventure. Whether you’re renting our Moonwalk Suit or bringing your own AstroPhotography Kit, we make sure you have everything you need to thrive in the stars.\n\nFinally, pack light but smart. All spacecraft cabins are equipped with amenities for comfort, but personal touches, like a favorite book or journal, can make the experience even more special.\n\nThe stars are waiting—let us guide you every step of the way.",
+      "content": "Get ready for your space adventure...",
       "image": "/src/assets/images/Blog-005.webp"
     },
     {
       "id": "blog_006",
       "title": "The Joy of Weightlessness: Embrace the Freedom of Zero Gravity",
-      "content": "Have you ever dreamed of flying? In space, weightlessness isn’t just a concept—it’s a way of life. At Rekall Travel, we ensure every traveler gets to fully experience the joy of zero gravity, whether you’re orbiting Earth or cruising toward Mars.\n\nWeightlessness, also known as microgravity, occurs when you’re in freefall, and it’s one of the most thrilling aspects of space travel. Imagine effortlessly gliding from one end of a spacecraft to the other, flipping in mid-air, or performing moves impossible under Earth’s gravity. Every moment is a playful reminder of the boundless possibilities in space.\n\nOur spacecraft are designed to maximize your zero-gravity experience. Spacious cabins allow for safe exploration, and our trained crew will guide you through activities such as floating exercises, somersaults, and even zero-gravity dining. You’ll learn how to adapt quickly, turning this unfamiliar sensation into a source of endless fun.\n\nZero gravity isn’t just exhilarating—it’s transformative. Many of our travelers describe it as a meditative state, freeing them from earthly constraints and opening their minds to the vastness of the universe. Whether you’re an adventurer seeking excitement or a dreamer yearning for inspiration, the experience of weightlessness will leave you feeling lighter—both physically and emotionally.\n\nThe stars are calling, and weightlessness is waiting. Are you ready to defy gravity?",
-      "image": "/src/assets/images/Blog-006.webp"   
+      "content": "Float and glide in zero gravity...",
+      "image": "/src/assets/images/Blog-006.webp"
     }
-]
+  ]
   

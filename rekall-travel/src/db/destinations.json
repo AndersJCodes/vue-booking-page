@@ -1,26 +1,27 @@
 [
-  {
-    "id": "mars_colony",
-    "name": "Mars Colony",
-    "description": "Experience life on the Red Planet at the first human colony.",
-    "pricePerPerson": 2000000,
-    "duration": "6 months",
-    "departureFrom": ["Earth Orbit Station", "Moon Base Alpha"]
-  },
-  {
-    "id": "venus_cloud_city",
-    "name": "Venus Cloud City",
-    "description": "Float above Venus' surface in luxury cloud cities.",
-    "pricePerPerson": 1200000,
-    "duration": "1 year",
-    "departureFrom": ["Earth Orbit Station", "Moon Base Alpha"]
-  },
-  {
-    "id": "solar_farewell",
-    "name": "Solar Farewell Voyage",
-    "description": "A one-way journey to the Sun for a spectacular final act.",
-    "pricePerPerson": 500000,
-    "duration": "Final",
-    "departureFrom": ["Earth Orbit Station"]
-  }
-]
+    {
+      "id": "mars_colony",
+      "name": "Mars Colony",
+      "description": "Experience life on the Red Planet at the first human colony.",
+      "pricePerPerson": 1000000,
+      "duration": "6 months",
+      "departureFrom": ["Earth Orbit Station", "Moon Base Alpha"]
+    },
+    {
+      "id": "venus_cloud_city",
+      "name": "Venus Cloud City",
+      "description": "Float above Venus' surface in luxury cloud cities.",
+      "pricePerPerson": 1200000,
+      "duration": "1 year",
+      "departureFrom": ["Earth Orbit Station", "Moon Base Alpha"]
+    },
+    {
+      "id": "solar_farewell",
+      "name": "Solar Farewell Voyage",
+      "description": "A one-way journey to the Sun for a spectacular final act.",
+      "pricePerPerson": 500000,
+      "duration": "Final",
+      "departureFrom": ["Earth Orbit Station"]
+    }
+  ]
+  

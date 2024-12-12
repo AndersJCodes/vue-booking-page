@@ -1,7 +1,7 @@
 [
     {
       "id": "booking_001",
-      "travelers": 1,
+      "customerName": "John Doe",
       "destination": "mars_colony",
       "class": "Cryo Luxury",
       "departureStation": "earth_orbit_station",
@@ -11,7 +11,7 @@
     },
     {
       "id": "booking_002",
-      "travelers": 2,
+      "customerName": "Alice Johnson",
       "destination": "venus_cloud_city",
       "class": "Cryo Luxury",
       "departureStation": "moon_base_alpha",
@@ -21,7 +21,7 @@
     },
     {
       "id": "booking_003",
-      "travelers": 4,
+      "customerName": "Elena Rivera",
       "destination": "solar_farewell",
       "class": "Enlightened Passage",
       "departureStation": "earth_orbit_station",

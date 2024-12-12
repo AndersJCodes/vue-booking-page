@@ -19,13 +19,6 @@
       "description": "Witness Jupiter's volcanic moon up close.",
       "price": 30000,
       "duration": "2 days"
-    },
-    {
-      "id": "venus_skywalk",
-      "name": "Venus Skywalk",
-      "description": "Walk among the clouds of Venus.",
-      "price": 20000,
-      "duration": "1 day"
     }
   ]
   

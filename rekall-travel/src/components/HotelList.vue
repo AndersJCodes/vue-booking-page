@@ -1,10 +1,10 @@
 <!-- src/components/HotelList.vue -->
+
 <template>
-  <div class="hotel-component">
+  <div class="hotel-list">
     <h2>Available Hotels in {{ destinationName }}</h2>
-    <div class="hotel-list" v-if="filteredHotels.length">
+    <div v-if="filteredHotels.length">
       <div v-for="hotel in filteredHotels" :key="hotel.id" class="hotel-option">
-        <img :src="hotel.image" :alt="hotel.name" />
         <h3>{{ hotel.name }}</h3>
         <p>{{ hotel.description }}</p>
         <p><strong>Price per Night:</strong> ${{ hotel.pricePerNight }}</p>
@@ -23,9 +23,7 @@ import { computed } from 'vue'
 import type { Destination, Hotel } from '@/types'
 import destinationsData from '@/db/destinations.json'
 import hotelsData from '@/db/hotels.json'
-import { useRouter } from 'vue-router'
 
-const router = useRouter()
 // Define the props expected
 const props = defineProps<{
   destinationId: string
@@ -34,9 +32,12 @@ const props = defineProps<{
   days: number
 }>()
 
+
+
 // Filter hotels based on destinationId
-const filteredHotels = computed(() =>
-  hotelsData.filter((hotel) => hotel.destinationId === props.destinationId),
+const filteredHotels = computed(
+  () => hotelsData.filter((hotel) => hotel.destinationId === props.destinationId),
+  // You can add more filtering logic based on travelers, dates, etc.
 )
 
 // Find destination name
@@ -48,39 +49,33 @@ const destinationName = computed(() => destinationInfo.value?.name || 'Unknown D
 
 // Handle hotel selection
 const selectHotel = (hotel: Hotel) => {
+  // Navigate to a booking confirmation or details page with selected hotel info
+  // For simplicity, we'll alert the selection. Replace this with actual navigation as needed.
+  alert(`You have selected ${hotel.name}`)
+
+  // Example navigation (uncomment and implement as needed):
+  /*
   router.push({
-    name: 'excursions', // Name of the route to navigate to
+    name: 'BookingConfirmation',
     query: {
       hotelId: hotel.id,
-      destinationId: props.destinationId,
+      destination: props.destinationId,
       travelers: props.travelers.toString(),
       startDate: props.startDate,
       days: props.days.toString(),
     },
   })
+  */
 }
 </script>
 
 <style scoped>
-.hotel-component {
+.hotel-list {
   margin-top: 2rem;
 }
 
-.hotel-component h2 {
+.hotel-list h2 {
   margin-bottom: 1rem;
-}
-
-.hotel-list {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 1rem;
-}
-
-.hotel-option img {
-  width: 100%;
-  height: 200px;
-  object-fit: cover;
-  border-radius: 5px;
 }
 
 .hotel-option {
@@ -99,7 +94,7 @@ const selectHotel = (hotel: Hotel) => {
   padding: 0.5rem 1rem;
   cursor: pointer;
   background-color: #28a745;
-  color: white;
+  color: rgb(15, 14, 14);
   border: none;
   border-radius: 4px;
 }

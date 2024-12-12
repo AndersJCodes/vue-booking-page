@@ -20,13 +20,19 @@
   
         <!-- Main Blog Post Content -->
         <article class="blog-content" v-if="currentPost">
+          <img
+            :src="currentPost.image"
+            :alt="currentPost.title"
+            class="blog-post-image"
+          />
           <h1>{{ currentPost.title }}</h1>
-          <img :src="currentPost.image" :alt="currentPost.title" class="blog-post-image" />
-          <div>
-            <p v-for="(paragraph, index) in currentPost.content.split('\n')" :key="index" class="blog-paragraph">
-              {{ paragraph }}
-            </p>
-          </div>
+          <p
+            v-for="paragraph in currentPost.content.split('\n')"
+            :key="paragraph"
+            class="blog-paragraph"
+          >
+            {{ paragraph }}
+          </p>
           <router-link to="/blog" class="back-link">← Back to Blog</router-link>
         </article>
   
@@ -52,7 +58,9 @@
   
       // Access blog posts and the current post via Pinia
       const blogPosts = computed(() => blogStore.blogPosts);
-      const currentPost = computed(() => blogStore.getBlogPostById(route.params.id as string));
+      const currentPost = computed(() =>
+        blogStore.getBlogPostById(route.params.id as string)
+      );
   
       return {
         route,
@@ -122,7 +130,7 @@
   }
   
   .blog-post-image {
-    max-width: 100%;
+    max-width: 80%;
     height: auto;
     margin-bottom: 20px;
     border-radius: 8px;
@@ -148,3 +156,4 @@
     text-decoration: underline;
   }
   </style>
+  
