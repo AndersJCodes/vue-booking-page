@@ -1,3 +1,8 @@
+<script setup lang="ts">
+  import BookingComponent from '@/components/bookingForm.vue';
+  import BlogList from '@/components/BlogList.vue';
+</script>
+
 <template>
   <main>
     <BookingComponent />
@@ -8,10 +13,7 @@
   </main>
 </template>
 
-<script setup lang="ts">
-import BookingComponent from '@/components/BookingForm.vue';
-import BlogList from '@/components/BlogList.vue';
-</script>
+
 
 <style scoped>
 .blog-section {
