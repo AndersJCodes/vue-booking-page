@@ -1,13 +1,22 @@
 <!-- src/components/HotelList.vue -->
 <template>
   <div class="hotel-component">
-    <h2>Available Hotels in {{ destinationName }}</h2>
+    <h2>Available Hotels</h2>
     <div class="hotel-list" v-if="filteredHotels.length">
       <div v-for="hotel in filteredHotels" :key="hotel.id" class="hotel-option">
         <img :src="hotel.image" :alt="hotel.name" />
         <h3>{{ hotel.name }}</h3>
         <p>{{ hotel.description }}</p>
-        <p><strong>Price per Night:</strong> ${{ hotel.pricePerNight }}</p>
+        <div class="price-details">
+          <p><strong>Price per Night:</strong> {{ formatPrice(hotel.pricePerNight) }} kr</p>
+          <p class="total-hotel-price">
+            <strong>Total Hotel Cost:</strong>
+            {{ formatPrice(calculateTotalForHotel(hotel)) }} kr
+            <span class="price-breakdown">
+              ({{ props.travelers }} travelers × {{ props.days }} days)
+            </span>
+          </p>
+        </div>
         <p><strong>Rating:</strong> {{ hotel.rating }} / 5</p>
         <button @click="selectHotel(hotel)">Select Hotel</button>
       </div>
@@ -45,6 +54,19 @@ const destinationInfo = computed(() =>
   destinationData.find((dest) => dest.id === props.destinationId),
 )
 const destinationName = computed(() => destinationInfo.value?.name || 'Unknown Destination')
+
+// Format price to Swedish locale
+const formatPrice = (price: number) => {
+  return new Intl.NumberFormat('sv-SE', {
+    style: 'decimal',
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
+  }).format(price)
+}
+
+const calculateTotalForHotel = (hotel: Hotel) => {
+  return hotel.pricePerNight * props.travelers * props.days
+}
 
 // Handle hotel selection
 const selectHotel = (hotel: Hotel) => {
