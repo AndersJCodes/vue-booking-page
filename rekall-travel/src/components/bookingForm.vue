@@ -1,6 +1,5 @@
 <!-- src/views/BookingForm.vue -->
 
-
 <template>
   <div class="booking-form">
     <h1>Book Your Space Adventure</h1>
@@ -20,7 +19,7 @@
         <!-- Number of Travelers -->
         <div class="form-section traveler-dropdown">
           <label for="travelers">Travelers:</label>
-          <button class="dropdown-toggle" @click.prevent="toggleDropdown">
+          <button type="button" class="dropdown-toggle" @click.prevent="toggleDropdown">
             Add Travelers
             <span class="guest-summary">({{ totalGuests }})</span>
           </button>
@@ -29,13 +28,19 @@
               <div class="guest-item" v-for="(label, type) in guestTypes" :key="type">
                 <label>{{ label }}</label>
                 <div class="guest-controls">
-                  <button @click="updateGuests(type, -1)" :disabled="guests[type] <= 0">-</button>
+                  <button
+                    type="button"
+                    @click="updateGuests(type, -1)"
+                    :disabled="guests[type] <= 0"
+                  >
+                    -
+                  </button>
                   <span>{{ guests[type] }}</span>
-                  <button @click="updateGuests(type, 1)">+</button>
+                  <button type="button" @click="updateGuests(type, 1)">+</button>
                 </div>
               </div>
             </div>
-            <button class="done-button" @click="toggleDropdown">Done</button>
+            <button type="button" class="done-button" @click="toggleDropdown">Done</button>
           </div>
         </div>
 
@@ -78,58 +83,65 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue';
-import { useRouter } from 'vue-router';
-import type { Destination } from '@/types';
-import destinationsData from '@/db/destinations.json';
+import { ref, computed } from 'vue'
+import { useRouter } from 'vue-router'
+import type { Destination } from '@/types'
+import destinationsData from '@/db/destinations.json'
 
-const destinations: Destination[] = destinationsData;
-const router = useRouter();
+const destinations: Destination[] = destinationsData
+const router = useRouter()
 
 // Booking data
-const destination = ref<string>('');
-const travelDate = ref<string>('');
-const guests = ref({ adults: 0, children: 0, seniors: 0 });
-const selectedOption = ref<number | string>('');
-const numberOfDays = ref<number>(10);
-const daysOptions = [10, 20, 30];
-const customDaysFlag = 'custom';
-const customDaysValue = ref<number | null>(null);
-const isDropdownOpen = ref(false);
+const destination = ref<string>('')
+const travelDate = ref<string>('')
+const guests = ref({ adults: 0, children: 0, seniors: 0 })
+const selectedOption = ref<number | string>('')
+const numberOfDays = ref<number>(10)
+const daysOptions = [10, 20, 30]
+const customDaysFlag = 'custom'
+const customDaysValue = ref<number | null>(null)
+const isDropdownOpen = ref(false)
 
 // Total guests
-const totalGuests = computed(() => guests.value.adults + guests.value.children + guests.value.seniors);
+const totalGuests = computed(
+  () => guests.value.adults + guests.value.children + guests.value.seniors,
+)
 
 const guestTypes = {
   adults: 'Adults',
   seniors: 'Seniors',
   children: 'Children',
-};
+}
 
 // Update number of days
 const updateNumberOfDays = () => {
   if (customDaysValue.value && customDaysValue.value > 0) {
-    numberOfDays.value = customDaysValue.value;
+    numberOfDays.value = customDaysValue.value
   }
-};
+}
 
 // Update guests count
 const updateGuests = (type: 'adults' | 'children' | 'seniors', change: number) => {
   if (guests.value[type] + change >= 0) {
-    guests.value[type] += change;
+    guests.value[type] += change
   }
-};
+}
 
 // Toggle dropdown visibility
 const toggleDropdown = () => {
-  isDropdownOpen.value = !isDropdownOpen.value;
-};
+  isDropdownOpen.value = !isDropdownOpen.value
+}
 
 // Handle form submission
 const handleSubmit = () => {
-  if (!destination.value || !travelDate.value || numberOfDays.value <= 0) {
-    alert('Please fill in all required fields.');
-    return;
+  if (
+    !destination.value ||
+    !travelDate.value ||
+    numberOfDays.value <= 0 ||
+    totalGuests.value === 0
+  ) {
+    alert('Please fill in all required fields.')
+    return
   }
 
   router.push({
@@ -140,15 +152,11 @@ const handleSubmit = () => {
       startDate: travelDate.value,
       days: numberOfDays.value,
     },
-  });
-};
+  })
+}
 </script>
 
-
-
-
 <style scoped>
-
 .form-container {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -160,7 +168,6 @@ const handleSubmit = () => {
   flex-direction: column;
   gap: 0.5rem;
 }
-
 
 .traveler-dropdown {
   position: relative;
@@ -286,7 +293,9 @@ const handleSubmit = () => {
   border: none;
   border-radius: 8px;
   cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.2s ease;
+  transition:
+    background-color 0.3s ease,
+    transform 0.2s ease;
   text-transform: uppercase;
 }
 
@@ -294,5 +303,4 @@ const handleSubmit = () => {
   background-color: #27ae60;
   transform: scale(1.05);
 }
-
 </style>
