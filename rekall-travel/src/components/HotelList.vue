@@ -53,7 +53,6 @@ const destinationData: Destination[] = destinationsData
 const destinationInfo = computed(() =>
   destinationData.find((dest) => dest.id === props.destinationId),
 )
-const destinationName = computed(() => destinationInfo.value?.name || 'Unknown Destination')
 
 // Format price to Swedish locale
 const formatPrice = (price: number) => {
