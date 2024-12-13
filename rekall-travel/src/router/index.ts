@@ -16,6 +16,9 @@ const routes = [
   { path: '/blog', name: 'blog', component: BlogView },
   { path: '/blog/:id', name: 'blogPost', component: BlogPostView, props: true },
   { path: '/hotels', name: 'hotels', component: HotelsView },
+  { path: '/excursions', name: 'excursions', component: ExcursionsView },
+  { path: '/offers', name: 'offers', component: OffersView },
+
   {
     path: '/cart',
     name: 'cart', // Make sure this name matches
@@ -30,8 +33,6 @@ const routes = [
       { path: 'sun', component: Sun },
     ],
   },
-  { path: '/excursions', name: 'excursions', component: ExcursionsView },
-  { path: '/offers', name: 'offers', component: OffersView },
 ]
 
 const router = createRouter({

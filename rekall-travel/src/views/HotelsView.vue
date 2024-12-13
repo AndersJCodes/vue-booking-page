@@ -1,30 +1,31 @@
 <template>
   <div class="hotels-page">
-    <h1>Available Hotels</h1>
-    <div v-if="isValidParams">
-      <p><strong>Destination:</strong> {{ destinationName }}</p>
-      <p><strong>Travelers:</strong> {{ travelers }}</p>
-      <p><strong>Start Date:</strong> {{ formattedStartDate }}</p>
-      <p><strong>Number of Days:</strong> {{ days }}</p>
-      <div>
+    <template v-if="isValidParams">
+      <div class="hotels-header">
+        <h1>Wellcome to {{ destinationName }}</h1>
+        <div class="booking-details">
+          <p>Travel Date: {{ formattedStartDate }}</p>
+          <p>Duration: {{ days }} days</p>
+          <p>Travelers: {{ travelers }}</p>
+        </div>
         <TotalPrice />
       </div>
 
-      <!-- Hotel List Component -->
-      <HotelList
-        :destinationId="destination"
-        :travelers="travelers"
-        :startDate="startDate"
-        :days="days"
-      />
-    </div>
-    <div v-else>
-      <p>
-        Invalid or missing search parameters. Please use the form on the homepage to search for
-        hotels.
-      </p>
-      <router-link to="/">Go Back to Homepage</router-link>
-    </div>
+      <div class="hotels-list-container">
+        <HotelList
+          :destinationId="destination"
+          :travelers="travelers"
+          :startDate="startDate"
+          :days="days"
+        />
+      </div>
+    </template>
+
+    <template v-else>
+      <div class="error-message">
+        <p>Invalid booking parameters. Please return to the booking page.</p>
+      </div>
+    </template>
   </div>
 </template>
 
@@ -73,6 +74,12 @@ const formattedStartDate = computed(() => {
 .hotels-page h1 {
   text-align: center;
   margin-bottom: 1.5rem;
+}
+
+.booking-details {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .back-link {
