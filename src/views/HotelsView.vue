@@ -6,6 +6,6 @@
 </template>
 
 <script setup lang="ts">
-import TotalPrice from '@/components/TotalPrice.vue';
+import TotalPrice from '@/components/Prices.vue';
 // ... existing imports and setup ...
 </script>

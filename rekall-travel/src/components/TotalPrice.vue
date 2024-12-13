@@ -5,7 +5,31 @@
 
 <script setup lang="ts">
 import { usePriceStore } from '@/stores/prices'
-import { computed } from 'vue'
+import { computed, watch } from 'vue'
+
+const priceStore = usePriceStore()
+
+// Add some debugging
+watch(
+  () => priceStore.destinationPrice,
+  (newVal) => {
+    console.log('Destination Price:', newVal)
+  },
+)
+
+watch(
+  () => priceStore.hotelPrice,
+  (newVal) => {
+    console.log('Hotel Price:', newVal)
+  },
+)
+
+watch(
+  () => priceStore.totalPrice,
+  (newVal) => {
+    console.log('Total Price:', newVal)
+  },
+)
 
 // Create a number formatter for Swedish locale
 const numberFormatter = new Intl.NumberFormat('sv-SE', {
@@ -14,8 +38,7 @@ const numberFormatter = new Intl.NumberFormat('sv-SE', {
   maximumFractionDigits: 0,
 })
 
-const { totalPrice } = usePriceStore()
-const formattedTotalPrice = computed(() => numberFormatter.format(totalPrice))
+const formattedTotalPrice = computed(() => numberFormatter.format(priceStore.totalPrice))
 </script>
 
 <style scoped>

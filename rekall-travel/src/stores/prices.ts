@@ -2,6 +2,7 @@ import { defineStore } from 'pinia'
 import { useRoute } from 'vue-router'
 import { computed } from 'vue'
 import destinationsData from '@/db/destinations.json'
+import hotelsData from '@/db/hotels.json'
 
 export const usePriceStore = defineStore('prices', () => {
   const route = useRoute()

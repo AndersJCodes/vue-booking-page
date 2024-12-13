@@ -74,7 +74,7 @@ const selectHotel = (hotel: Hotel) => {
     name: 'excursions', // Name of the route to navigate to
     query: {
       hotelId: hotel.id,
-      destinationId: props.destinationId,
+      destination: props.destinationId,
       travelers: props.travelers.toString(),
       startDate: props.startDate,
       days: props.days.toString(),
