@@ -9,7 +9,7 @@
         <!-- Choose Destination -->
         <div class="form-section">
           <label for="destination">Select Destination:</label>
-          <select v-model="destination" id="destination" required>
+          <select v-model="destination" id="destination" @change="updateQuery('destination', destination)" required>
             <option disabled value="">Choose destination</option>
             <option v-for="dest in destinations" :key="dest.id" :value="dest.id">
               {{ dest.name }}
@@ -17,38 +17,69 @@
           </select>
         </div>
 
-        <!-- Number of Travelers -->
-        <div class="form-section traveler-dropdown">
+        <!-- Number of Travelers with Dropdown -->
+        <div class="form-section traveler-dropdown" ref="dropdownContainer">
           <label for="travelers">Travelers:</label>
           <button class="dropdown-toggle" @click.prevent="toggleDropdown">
             Add Travelers
             <span class="guest-summary">({{ totalGuests }})</span>
           </button>
+
+          <!-- Dropdown Menu -->
           <div v-if="isDropdownOpen" class="dropdown-menu">
             <div class="guest-group">
-              <div class="guest-item" v-for="(label, type) in guestTypes" :key="type">
-                <label>{{ label }}</label>
+              <!-- Adult Guests -->
+              <div class="guest-item">
+                <label>Vuxen <span>(18 - 64 år)</span></label>
                 <div class="guest-controls">
-                  <button @click="updateGuests(type, -1)" :disabled="guests[type] <= 0">-</button>
-                  <span>{{ guests[type] }}</span>
-                  <button @click="updateGuests(type, 1)">+</button>
+                  <button @click="updateGuests('adults', -1)" :disabled="guests.adults <= 0">-</button>
+                  <span>{{ guests.adults }}</span>
+                  <button @click="updateGuests('adults', 1)">+</button>
+                </div>
+              </div>
+
+              <!-- Senior Guests -->
+              <div class="guest-item">
+                <label>Senior <span>(Över 65 år)</span></label>
+                <div class="guest-controls">
+                  <button @click="updateGuests('seniors', -1)" :disabled="guests.seniors <= 0">-</button>
+                  <span>{{ guests.seniors }}</span>
+                  <button @click="updateGuests('seniors', 1)">+</button>
+                </div>
+              </div>
+
+              <!-- Children Guests -->
+              <div class="guest-item">
+                <label>Barn/Ungdom <span>(0 - 17 år)</span></label>
+                <div class="guest-controls">
+                  <button
+                    @click="updateGuests('children', -1)"
+                    :disabled="isSolarFarewell || guests.children <= 0"
+                  >-</button>
+                  <span>{{ guests.children }}</span>
+                  <button
+                    @click="updateGuests('children', 1)"
+                    :disabled="isSolarFarewell"
+                  >+</button>
                 </div>
               </div>
             </div>
-            <button class="done-button" @click="toggleDropdown">Done</button>
+
+            <!-- Done Button -->
+            <button class="done-button" @click="toggleDropdown">Klar</button>
           </div>
         </div>
 
         <!-- Travel Date -->
         <div class="form-section">
           <label for="travel-date">Travel Date:</label>
-          <input type="date" id="travel-date" v-model="travelDate" required />
+          <input type="date" id="travel-date" v-model="travelDate" @change="updateQuery('travelDate', travelDate)" required />
         </div>
 
         <!-- Number of Days -->
         <div class="form-section">
           <label for="number-of-days">Number of Days:</label>
-          <select v-model="selectedOption" id="number-of-days" required>
+          <select v-model="selectedOption" id="number-of-days" @change="updateQuery('days', numberOfDays)" required>
             <option disabled value="">Select number of days</option>
             <option v-for="days in daysOptions" :key="days" :value="days">
               {{ days }}
@@ -68,6 +99,22 @@
           </div>
         </div>
 
+        <!-- Trip Type -->
+        <div class="form-section">
+          <label for="trip-type">Trip Type:</label>
+          <select
+            v-model="tripType"
+            id="trip-type"
+            @change="updateQuery('tripType', tripType)"
+            required
+            :disabled="isSolarFarewell"
+            :class="{ disabled: isSolarFarewell }"
+          >
+            <option value="one-way">One-way</option>
+            <option value="round-trip">Round-trip</option>
+          </select>
+        </div>
+
         <!-- Submit Button -->
         <div class="form-section">
           <button type="submit" class="submit-button">Submit Booking</button>
@@ -78,17 +125,19 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue';
-import { useRouter } from 'vue-router';
+import { ref, watch, onMounted, computed } from 'vue';
+import { useRouter, useRoute } from 'vue-router';
 import type { Destination } from '@/types';
 import destinationsData from '@/db/destinations.json';
 
 const destinations: Destination[] = destinationsData;
 const router = useRouter();
+const route = useRoute();
 
 // Booking data
 const destination = ref<string>('');
 const travelDate = ref<string>('');
+const tripType = ref<string>('one-way');
 const guests = ref({ adults: 0, children: 0, seniors: 0 });
 const selectedOption = ref<number | string>('');
 const numberOfDays = ref<number>(10);
@@ -97,33 +146,80 @@ const customDaysFlag = 'custom';
 const customDaysValue = ref<number | null>(null);
 const isDropdownOpen = ref(false);
 
-// Total guests
-const totalGuests = computed(() => guests.value.adults + guests.value.children + guests.value.seniors);
-
-const guestTypes = {
-  adults: 'Adults',
-  seniors: 'Seniors',
-  children: 'Children',
-};
-
-// Update number of days
-const updateNumberOfDays = () => {
-  if (customDaysValue.value && customDaysValue.value > 0) {
-    numberOfDays.value = customDaysValue.value;
-  }
-};
-
-// Update guests count
-const updateGuests = (type: 'adults' | 'children' | 'seniors', change: number) => {
-  if (guests.value[type] + change >= 0) {
-    guests.value[type] += change;
-  }
-};
+// Check if the selected destination is "Solar Farewell Voyage"
+const isSolarFarewell = computed(() => {
+  const selectedDestination = destinations.find(dest => dest.id === destination.value);
+  return selectedDestination?.name === 'Solar Farewell Voyage';
+});
 
 // Toggle dropdown visibility
 const toggleDropdown = () => {
   isDropdownOpen.value = !isDropdownOpen.value;
 };
+
+// Total guests summary
+const totalGuests = computed(() => {
+  return guests.value.adults + guests.value.children + guests.value.seniors;
+});
+
+const updateNumberOfDays = () => {
+  if (customDaysValue.value && customDaysValue.value > 0) {
+    numberOfDays.value = customDaysValue.value;
+    updateQuery('days', customDaysValue.value);
+  }
+};
+
+watch(selectedOption, (newValue) => {
+  if (newValue !== customDaysFlag) {
+    numberOfDays.value = Number(newValue);
+    updateQuery('days', numberOfDays.value);
+  } else {
+    numberOfDays.value = customDaysValue.value || 0;
+  }
+});
+
+const updateGuests = (type: 'adults' | 'children' | 'seniors', change: number) => {
+  if (guests.value[type] + change >= 0) {
+    guests.value[type] += change;
+    updateQuery(type, guests.value[type]);
+  }
+};
+
+const updateQuery = (key: string, value: string | number | null) => {
+  const updatedQuery = { ...route.query, [key]: value };
+  router.push({ query: updatedQuery });
+};
+
+// Close dropdown if clicked outside
+const closeDropdownIfClickedOutside = (event: MouseEvent) => {
+  const dropdownContainer = document.querySelector('.traveler-dropdown');
+  if (dropdownContainer && !dropdownContainer.contains(event.target as Node)) {
+    isDropdownOpen.value = false;
+  }
+};
+
+onMounted(() => {
+  // Set up event listener for clicks outside
+  document.addEventListener('click', closeDropdownIfClickedOutside);
+
+  const query = route.query;
+  if (query.destination) destination.value = query.destination as string;
+  if (query.adults) guests.value.adults = parseInt(query.adults as string);
+  if (query.children) guests.value.children = parseInt(query.children as string);
+  if (query.seniors) guests.value.seniors = parseInt(query.seniors as string);
+  if (query.travelDate) travelDate.value = query.travelDate as string;
+  if (query.tripType) tripType.value = query.tripType as string;
+  if (query.days) {
+    const days = parseInt(query.days as string);
+    if (daysOptions.includes(days)) {
+      selectedOption.value = days;
+    } else {
+      selectedOption.value = customDaysFlag;
+      customDaysValue.value = days;
+      numberOfDays.value = days;
+    }
+  }
+});
 
 // Handle form submission
 const handleSubmit = () => {
@@ -144,11 +240,8 @@ const handleSubmit = () => {
 };
 </script>
 
-
-
-
 <style scoped>
-
+/* Styling for form layout, traveler dropdown, buttons, etc. */
 .form-container {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -161,7 +254,7 @@ const handleSubmit = () => {
   gap: 0.5rem;
 }
 
-
+/* Dropdown menu for traveler selection */
 .traveler-dropdown {
   position: relative;
 }
@@ -172,7 +265,6 @@ const handleSubmit = () => {
   align-items: center;
   padding: 0.75rem 1 rem;
   font-size: 1rem;
-
   color: #333;
   background-color: transparent;
   border: 1px solid black;
@@ -258,6 +350,7 @@ const handleSubmit = () => {
   background-color: #0056b3;
 }
 
+/* Done Button Styling */
 .done-button {
   display: block;
   margin: 1rem auto 0;
@@ -276,11 +369,11 @@ const handleSubmit = () => {
   background-color: #218838;
 }
 
-/************************** Submit Button **************************/
+/* Submit Button */
 .submit-button {
-  padding: 0.75rem 1rem;
+  padding: 0.75rem rem;
   font-size: 1.5rem;
-  font-weight: bold;
+  font-weight: ;
   color: white;
   background-color: #2ecc71;
   border: none;
@@ -288,11 +381,11 @@ const handleSubmit = () => {
   cursor: pointer;
   transition: background-color 0.3s ease, transform 0.2s ease;
   text-transform: uppercase;
+  margin-top: 1.7rem;
 }
 
 .submit-button:hover {
   background-color: #27ae60;
   transform: scale(1.05);
 }
-
 </style>

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import BookingComponent from '@/components/BookingForm.vue';
+  import BookingComponent from '@/components/bookingForm.vue';
   import BlogList from '@/components/BlogList.vue';
 </script>
 
@@ -12,6 +12,8 @@
     </section>
   </main>
 </template>
+
+
 
 <style scoped>
 .blog-section {

@@ -6,11 +6,16 @@
       <router-link to="/destinations" class="nav-link">Destinations</router-link>
       <router-link to="/offers" class="nav-link">Offers</router-link>
     </div>
+    <div>
+      <router-link to="/cart" class="nav-link cart-link"> <LiCart/></router-link>
+    </div>
   </nav>
 </template>
 
-<script lang="ts">
-export default {};
+<script setup lang="ts">
+
+import { LiCart } from '@kalimahapps/vue-icons';
+
 </script>
 
 <style scoped>
@@ -31,5 +36,13 @@ export default {};
 
 .nav-link:hover {
   color: #007bff;
+}
+.cart-link {
+  color: #fff;
+  font-size: 1.5rem;
+}
+
+.cart-link:hover {
+  color: #ff6347;
 }
 </style>
