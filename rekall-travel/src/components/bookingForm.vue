@@ -1,231 +1,142 @@
-<!-- src/views/BookingForm.vue -->
-
-
 <template>
-  <div class="booking-form">
-    <h1>Book Your Space Adventure</h1>
-    <form @submit.prevent="handleSubmit">
-      <div class="form-container">
-        <!-- Choose Destination -->
-        <div class="form-section">
-          <label for="destination">Select Destination:</label>
-          <select v-model="destination" id="destination" @change="updateQuery('destination', destination)" required>
-            <option disabled value="">Choose destination</option>
-            <option v-for="dest in destinations" :key="dest.id" :value="dest.id">
-              {{ dest.name }}
-            </option>
-          </select>
-        </div>
+  <div class="booking-wrapper">
+    <form class="booking-form" @submit.prevent="handleSubmit">
+      <!-- Destination -->
+      <div class="search-section">
+        <label class="section-label" for="destination">Where</label>
+        <select v-model="destination" id="destination" required>
+          <option disabled value="">Search destinations</option>
+          <option v-for="dest in destinations" :key="dest.id" :value="dest.id">
+            {{ dest.name }}
+          </option>
+        </select>
+      </div>
 
-        <!-- Number of Travelers with Dropdown -->
-        <div class="form-section traveler-dropdown" ref="dropdownContainer">
-          <label for="travelers">Travelers:</label>
-          <button class="dropdown-toggle" @click.prevent="toggleDropdown">
-            Add Travelers
-            <span class="guest-summary">({{ totalGuests }})</span>
-          </button>
+      <!-- Travel Date -->
+      <div class="search-section">
+        <label class="section-label" for="travel-date">Check-in</label>
+        <input type="date" id="travel-date" v-model="travelDate" placeholder="Add dates" required />
+      </div>
 
-          <!-- Dropdown Menu -->
-          <div v-if="isDropdownOpen" class="dropdown-menu">
-            <div class="guest-group">
-              <!-- Adult Guests -->
-              <div class="guest-item">
-                <label>Vuxen <span>(18 - 64 år)</span></label>
-                <div class="guest-controls">
-                  <button @click="updateGuests('adults', -1)" :disabled="guests.adults <= 0">-</button>
-                  <span>{{ guests.adults }}</span>
-                  <button @click="updateGuests('adults', 1)">+</button>
-                </div>
-              </div>
-
-              <!-- Senior Guests -->
-              <div class="guest-item">
-                <label>Senior <span>(Över 65 år)</span></label>
-                <div class="guest-controls">
-                  <button @click="updateGuests('seniors', -1)" :disabled="guests.seniors <= 0">-</button>
-                  <span>{{ guests.seniors }}</span>
-                  <button @click="updateGuests('seniors', 1)">+</button>
-                </div>
-              </div>
-
-              <!-- Children Guests -->
-              <div class="guest-item">
-                <label>Barn/Ungdom <span>(0 - 17 år)</span></label>
-                <div class="guest-controls">
-                  <button
-                    @click="updateGuests('children', -1)"
-                    :disabled="isSolarFarewell || guests.children <= 0"
-                  >-</button>
-                  <span>{{ guests.children }}</span>
-                  <button
-                    @click="updateGuests('children', 1)"
-                    :disabled="isSolarFarewell"
-                  >+</button>
-                </div>
-              </div>
-            </div>
-
-            <!-- Done Button -->
-            <button class="done-button" @click="toggleDropdown">Klar</button>
-          </div>
-        </div>
-
-        <!-- Travel Date -->
-        <div class="form-section">
-          <label for="travel-date">Travel Date:</label>
-          <input type="date" id="travel-date" v-model="travelDate" @change="updateQuery('travelDate', travelDate)" required />
-        </div>
-
-        <!-- Number of Days -->
-        <div class="form-section">
-          <label for="number-of-days">Number of Days:</label>
-          <select v-model="selectedOption" id="number-of-days" @change="updateQuery('days', numberOfDays)" required>
-            <option disabled value="">Select number of days</option>
-            <option v-for="days in daysOptions" :key="days" :value="days">
-              {{ days }}
-            </option>
+      <!-- Number of Days -->
+      <div class="search-section">
+        <label class="section-label" for="number-of-days">Check-out</label>
+        <div class="days-wrapper">
+          <select v-model.number="selectedOption" id="number-of-days" required>
+            <option disabled value="">Add dates</option>
+            <option v-for="days in daysOptions" :key="days" :value="days">{{ days }} days</option>
             <option :value="customDaysFlag">Custom...</option>
           </select>
-          <div v-if="selectedOption === customDaysFlag">
-            <label for="custom-days-input">Enter Custom Number of Days:</label>
+          <div v-if="selectedOption === customDaysFlag" class="custom-days-input">
             <input
               type="number"
-              id="custom-days-input"
               v-model.number="customDaysValue"
               min="1"
               required
               @input="updateNumberOfDays"
+              placeholder="Enter days"
             />
           </div>
         </div>
+      </div>
 
-        <!-- Trip Type -->
-        <div class="form-section">
-          <label for="trip-type">Trip Type:</label>
-          <select
-            v-model="tripType"
-            id="trip-type"
-            @change="updateQuery('tripType', tripType)"
-            required
-            :disabled="isSolarFarewell"
-            :class="{ disabled: isSolarFarewell }"
-          >
-            <option value="one-way">One-way</option>
-            <option value="round-trip">Round-trip</option>
-          </select>
-        </div>
+      <!-- Travelers -->
+      <div class="search-section traveler-dropdown">
+        <label class="section-label">Who</label>
+        <button type="button" class="dropdown-toggle" @click="toggleDropdown">
+          Add guests
+          <span v-if="totalGuests > 0" class="guest-summary">({{ totalGuests }})</span>
+        </button>
 
-        <!-- Submit Button -->
-        <div class="form-section">
-          <button type="submit" class="submit-button">Submit Booking</button>
+        <!-- Dropdown menu -->
+        <div v-if="isDropdownOpen" class="dropdown-menu">
+          <div class="guest-group">
+            <div class="guest-item" v-for="(label, type) in guestTypes" :key="type">
+              <label>{{ label }}</label>
+              <div class="guest-controls">
+                <button @click.prevent="updateGuests(type, -1)" :disabled="guests[type] <= 0">
+                  -
+                </button>
+                <span>{{ guests[type] }}</span>
+                <button @click.prevent="updateGuests(type, 1)">+</button>
+              </div>
+            </div>
+          </div>
+          <button type="button" class="done-button" @click="toggleDropdown">Done</button>
         </div>
       </div>
+
+      <!-- Submit Button -->
+      <button type="submit" class="search-button">
+        <svg
+          width="18"
+          height="18"
+          fill="none"
+          stroke="white"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <circle cx="8" cy="8" r="7"></circle>
+          <line x1="13" y1="13" x2="16" y2="16"></line>
+        </svg>
+      </button>
     </form>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, watch, onMounted, computed } from 'vue';
-import { useRouter, useRoute } from 'vue-router';
-import type { Destination } from '@/types';
-import destinationsData from '@/db/destinations.json';
+import { ref, computed } from 'vue'
+import { useRouter } from 'vue-router'
+import type { Destination } from '@/types'
+import destinationsData from '@/db/destinations.json'
 
-const destinations: Destination[] = destinationsData;
-const router = useRouter();
-const route = useRoute();
+const destinations: Destination[] = destinationsData
+const router = useRouter()
 
 // Booking data
-const destination = ref<string>('');
-const travelDate = ref<string>('');
-const tripType = ref<string>('one-way');
-const guests = ref({ adults: 0, children: 0, seniors: 0 });
-const selectedOption = ref<number | string>('');
-const numberOfDays = ref<number>(10);
-const daysOptions = [10, 20, 30];
-const customDaysFlag = 'custom';
-const customDaysValue = ref<number | null>(null);
-const isDropdownOpen = ref(false);
+const destination = ref<string>('')
+const travelDate = ref<string>('')
+const guests = ref({ adults: 0, children: 0, seniors: 0 })
+const selectedOption = ref<number | string>('')
+const numberOfDays = ref<number>(10)
+const daysOptions = [10, 20, 30]
+const customDaysFlag = 'custom'
+const customDaysValue = ref<number | null>(null)
+const isDropdownOpen = ref(false)
 
-// Check if the selected destination is "Solar Farewell Voyage"
-const isSolarFarewell = computed(() => {
-  const selectedDestination = destinations.find(dest => dest.id === destination.value);
-  return selectedDestination?.name === 'Solar Farewell Voyage';
-});
+const guestTypes = {
+  adults: 'Adults',
+  seniors: 'Seniors',
+  children: 'Children',
+}
 
-// Toggle dropdown visibility
-const toggleDropdown = () => {
-  isDropdownOpen.value = !isDropdownOpen.value;
-};
-
-// Total guests summary
-const totalGuests = computed(() => {
-  return guests.value.adults + guests.value.children + guests.value.seniors;
-});
+// Total guests
+const totalGuests = computed(
+  () => guests.value.adults + guests.value.children + guests.value.seniors,
+)
 
 const updateNumberOfDays = () => {
   if (customDaysValue.value && customDaysValue.value > 0) {
-    numberOfDays.value = customDaysValue.value;
-    updateQuery('days', customDaysValue.value);
+    numberOfDays.value = customDaysValue.value
   }
-};
-
-watch(selectedOption, (newValue) => {
-  if (newValue !== customDaysFlag) {
-    numberOfDays.value = Number(newValue);
-    updateQuery('days', numberOfDays.value);
-  } else {
-    numberOfDays.value = customDaysValue.value || 0;
-  }
-});
+}
 
 const updateGuests = (type: 'adults' | 'children' | 'seniors', change: number) => {
   if (guests.value[type] + change >= 0) {
-    guests.value[type] += change;
-    updateQuery(type, guests.value[type]);
+    guests.value[type] += change
   }
-};
+}
 
-const updateQuery = (key: string, value: string | number | null) => {
-  const updatedQuery = { ...route.query, [key]: value };
-  router.push({ query: updatedQuery });
-};
-
-// Close dropdown if clicked outside
-const closeDropdownIfClickedOutside = (event: MouseEvent) => {
-  const dropdownContainer = document.querySelector('.traveler-dropdown');
-  if (dropdownContainer && !dropdownContainer.contains(event.target as Node)) {
-    isDropdownOpen.value = false;
-  }
-};
-
-onMounted(() => {
-  // Set up event listener for clicks outside
-  document.addEventListener('click', closeDropdownIfClickedOutside);
-
-  const query = route.query;
-  if (query.destination) destination.value = query.destination as string;
-  if (query.adults) guests.value.adults = parseInt(query.adults as string);
-  if (query.children) guests.value.children = parseInt(query.children as string);
-  if (query.seniors) guests.value.seniors = parseInt(query.seniors as string);
-  if (query.travelDate) travelDate.value = query.travelDate as string;
-  if (query.tripType) tripType.value = query.tripType as string;
-  if (query.days) {
-    const days = parseInt(query.days as string);
-    if (daysOptions.includes(days)) {
-      selectedOption.value = days;
-    } else {
-      selectedOption.value = customDaysFlag;
-      customDaysValue.value = days;
-      numberOfDays.value = days;
-    }
-  }
-});
+const toggleDropdown = () => {
+  isDropdownOpen.value = !isDropdownOpen.value
+}
 
 // Handle form submission
 const handleSubmit = () => {
   if (!destination.value || !travelDate.value || numberOfDays.value <= 0) {
-    alert('Please fill in all required fields.');
-    return;
+    alert('Please fill in all required fields.')
+    return
   }
 
   router.push({
@@ -236,64 +147,133 @@ const handleSubmit = () => {
       startDate: travelDate.value,
       days: numberOfDays.value,
     },
-  });
-};
+  })
+}
 </script>
 
 <style scoped>
-/* Styling for form layout, traveler dropdown, buttons, etc. */
-.form-container {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1.5rem;
+:root {
+  --bg-color: #fff;
+  --text-color: #222;
+  --border-color: #ddd;
+  --divider-color: #eee;
+  --hover-bg-color: #e9ecef;
+  --primary-button-color: #2ecc71;
+  --primary-button-hover: #27ae60;
 }
 
-.form-section {
+.booking-wrapper {
+  display: flex;
+  justify-content: center;
+  padding: 2rem;
+  background: var(--bg-color, #fff);
+}
+
+.booking-form {
+  display: grid;
+  grid-template-columns: repeat(5, auto);
+  align-items: center;
+  background: var(--bg-color, #fff);
+  border-radius: 24px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  /* overflow: hidden; */
+  border: 1px solid var(--border-color, #ddd);
+}
+
+.search-section {
   display: flex;
   flex-direction: column;
+  padding: 0.75rem 1rem;
+  position: relative;
+}
+
+.search-section:not(:first-child) {
+  border-left: 1px solid var(--divider-color, #eee);
+}
+
+.section-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+  color: var(--text-color, #222);
+}
+
+.search-section select,
+.search-section input[type='date'],
+.search-section input[type='number'] {
+  border: none;
+  background: transparent;
+  font-size: 1rem;
+  color: #555;
+  outline: none;
+  padding: 0;
+  width: 100%;
+  cursor: pointer;
+}
+
+.search-section select:focus,
+.search-section input[type='date']:focus,
+.search-section input[type='number']:focus {
+  outline: none;
+}
+
+.days-wrapper {
+  display: flex;
+  align-items: center;
   gap: 0.5rem;
 }
 
-/* Dropdown menu for traveler selection */
+.custom-days-input {
+  margin-left: 0.5rem;
+}
+
+.custom-days-input input {
+  width: 50px;
+  border: 1px solid var(--border-color, #ccc);
+  border-radius: 4px;
+  padding: 0.25rem;
+  font-size: 0.9rem;
+}
+
+/* Positioning for the traveler dropdown */
 .traveler-dropdown {
   position: relative;
+  cursor: pointer;
 }
 
 .dropdown-toggle {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  padding: 0.75rem 1 rem;
+  border: none;
+  background: transparent;
   font-size: 1rem;
-  color: #333;
-  background-color: transparent;
-  border: 1px solid black;
-  border-radius: 2px;
+  color: #555;
   cursor: pointer;
-  transition: all 0.3s ease;
+  padding: 0;
 }
 
-.dropdown-toggle:hover {
-  background-color: #e9ecef;
+.dropdown-toggle:focus {
+  outline: none;
 }
 
 .guest-summary {
-  margin-left: 1rem;
-  font-weight: normal;
-  color: #888;
+  margin-left: 0.5rem;
+  font-size: 0.9rem;
+  color: #666;
 }
 
+/* Dropdown menu */
 .dropdown-menu {
   position: absolute;
-  top: 110%;
-  left: 0;
-  width: 100%;
-  background-color: #fff;
-  border: 1px solid #ddd;
-  border-radius: 6px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  z-index: 1000;
+  top: calc(100% + 0.5rem);
+  left: 1rem;
+  background: var(--bg-color, #fff);
+  border: 1px solid var(--border-color, #ddd);
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   padding: 1rem;
+  z-index: 1000;
+  width: 200px;
 }
 
 .guest-group {
@@ -309,14 +289,8 @@ const handleSubmit = () => {
 }
 
 .guest-item label {
-  font-size: 1rem;
-  font-weight: bold;
-  color: #333;
-}
-
-.guest-item span {
-  font-size: 0.875rem;
-  color: #777;
+  font-size: 0.9rem;
+  font-weight: 500;
 }
 
 .guest-controls {
@@ -326,66 +300,56 @@ const handleSubmit = () => {
 }
 
 .guest-controls button {
-  width: 32px;
-  height: 32px;
-  background-color: #007bff;
-  color: white;
-  border: none;
+  width: 24px;
+  height: 24px;
   border-radius: 50%;
-  cursor: pointer;
+  border: none;
+  background: gray;
+  color: #fff;
   font-size: 1rem;
-  font-weight: bold;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  transition: background-color 0.3s ease;
+  cursor: pointer;
 }
 
 .guest-controls button:disabled {
-  background-color: #ddd;
+  background: #ccc;
   cursor: not-allowed;
 }
 
-.guest-controls button:hover:not(:disabled) {
-  background-color: #0056b3;
-}
-
-/* Done Button Styling */
 .done-button {
   display: block;
   margin: 1rem auto 0;
   padding: 0.5rem 1.5rem;
-  font-size: 1rem;
+  font-size: 0.9rem;
   font-weight: bold;
   color: white;
   background-color: #28a745;
   border: none;
   border-radius: 6px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
 }
 
 .done-button:hover {
   background-color: #218838;
 }
 
-/* Submit Button */
-.submit-button {
-  padding: 0.75rem rem;
-  font-size: 1.5rem;
-  font-weight: ;
-  color: white;
-  background-color: #2ecc71;
+/* Search button */
+.search-button {
+  background: var(--primary-button-color, #2ecc71);
   border: none;
-  border-radius: 8px;
+  border-radius: 0 24px 24px 0;
+  width: 60px;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.2s ease;
-  text-transform: uppercase;
-  margin-top: 1.7rem;
 }
 
-.submit-button:hover {
-  background-color: #27ae60;
-  transform: scale(1.05);
+.search-button:hover {
+  background: var(--primary-button-hover, #27ae60);
+}
+
+.search-button svg {
+  display: inline-block;
 }
 </style>

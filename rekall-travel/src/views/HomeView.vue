@@ -1,6 +1,6 @@
 <script setup lang="ts">
-  import BookingComponent from '@/components/bookingForm.vue';
-  import BlogList from '@/components/BlogList.vue';
+import BookingComponent from '@/components/bookingForm.vue'
+import BlogList from '@/components/BlogList.vue'
 </script>
 
 <template>
@@ -13,13 +13,11 @@
   </main>
 </template>
 
-
-
 <style scoped>
 .blog-section {
   margin-top: 40px;
   padding: 20px;
-  background-color: #f9f9f9;
+  /* background-color: #f9f9f9; */
   border-top: 2px solid #ddd;
 }
 </style>
