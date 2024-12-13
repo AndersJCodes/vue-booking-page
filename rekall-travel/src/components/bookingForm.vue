@@ -1,4 +1,8 @@
 <!-- src/views/BookingForm.vue -->
+<<<<<<< HEAD
+=======
+
+>>>>>>> development
 <!-- src/views/BookingForm.vue -->
 
 <template>
@@ -17,8 +21,13 @@
           </select>
         </div>
 
+<<<<<<< HEAD
         <!-- Number of Travelers with Dropdown -->
+        <div class="form-section traveler-dropdown" ref="dropdownContainer">
+=======
+        <!-- Number of Travelers -->
         <div class="form-section traveler-dropdown">
+>>>>>>> development
           <label for="travelers">Travelers:</label>
           <button class="dropdown-toggle" @click.prevent="toggleDropdown">
             Add Travelers
@@ -28,6 +37,8 @@
           <!-- Dropdown Menu -->
           <div v-if="isDropdownOpen" class="dropdown-menu">
             <div class="guest-group">
+<<<<<<< HEAD
+              <!-- Adult Guests -->
               <div class="guest-item">
                 <label>Vuxen <span>(18 - 64 år)</span></label>
                 <div class="guest-controls">
@@ -37,6 +48,7 @@
                 </div>
               </div>
 
+              <!-- Senior Guests -->
               <div class="guest-item">
                 <label>Senior <span>(Över 65 år)</span></label>
                 <div class="guest-controls">
@@ -46,8 +58,13 @@
                 </div>
               </div>
 
+              <!-- Children Guests -->
               <div class="guest-item">
                 <label>Barn/Ungdom <span>(0 - 17 år)</span></label>
+=======
+              <div class="guest-item" v-for="(label, type) in guestTypes" :key="type">
+                <label>{{ label }}</label>
+>>>>>>> development
                 <div class="guest-controls">
                   <button
                     @click="updateGuests('children', -1)"
@@ -61,9 +78,13 @@
                 </div>
               </div>
             </div>
+<<<<<<< HEAD
 
-            <!-- Klar Button -->
+            <!-- Done Button -->
             <button class="done-button" @click="toggleDropdown">Klar</button>
+=======
+            <button class="done-button" @click="toggleDropdown">Done</button>
+>>>>>>> development
           </div>
         </div>
 
@@ -226,7 +247,7 @@ const handleSubmit = () => {
 </script>
 
 <style scoped>
-
+/* Styling for form layout, traveler dropdown, buttons, etc. */
 .form-container {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -239,7 +260,7 @@ const handleSubmit = () => {
   gap: 0.5rem;
 }
 
-
+/* Dropdown menu for traveler selection */
 .traveler-dropdown {
   position: relative;
 }
@@ -250,7 +271,6 @@ const handleSubmit = () => {
   align-items: center;
   padding: 0.75rem 1 rem;
   font-size: 1rem;
-
   color: #333;
   background-color: transparent;
   border: 1px solid black;
@@ -336,6 +356,7 @@ const handleSubmit = () => {
   background-color: #0056b3;
 }
 
+/* Done Button Styling */
 .done-button {
   display: block;
   margin: 1rem auto 0;
@@ -354,11 +375,11 @@ const handleSubmit = () => {
   background-color: #218838;
 }
 
-/************************** Submit Button **************************/
+/* Submit Button */
 .submit-button {
-  padding: 0.75rem 1rem;
+  padding: 0.75rem rem;
   font-size: 1.5rem;
-  font-weight: bold;
+  font-weight: ;
   color: white;
   background-color: #2ecc71;
   border: none;
@@ -366,11 +387,11 @@ const handleSubmit = () => {
   cursor: pointer;
   transition: background-color 0.3s ease, transform 0.2s ease;
   text-transform: uppercase;
+  margin-top: 1.7rem;
 }
 
 .submit-button:hover {
   background-color: #27ae60;
   transform: scale(1.05);
 }
-
 </style>
