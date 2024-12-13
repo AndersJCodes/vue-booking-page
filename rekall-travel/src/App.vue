@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <div class="full-bleed navbar-section">
+    <div class="navbar-section">
       <div class="content-wrapper">
         <Navbar />
       </div>
@@ -23,7 +23,16 @@ export default {
 </script>
 
 <style>
-/* Remove 'scoped' to make these styles global */
+.navbar-section {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 14;
+  background: transparent;
+  margin: 0 auto;
+}
+
 .content-wrapper {
   max-width: 1200px;
   margin: 0 auto;
@@ -34,10 +43,5 @@ export default {
   width: 100vw;
   margin-left: 50%;
   transform: translateX(-50%);
-}
-
-/* Optional: Style for sections that need full-width backgrounds */
-.navbar-section {
-  background-color: #333;
 }
 </style>

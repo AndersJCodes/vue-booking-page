@@ -165,8 +165,8 @@ const handleSubmit = () => {
 .booking-wrapper {
   display: flex;
   justify-content: center;
-  padding: 2rem;
-  background: var(--bg-color, #fff);
+  padding: 0.5rem 0 2rem 0;
+  /* background: var(--bg-color, #fff); */
 }
 
 .booking-form {

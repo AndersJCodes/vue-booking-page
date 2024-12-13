@@ -1,15 +1,13 @@
 <template>
   <nav class="navbar">
-    <RouterLink to="/" class="logo-link">
-      <img src="@/assets/favicon.png" alt="Rekall Logo" class="logo-image" />
-      <span class="logo-text">Rekall</span>
-    </RouterLink>
     <div class="nav-links">
+      <RouterLink to="/" class="logo-link">
+        <img src="@/assets/favicon.png" alt="Rekall Logo" class="logo-image" />
+        <span class="logo-text">Rekall</span>
+      </RouterLink>
       <router-link to="/offers" class="nav-link">Offers</router-link>
       <router-link to="/destinations" class="nav-link">Destinations</router-link>
       <router-link to="/blog" class="nav-link">Blog</router-link>
-    </div>
-    <div class="nav-links">
       <router-link to="/cart" class="nav-link cart-link"> <LiCart /></router-link>
     </div>
   </nav>
@@ -25,11 +23,14 @@ import { LiCart } from '@kalimahapps/vue-icons'
   justify-content: space-between;
   background-color: #333;
   padding: 10px 30px;
+  border-radius: 0 0 100px 100px;
+  width: 100%;
 }
 
 .logo-link {
   display: flex;
   align-items: center;
+  width: 150px;
 }
 
 .logo-image {
@@ -45,10 +46,17 @@ import { LiCart } from '@kalimahapps/vue-icons'
 .nav-links {
   display: flex;
   align-items: center;
+  gap: 2rem; /* Add consistent spacing between links */
+  justify-content: center; /* Center the links */
+  flex: 1; /* Take up remaining space */
+}
+.nav-link:last-child {
+  width: 150px; /* Match logo width */
+  display: flex;
+  justify-content: flex-end;
 }
 
 .nav-link {
-  margin: 0 15px;
   text-decoration: none;
   color: #fff;
   font-size: 1.2rem;
