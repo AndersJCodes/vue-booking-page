@@ -12,6 +12,14 @@ export const useCartStore = defineStore('cart', {
   }),
   actions: {
     setCartDetails(destination, travelers, travelDate, numberOfDays, selectedHotel) {
+      console.log('Setting cart details:', {
+        destination,
+        travelers,
+        travelDate,
+        numberOfDays,
+        selectedHotel
+      });
+
       this.destination = destination;
       this.travelers = travelers;
       this.travelDate = travelDate;

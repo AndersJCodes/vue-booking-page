@@ -34,13 +34,23 @@ import { computed, ref } from 'vue';
 const cartStore = useCartStore();
 
 // Beräkna kundkorgens detaljer
-const cartItems = computed(() => ({
-  destinationName: cartStore.destination,
-  travelers: cartStore.travelers,
-  travelDate: cartStore.travelDate,
-  numberOfDays: cartStore.numberOfDays,
-  selectedHotel: cartStore.selectedHotel as { name: string } | null,
-}));
+const cartItems = computed(() => {
+  console.log('Cart Store Contents:', {
+    destination: cartStore.destination,
+    travelers: cartStore.travelers,
+    travelDate: cartStore.travelDate,
+    numberOfDays: cartStore.numberOfDays,
+    selectedHotel: cartStore.selectedHotel
+  });
+
+  return {
+    destinationName: cartStore.destination,
+    travelers: cartStore.travelers,
+    travelDate: cartStore.travelDate,
+    numberOfDays: cartStore.numberOfDays,
+    selectedHotel: cartStore.selectedHotel as { name: string } | null,
+  };
+});
 
 // State för att visa/ dölja modal
 const showModal = ref(false);

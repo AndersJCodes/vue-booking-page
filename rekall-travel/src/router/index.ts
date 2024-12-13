@@ -9,11 +9,18 @@ import Mars from '@/components/AboutMars.vue'
 import Venus from '@/components/AboutVenus.vue'
 import Sun from '@/components/AboutSun.vue'
 import OffersView from '@/views/OffersView.vue'
+import CartView from '@/views/CartView.vue'
+
 const routes = [
   { path: '/', name: 'home', component: HomeView },
   { path: '/blog', name: 'blog', component: BlogView },
   { path: '/blog/:id', name: 'blogPost', component: BlogPostView, props: true },
   { path: '/hotels', name: 'hotels', component: HotelsView },
+  {
+    path: '/cart',
+    name: 'cart', // Make sure this name matches
+    component: CartView
+  },
   {
     path: '/destinations',
     component: DestinationsView,

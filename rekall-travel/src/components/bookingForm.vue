@@ -129,6 +129,7 @@ import { ref, watch, onMounted, computed } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import type { Destination } from '@/types';
 import destinationsData from '@/db/destinations.json';
+import {useCartStore} from '@/stores/cart';
 
 const destinations: Destination[] = destinationsData;
 const router = useRouter();
@@ -222,11 +223,30 @@ onMounted(() => {
 });
 
 // Handle form submission
+const cartStore = useCartStore(); // Add this near other store/router initializations
+
 const handleSubmit = () => {
+  console.log('Form Submit - Destination:', destination.value);
+  console.log('Form Submit - Total Guests:', totalGuests.value);
+  console.log('Form Submit - Travel Date:', travelDate.value);
+  console.log('Form Submit - Number of Days:', numberOfDays.value);
+
   if (!destination.value || !travelDate.value || numberOfDays.value <= 0) {
     alert('Please fill in all required fields.');
     return;
   }
+
+  const destinationName = destinations.find(dest => dest.id === destination.value)?.name || '';
+
+  console.log('Destination Name:', destinationName);
+
+  cartStore.setCartDetails(
+    destinationName, // Change this to destination name instead of ID
+    totalGuests.value,
+    travelDate.value,
+    numberOfDays.value,
+    null
+  );
 
   router.push({
     name: 'hotels',
