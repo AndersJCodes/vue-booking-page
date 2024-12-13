@@ -1,24 +1,37 @@
 [
-    {
-      "id": "mars_safari",
-      "name": "Mars Safari",
-      "description": "Explore the rugged Martian terrain with expert guides.",
-      "price": 20000,
-      "duration": "3 days"
-    },
-    {
-      "id": "titan_sea_cruise",
-      "name": "Titan Sea Cruise",
-      "description": "Sail the methane lakes of Titan, Saturn's largest moon.",
-      "price": 25000,
-      "duration": "5 days"
-    },
-    {
-      "id": "io_volcano_tour",
-      "name": "Io Volcano Tour",
-      "description": "Witness Jupiter's volcanic moon up close.",
-      "price": 30000,
-      "duration": "2 days"
-    }
-  ]
-  
+  {
+    "id": "mars_safari",
+    "name": "Mars Safari",
+    "description": "Explore the rugged Martian terrain with expert guides.",
+    "price": 20000,
+    "duration": "3 days"
+  },
+  {
+    "id": "titan_sea_cruise",
+    "name": "Titan Sea Cruise",
+    "description": "Sail the methane lakes of Titan, Saturn's largest moon.",
+    "price": 25000,
+    "duration": "5 days"
+  },
+  {
+    "id": "io_volcano_tour",
+    "name": "Io Volcano Tour",
+    "description": "Witness Jupiter's volcanic moon up close.",
+    "price": 30000,
+    "duration": "2 days"
+  },
+  {
+    "id": "jupiter_storm_voyage",
+    "name": "Jupiter Storm Voyage",
+    "description": "Sail through and witness the beauty of this 500 year old red storm on Jupiter.",
+    "price": 60000,
+    "duration": "7 days"
+  },
+  {
+    "id": "saturnus_ring_odyssey",
+    "name": "Saturnus Ring Odyssey",
+    "description": "Skate on the many intertwined rings of Saturnus.",
+    "price": 45000,
+    "duration": "4 days"
+  }
+]
