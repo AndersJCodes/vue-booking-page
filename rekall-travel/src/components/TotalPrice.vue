@@ -1,11 +1,13 @@
 <!-- this component is used to display the total price of the booking It uses the price store to get the total price and formats it to Swedish locale -->
 <template>
-  <div class="total-price">Totalt Pris: {{ formattedTotalPrice }} kr</div>
+  <div class="total-price">Total price: {{ formattedTotalPrice }} kr</div>
 </template>
 
 <script setup lang="ts">
-import { usePriceStore } from '@/stores/price'
+import { usePriceStore } from '@/stores/prices'
 import { computed } from 'vue'
+
+const priceStore = usePriceStore()
 
 // Create a number formatter for Swedish locale
 const numberFormatter = new Intl.NumberFormat('sv-SE', {
@@ -14,7 +16,6 @@ const numberFormatter = new Intl.NumberFormat('sv-SE', {
   maximumFractionDigits: 0,
 })
 
-const priceStore = usePriceStore()
 const formattedTotalPrice = computed(() => numberFormatter.format(priceStore.totalPrice))
 </script>
 
