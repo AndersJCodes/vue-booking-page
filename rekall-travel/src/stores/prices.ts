@@ -3,25 +3,22 @@ import { useRoute } from 'vue-router'
 import { computed } from 'vue'
 import destinationsData from '@/db/destinations.json'
 import hotelsData from '@/db/hotels.json'
+import { Destination, Hotel, BookingQuery, PriceStore } from '@/types'
 
-export const usePriceStore = defineStore('prices', () => {
+export const usePriceStore = defineStore('prices', (): PriceStore => {
   const route = useRoute()
 
   const destinationPrice = computed(() => {
-    const queries = route.query
+    const queries = route.query as BookingQuery
     let price = 0
 
     if (queries.destination) {
-      const destinationId = Array.isArray(queries.destination)
-        ? queries.destination[0]
-        : queries.destination
-      const destination = destinationsData.find((d: any) => d.id === destinationId)
+      // 2. Clean find operation (BookingQuery ensures destination is string)
+      const destination = destinationsData.find((d: Destination) => d.id === queries.destination)
 
       if (destination) {
-        const travelers = Array.isArray(queries.travelers)
-          ? parseInt(queries.travelers[0], 10)
-          : parseInt(queries.travelers as string, 10)
-        price = destination.pricePerPerson * (travelers || 1)
+        // 3. Simple access (BookingQuery ensures travelers is number)
+        price = destination.pricePerPerson * (queries.travelers || 1)
       }
     }
     return price
@@ -29,30 +26,24 @@ export const usePriceStore = defineStore('prices', () => {
 
   // Separate hotel price calculation
   const hotelPrice = computed(() => {
-    const queries = route.query
+    const queries = route.query as BookingQuery
     let price = 0
 
     if (queries.hotelId) {
-      const hotelId = Array.isArray(queries.hotelId) ? queries.hotelId[0] : queries.hotelId
-      const hotel = hotelsData.find((h) => h.id === hotelId)
-      const travelers = Array.isArray(queries.travelers)
-        ? parseInt(queries.travelers[0], 10)
-        : parseInt(queries.travelers as string, 10)
-      const days = parseInt(queries.days as string, 10) || 1
+      const hotel = hotelsData.find((h: Hotel) => h.id === queries.hotelId)
 
       if (hotel) {
-        price = hotel.pricePerNight * days * travelers
+        price = hotel.pricePerNight * (queries.days || 1) * (queries.travelers || 1)
       }
     }
     return price
   })
 
-  // Total price combining both
   const totalPrice = computed(() => destinationPrice.value + hotelPrice.value)
 
   return {
     destinationPrice,
     hotelPrice,
     totalPrice,
-  }
+  } as const
 })

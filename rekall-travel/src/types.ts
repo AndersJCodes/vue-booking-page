@@ -1,4 +1,5 @@
 // src/types/index.ts
+import type { ComputedRef } from 'vue'
 
 interface Destination {
   id: string
@@ -18,6 +19,20 @@ interface Hotel {
   rating: number
 }
 
+interface BookingQuery {
+  destination?: string
+  travelers?: number
+  startDate?: string
+  days?: number
+  hotelId?: string
+}
+
+interface PriceStore {
+  destinationPrice: ComputedRef<number>
+  hotelPrice: ComputedRef<number>
+  totalPrice: ComputedRef<number>
+}
+
 // New interfaces for Blog Posts
 interface BlogPost {
   id: string
@@ -28,4 +43,4 @@ interface BlogPost {
 
 type BlogPostList = BlogPost[] // A list of blog posts
 
-export type { Destination, Hotel, BlogPost, BlogPostList }
+export type { Destination, Hotel, BlogPost, BlogPostList, BookingQuery, PriceStore }
