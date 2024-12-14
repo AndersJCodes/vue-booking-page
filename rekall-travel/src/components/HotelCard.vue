@@ -1,6 +1,5 @@
 <template>
     <div class="hotel-card">
-      <img :src="resolvedImagePath" :alt="hotel.name" class="hotel-image" />
       <h3>{{ hotel.name }}</h3>
       <p>{{ hotel.description }}</p>
       <p><strong>Price per Night:</strong> ${{ hotel.pricePerNight }}</p>
@@ -10,7 +9,7 @@
   
   <script lang="ts">
   import { defineComponent, computed, PropType } from 'vue';
-  import type { Hotel } from '@/types'; // Ensure you have a Hotel type defined
+  import type { Hotel } from '@/types.ts'; // Ensure this path is correct
   
   export default defineComponent({
     props: {
