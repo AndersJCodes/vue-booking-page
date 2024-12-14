@@ -9,6 +9,7 @@ import Mars from '@/components/AboutMars.vue'
 import Venus from '@/components/AboutVenus.vue'
 import Sun from '@/components/AboutSun.vue'
 import OffersView from '@/views/OffersView.vue'
+import CartView from '@/views/CartView.vue'
 const routes = [
   { path: '/', name: 'home', component: HomeView },
   { path: '/blog', name: 'blog', component: BlogView },
@@ -16,6 +17,7 @@ const routes = [
   { path: '/hotels', name: 'hotels', component: HotelsView },
   { path: '/excursions', name: 'excursions', component: ExcursionsView },
   { path: '/offers', name: 'offers', component: OffersView },
+  { path: '/cart', name: 'cart', component: CartView},
 
   {
     path: '/destinations',

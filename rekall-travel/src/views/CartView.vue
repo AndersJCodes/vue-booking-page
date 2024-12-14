@@ -3,11 +3,21 @@
   <div class="cart-page">
     <h1>Your Travel Cart</h1>
     <div v-if="cartItems">
-      <p><strong>Destination:</strong> {{ cartItems.destinationName }}</p>
+      <p><strong>Destination:</strong> {{ cartItems.destination }}</p>
       <p><strong>Travelers:</strong> {{ cartItems.travelers }} guests</p>
       <p><strong>Travel Date:</strong> {{ cartItems.travelDate }}</p>
-      <p><strong>Number of Days:</strong> {{ cartItems.numberOfDays }}</p>
-      <p><strong>Selected Hotel:</strong> {{ cartItems.selectedHotel?.name || 'None selected' }}</p>
+      <p><strong>Number of Days:</strong> {{ cartItems.days }}</p>
+      <p><strong>Selected Hotel:</strong> {{ cartItems.hotelName}}</p>
+      <p><strong>Hotel Price Per Night:</strong> {{ cartItems.hotelPrice }}</p>
+      <p><strong>Total Hotel Cost:</strong> {{ (cartItems.hotelPrice * cartItems.days) }}</p>
+
+      <h3>Selected Excursion:</h3>
+      <p><strong>Excursion:</strong> {{ cartItems.excursionName || 'None selected' }}</p>
+      <p><strong>Excursion Price:</strong> {{ cartItems.excursionPrice }}</p>
+
+      <p><strong>Total Price:</strong> {{ totalPrice }}</p>
+
+
       <!-- Lägg till knappar för att gå vidare till betalning -->
       <button @click="goToPayment">Go to Payment</button>
     </div>
@@ -30,17 +40,32 @@
 <script setup lang="ts">
 import { useCartStore } from '@/stores/cart';
 import { computed, ref } from 'vue';
+import { useRoute } from 'vue-router';
 
+const route = useRoute();
 const cartStore = useCartStore();
 
 // Beräkna kundkorgens detaljer
 const cartItems = computed(() => ({
-  destinationName: cartStore.destination,
-  travelers: cartStore.travelers,
-  travelDate: cartStore.travelDate,
-  numberOfDays: cartStore.numberOfDays,
-  selectedHotel: cartStore.selectedHotel as { name: string } | null,
+  destination: route.query.destination || 'Unknown Destination',
+  travelers: parseInt(route.query.travelers as string, 10) || 1, // Default to 1 traveler
+  travelDate: route.query.startDate || 'No Date Selected',
+  days: parseInt(route.query.days as string, 10) || 0,
+  hotelId: route.query.hotelId || null,
+  hotelName: route.query.hotelName || 'None selected',
+  hotelPrice: parseFloat(route.query.hotelPrice as string) || 0,
+  excursionName: route.query.excursionName || 'None selected',
+  excursionPrice: parseFloat(route.query.excursionPrice as string) || 0,
 }));
+
+// Update total price calculation to use valid traveler count
+const totalPrice = computed(() => {
+  const hotelCost = cartItems.value.hotelPrice * cartItems.value.days; // Hotel cost for the stay
+  const excursionCost = cartItems.value.excursionPrice * cartItems.value.travelers; // Excursion cost
+  return hotelCost + excursionCost; // Total price
+});
+
+
 
 // State för att visa/ dölja modal
 const showModal = ref(false);

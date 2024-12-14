@@ -38,6 +38,7 @@ const router = useRouter()
 // Define the props expected
 const props = defineProps<{
   destinationId: string
+  destinationName: string
   travelers: number
   startDate: string
   days: number
@@ -73,7 +74,9 @@ const selectHotel = (hotel: Hotel) => {
     name: 'excursions', // Name of the route to navigate to
     query: {
       hotelId: hotel.id,
-      destination: props.destinationId,
+      hotelName: hotel.name,
+      hotelPrice: hotel.pricePerNight.toString(), // Pass hotel price
+      destination: props.destinationName,
       travelers: props.travelers.toString(),
       startDate: props.startDate,
       days: props.days.toString(),
