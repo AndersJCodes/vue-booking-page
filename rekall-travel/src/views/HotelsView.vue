@@ -14,6 +14,7 @@
       <div class="hotels-list-container">
         <HotelList
           :destinationId="destination"
+          :destinationName="destinationName"
           :travelers="travelers"
           :startDate="startDate"
           :days="days"

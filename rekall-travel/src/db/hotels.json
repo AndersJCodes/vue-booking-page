@@ -2,88 +2,100 @@
   {
     "id": "hotel_1",
     "destinationId": "mars_colony",
+    "image": "src/assets/images/hotel_01.webp",
     "name": "Red Planet Resort",
-    "description": "Luxury accommodations on the Martian surface with breathtaking views.",
-    "pricePerNight": 5000,
-    "rating": 4.8,
-    "detailedDescription": "Experience the beauty of Mars from the comfort of the Red Planet Resort, featuring luxurious rooms with panoramic views of the Martian landscape."
+    "description": "Comfortable accommodations with breathtaking views.",
+    "pricePerNight": 3000,
+    "rating": 4.5,
+    "category": "Standard",
+    "detailedDescription": "Experience the beauty of Mars from the comfort of the Red Planet Resort. This luxurious hotel offers spacious rooms equipped with modern amenities, including high-speed internet, flat-screen TVs, and private balconies that provide stunning panoramic views of the Martian landscape. Guests can indulge in gourmet dining at our on-site restaurant, which features a menu inspired by both Martian and Earth cuisines. With a full-service spa, fitness center, and outdoor activities like guided tours of the Martian terrain, the Red Planet Resort is the perfect destination for relaxation and adventure."
   },
   {
     "id": "hotel_2",
     "destinationId": "mars_colony",
     "name": "Martian Meadows Inn",
-    "description": "Comfortable stays with state-of-the-art facilities.",
-    "pricePerNight": 3000,
-    "rating": 4.5,
-    "detailedDescription": "Enjoy a relaxing stay at Martian Meadows Inn, where modern amenities meet the rugged beauty of Mars."
+    "image": "src/assets/images/hotel_02.webp",
+    "description": "Affordable stays with essential amenities.",
+    "pricePerNight": 2000,
+    "rating": 4.0,
+    "category": "Budget",
+    "detailedDescription": "Enjoy a relaxing stay at Martian Meadows Inn, where comfort meets affordability. Our cozy rooms are designed for budget-conscious travelers, featuring comfortable beds, essential amenities, and a warm atmosphere. Each room includes a private bathroom, complimentary Wi-Fi, and access to a communal lounge area where guests can socialize and share travel stories. The inn is conveniently located near popular attractions, making it easy to explore the wonders of Mars. Start your day with a complimentary breakfast, and unwind in the evening with our friendly staff who are always ready to assist you."
   },
   {
     "id": "hotel_3",
     "destinationId": "mars_colony",
     "name": "Celestial Suites",
-    "description": "Elegant suites offering a serene environment.",
-    "pricePerNight": 4500,
-    "rating": 4.7,
-    "detailedDescription": "Celestial Suites provide a tranquil escape with elegant decor and stunning views of the Martian horizon."
+    "image": "src/assets/images/hotel_03.webp",
+    "description": "Luxury suites offering a serene environment.",
+    "pricePerNight": 5000,
+    "rating": 4.8,
+    "category": "Luxury",
+    "detailedDescription": "Celestial Suites provide a tranquil escape with elegant decor and stunning views of the Martian horizon. Each suite is meticulously designed to offer the utmost comfort, featuring plush bedding, a spacious living area, and large windows that flood the room with natural light. Guests can enjoy personalized service, including a dedicated concierge to assist with reservations and activities. The hotel boasts a rooftop terrace where you can stargaze and take in the breathtaking Martian sunsets. Indulge in our exclusive spa services, and savor exquisite dining options that highlight the best of interplanetary cuisine."
   },
   {
     "id": "hotel_4",
     "destinationId": "venus_cloud_city",
     "name": "Venusian Heights Hotel",
-    "image": "https://via.placeholder.com/600x400",
+    "image": "src/assets/images/hotel_04.webp",
     "description": "Experience unparalleled luxury with breathtaking views and world-class amenities.",
     "pricePerNight": 9000,
     "rating": 4.9,
     "category": "Luxury",
-    "detailedDescription": "Venusian Heights Hotel offers opulent accommodations with exquisite dining and breathtaking views of the clouds."
+    "detailedDescription": "Venusian Heights Hotel offers an opulent experience with exquisite accommodations that redefine luxury. Each room features floor-to-ceiling windows that provide stunning views of the swirling clouds of Venus, allowing guests to immerse themselves in the planet's beauty. Enjoy top-notch amenities, including a full-service spa, gourmet dining options, and a rooftop infinity pool. Our attentive staff is dedicated to ensuring your stay is unforgettable, providing personalized service tailored to your needs. Whether you're here for relaxation or adventure, Venusian Heights Hotel is the perfect destination for an extraordinary getaway."
   },
   {
     "id": "hotel_5",
     "destinationId": "venus_cloud_city",
     "name": "Cloud Nine Retreat",
-    "image": "https://via.placeholder.com/600x400",
+      "image": "src/assets/images/hotel_05.webp",
     "description": "Enjoy comfortable accommodations with essential amenities in a peaceful setting.",
     "pricePerNight": 4000,
     "rating": 4.7,
     "category": "Standard",
-    "detailedDescription": "Cloud Nine Retreat provides a serene atmosphere with comfortable rooms and easy access to local attractions."
+    "detailedDescription": "Cloud Nine Retreat is designed for travelers seeking comfort and tranquility amidst the beauty of Venus. Our spacious rooms are equipped with modern amenities, including complimentary Wi-Fi, flat-screen TVs, and private balconies that offer breathtaking views of the cloud formations. Guests can unwind in our lush gardens or enjoy a meal at our on-site restaurant, which serves a variety of local and international dishes. With a focus on relaxation and rejuvenation, Cloud Nine Retreat is the ideal choice for those looking to escape the hustle and bustle of everyday life."
   },
   {
     "id": "hotel_6",
     "destinationId": "venus_cloud_city",
     "name": "Ethereal Budget Inn",
-    "image": "https://via.placeholder.com/600x400",
+    "image": "src/assets/images/hotel_06.webp",
     "description": "Affordable stays with basic facilities, perfect for budget-conscious travelers.",
     "pricePerNight": 2500,
     "rating": 3.5,
     "category": "Budget",
-    "detailedDescription": "Ethereal Budget Inn offers essential amenities at an affordable price, making it ideal for budget travelers."
+    "detailedDescription": "Ethereal Budget Inn provides a welcoming atmosphere for budget-conscious travelers seeking comfort without breaking the bank. Our cozy rooms are designed with essential amenities, including comfortable beds, shared bathrooms, and communal spaces for socializing. Guests can enjoy a complimentary breakfast each morning and access to a shared kitchen for meal preparation. Located near popular attractions, the inn offers easy access to the vibrant culture of Venus. With friendly staff and a focus on community, Ethereal Budget Inn is the perfect base for exploring the wonders of this beautiful planet."
   },
   {
     "id": "hotel_7",
     "destinationId": "solar_farewell",
     "name": "Sunny Bunks",
+    "image": "src/assets/images/hotel_07.webp",
     "description": "Shared cabins with bunk beds, perfect for budget travelers looking to meet new people.",
-    "pricePerNight": 50,
+    "pricePerNight": 1500,
     "rating": 3.0,
-    "detailedDescription": "Sunny Bunks offers a hostel-like experience with shared accommodations featuring comfortable bunk beds, ideal for solo travelers or groups."
+    "category": "Budget",
+    "detailedDescription": "Sunny Bunks offers a unique hostel-like experience with shared accommodations featuring comfortable bunk beds. Ideal for solo travelers or groups, our shared cabins foster a sense of community, allowing guests to meet fellow adventurers from around the galaxy. Each cabin is equipped with essential amenities, including personal storage lockers and shared bathrooms. Guests can enjoy a communal kitchen where you can prepare meals and share stories with other guests. Located near popular attractions, Sunny Bunks is the perfect base for exploring Solar Farewell while keeping your travel budget in check."
   },
   {
     "id": "hotel_8",
     "destinationId": "solar_farewell",
     "name": "Helios Haven Private Cabin",
+    "image": "src/assets/images/hotel_08.webp",
     "description": "A spacious private cabin featuring modern amenities and a cozy atmosphere.",
-    "pricePerNight": 200,
+    "pricePerNight": 5000,
     "rating": 4.5,
-    "detailedDescription": "Helios Haven Private Cabin includes a queen-sized bed, a private bathroom, and stunning views of the solar system through large windows."
+    "category": "Standard",
+    "detailedDescription": "Helios Haven Private Cabin offers a spacious and inviting retreat, perfect for couples or families seeking a cozy atmosphere. Each cabin features a queen-sized bed, a private bathroom, and a fully equipped kitchenette for your convenience. Large windows provide breathtaking views of the solar system, allowing you to enjoy the beauty of the cosmos from the comfort of your own space. Guests can unwind on the private patio, equipped with seating and a fire pit for evening gatherings. With easy access to local attractions and outdoor activities, Helios Haven is an ideal choice for a memorable getaway."
   },
   {
     "id": "hotel_9",
     "destinationId": "solar_farewell",
     "name": "Supernova Superior Suite",
+    "image": "src/assets/images/hotel_09.webp",
     "description": "An opulent luxury suite with premium furnishings, offering the ultimate experience for those looking to indulge during their journey.",
-    "pricePerNight": 500,
+    "pricePerNight": 15000,
     "rating": 5.0,
-    "detailedDescription": "The Supernova Superior Suite features a king-sized bed, an en-suite bathroom with a soaking tub, and a private balcony with personalized service."
+    "category": "Luxury",
+    "detailedDescription": "The Supernova Superior Suite is the epitome of luxury, featuring premium furnishings and exquisite decor that create an unparalleled experience. This opulent suite includes a king-sized bed, an en-suite bathroom with a soaking tub, and a private balcony with stunning views of the solar system. Guests can enjoy personalized service, including a dedicated butler to cater to your every need. Indulge in gourmet meals prepared by our top chefs, and relax in the lavish living area equipped with state-of-the-art entertainment systems. The Supernova Superior Suite is designed for those who seek the ultimate in comfort and elegance during their journey."
   }
 ]

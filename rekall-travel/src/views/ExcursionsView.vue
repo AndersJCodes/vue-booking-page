@@ -1,5 +1,5 @@
 <template>
-  <div class="excursions-page">
+  <div class="excursions-page" >
     <h1>Excursions for {{ planetName }}</h1>
     <div v-if="filteredExcursions.length > 0">
       <div
@@ -11,6 +11,7 @@
         <p>{{ excursion.description }}</p>
         <p><strong>Duration:</strong> {{ excursion.duration }}</p>
         <p><strong>Price:</strong> {{ excursion.price}}</p>
+        <button @click="addToCart(excursion)">Add to Cart</button>
       </div>
     </div>
     <div v-else>
@@ -20,14 +21,30 @@
 </template>
 
 <script setup lang="ts">
+import { useCartStore } from '@/stores/cart';
 import { computed } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import excursionsData from '@/db/excursions.json' // Import JSON data
 
 const route = useRoute()
+const router = useRouter()
+const cartStore = useCartStore()
+
+const addToCart = (excursion: { id: string; name: string; price: number }) => {
+  router.push({
+    name: 'cart',
+    query: {
+      ...route.query,
+      excursionId: excursion.id,
+      excursionName: excursion.name,
+      excursionPrice: excursion.price.toString(),
+    },
+  });
+};
 
 // Extract destination from query parameters
 const destination = computed(() => route.query.destination as string)
+const travelers = computed(() => parseInt(route.query.travelers as string, 10) || 1)
 
 // Extract planet name from destination
 const planetName = computed(() => {

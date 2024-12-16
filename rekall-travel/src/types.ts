@@ -11,12 +11,15 @@ interface Destination {
 }
 
 interface Hotel {
-  id: string
-  destinationId: string
-  name: string
-  description: string
-  pricePerNight: number
-  rating: number
+  id: string;
+  destinationId: string;
+  name: string;
+  description: string;
+  pricePerNight: number;
+  rating: number;
+  category: string;
+  detailedDescription: string;
+  image: string;
 }
 
 interface BookingQuery {

@@ -12,7 +12,7 @@
       <h2>Available Hotels</h2>
       <div class="hotel-list">
         <HotelCard v-for="hotel in filteredHotels" :key="hotel.id" :hotel="hotel" />
-      </div>
+        </div>
     </section>
     <section v-if="isDestinationSelected" class="experiences-section">
         <h2>Experiences</h2>
@@ -30,7 +30,7 @@
     import HotelCard from '@/components/HotelCard.vue'; // Import the HotelCard component
     import { computed } from 'vue';
     import { useRoute } from 'vue-router';
-    import hotelsData from '@/db/hotels.json'; // Import the hotels data
+    import hotelsData from '@/db/hotels.json'; // Ensure this path is correct
 
     export default {
     components: {
