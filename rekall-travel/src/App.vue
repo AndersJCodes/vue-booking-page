@@ -6,20 +6,19 @@
       </div>
     </div>
 
-    <main class="content-wrapper nav-spacing">
+    <main class="content-wrapper" :class="{ 'nav-spacing': !isHomePage }">
       <router-view />
     </main>
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import Navbar from '@/components/NavbarMain.vue'
+import { computed } from 'vue'
+import { useRoute } from 'vue-router'
 
-export default {
-  components: {
-    Navbar,
-  },
-}
+const route = useRoute()
+const isHomePage = computed(() => route.path === '/')
 </script>
 
 <style>
@@ -37,6 +36,7 @@ export default {
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 2rem;
+  box-sizing: border-box; /* Add this */
 }
 
 .nav-spacing {
@@ -47,5 +47,6 @@ export default {
   width: 100vw;
   margin-left: 50%;
   transform: translateX(-50%);
+  box-sizing: border-box; /* Add this */
 }
 </style>
