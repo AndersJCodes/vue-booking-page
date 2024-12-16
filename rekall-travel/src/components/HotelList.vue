@@ -40,6 +40,9 @@ const props = defineProps<{
   destinationId: string
   destinationName: string
   travelers: number
+  adults: number
+  children: number
+  seniors: number
   startDate: string
   days: number
 }>()
@@ -78,6 +81,9 @@ const selectHotel = (hotel: Hotel) => {
       hotelPrice: hotel.pricePerNight.toString(), // Pass hotel price
       destination: props.destinationName,
       travelers: props.travelers.toString(),
+      adults: props.adults.toString(),
+      children: props.children.toString(),
+      seniors: props.seniors.toString(),
       startDate: props.startDate,
       days: props.days.toString(),
     },
