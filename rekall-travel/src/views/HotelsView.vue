@@ -4,18 +4,21 @@
       <div class="hotels-header">
         <h1>Welcome to {{ destinationName }}</h1>
         <div class="booking-details">
-          <p>Travel Date: {{ formattedStartDate }}</p>
-          <p>Duration: {{ days }} days</p>
-          <p>Travelers: {{ travelers }}</p>
+          <p>
+            {{ formattedStartDate }} | {{ days }} days at location | {{ adults }} adults,
+            {{ children }} children, {{ seniors }} seniors
+          </p>
+          <TotalPrice />
         </div>
-        <TotalPrice />
       </div>
 
       <div class="hotels-list-container">
         <HotelList
           :destinationId="destination"
-          :destinationName="destinationName"
-          :travelers="travelers"
+          :destinationName="destination"
+          :adults="adults"
+          :children="children"
+          :seniors="seniors"
           :startDate="startDate"
           :days="days"
         />
@@ -43,6 +46,9 @@ const route = useRoute()
 // Extract query parameters
 const destination = computed(() => route.query.destination as string)
 const travelers = computed(() => parseInt(route.query.travelers as string, 10) || 1)
+const adults = computed(() => parseInt(route.query.adults as string, 10) || 1)
+const children = computed(() => parseInt(route.query.children as string, 10) || 0)
+const seniors = computed(() => parseInt(route.query.seniors as string, 10) || 0)
 const startDate = computed(() => route.query.startDate as string)
 const days = computed(() => parseInt(route.query.days as string, 10) || 10)
 
@@ -61,7 +67,12 @@ const destinationName = computed(() => destinationInfo.value?.name || 'Unknown D
 // Format the start date
 const formattedStartDate = computed(() => {
   const date = new Date(startDate.value)
-  return date.toLocaleDateString()
+  return date.toLocaleDateString('en-GB', {
+    weekday: 'short', // "Ons"
+    day: 'numeric', // "18"
+    month: 'short', // "dec"
+    year: 'numeric', // "2024"
+  })
 })
 </script>
 

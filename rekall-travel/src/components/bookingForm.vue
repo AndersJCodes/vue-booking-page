@@ -144,6 +144,9 @@ const handleSubmit = () => {
     query: {
       destination: destination.value,
       travelers: totalGuests.value,
+      adults: guests.value.adults,
+      children: guests.value.children,
+      seniors: guests.value.seniors,
       startDate: travelDate.value,
       days: numberOfDays.value,
     },
