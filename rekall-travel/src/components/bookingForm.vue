@@ -245,7 +245,8 @@ const handleSubmit = () => {
     totalGuests.value,
     travelDate.value,
     numberOfDays.value,
-    null
+    null,
+    0 // Add the pricePerNight argument, replace 0 with the actual price if available
   );
 
   router.push({
