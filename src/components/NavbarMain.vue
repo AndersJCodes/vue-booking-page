@@ -9,7 +9,9 @@
     <!-- Navigation Links for Desktop -->
     <div class="nav-links">
       <router-link to="/offers" class="nav-link">Offers</router-link>
-      <router-link to="/destinations" class="nav-link">Destinations</router-link>
+      <router-link to="/destinations" class="nav-link"
+        >Destinations</router-link
+      >
       <router-link to="/blog" class="nav-link">Blog</router-link>
     </div>
 
@@ -27,23 +29,27 @@
 
     <!-- Mobile Menu -->
     <div v-if="isMenuOpen" class="mobile-menu">
-      <router-link to="/offers" class="nav-link" @click="toggleMenu">Offers</router-link>
+      <router-link to="/offers" class="nav-link" @click="toggleMenu"
+        >Offers</router-link
+      >
       <router-link to="/destinations" class="nav-link" @click="toggleMenu"
         >Destinations</router-link
       >
-      <router-link to="/blog" class="nav-link" @click="toggleMenu">Blog</router-link>
+      <router-link to="/blog" class="nav-link" @click="toggleMenu"
+        >Blog</router-link
+      >
     </div>
   </nav>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
-import { LiCart } from '@kalimahapps/vue-icons'
+import { ref } from 'vue';
+import { LiCart } from '@kalimahapps/vue-icons';
 
-const isMenuOpen = ref(false)
+const isMenuOpen = ref(false);
 
 function toggleMenu() {
-  isMenuOpen.value = !isMenuOpen.value
+  isMenuOpen.value = !isMenuOpen.value;
 }
 </script>
 
