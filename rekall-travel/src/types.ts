@@ -23,14 +23,20 @@ interface Hotel {
 }
 
 interface BookingQuery {
-  destination?: string
-  travelers?: number
+  destination: string
+  destinationName?: string
+  travelers: number
   adults?: number
   children?: number
   seniors?: number
-  startDate?: string
+  startDate: string
   days?: number
   hotelId?: string
+  hotelName?: string
+  hotelPrice?: number
+  excursionId?: string
+  excursionName?: string
+  excursionPrice?: number
 }
 
 interface PriceStore {

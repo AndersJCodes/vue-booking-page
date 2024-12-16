@@ -29,24 +29,18 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
-import type { Destination, Hotel } from '@/types'
+import type { Destination, Hotel, BookingQuery } from '@/types'
 import destinationsData from '@/db/destinations.json'
 import hotelsData from '@/db/hotels.json'
 import { useRouter } from 'vue-router'
 
+
 const router = useRouter()
 // Define the props expected
-const props = defineProps<{
-  destinationId: string
-  destinationName: string
-  travelers: number
-  adults: number
-  children: number
-  seniors: number
-  startDate: string
-  days: number
-}>()
+const props = defineProps<BookingQuery>()
 
+// Filter hotels based on destinationId
+const filteredHotels = computed(() =>
 // Filter hotels based on destinationId
 const filteredHotels = computed(() =>
   hotelsData.filter((hotel) => hotel.destinationId === props.destinationId),
@@ -81,9 +75,9 @@ const selectHotel = (hotel: Hotel) => {
       hotelPrice: hotel.pricePerNight.toString(), // Pass hotel price
       destination: props.destinationName,
       travelers: props.travelers.toString(),
-      adults: props.adults.toString(),
-      children: props.children.toString(),
-      seniors: props.seniors.toString(),
+      adults: props.adults?.toString(),
+      children: props.children?.toString(),
+      seniors: props.seniors?.toString(),
       startDate: props.startDate,
       days: props.days.toString(),
     },
