@@ -7,12 +7,11 @@ import BlogList from '@/components/BlogList.vue'
   <main>
     <div class="full-bleed hero-section">
       <div class="content-wrapper">
-        <div class="booking-container">
-          <BookingComponent />
-        </div>
+        <div class=""></div>
         <div class="hero-content">
-          <h1>Unforgettable Space Memories</h1>
-          <p class="subheader">Rekall travel</p>
+          <h1>Tired of earth? Make space memories.</h1>
+          <!-- <p class="subheader">Rekall travel</p> -->
+          <BookingComponent />
         </div>
       </div>
     </div>
@@ -51,6 +50,7 @@ import BlogList from '@/components/BlogList.vue'
 
 h1 {
   font-size: 3.5rem;
+  padding-top: 10rem;
   margin-bottom: 1rem;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }

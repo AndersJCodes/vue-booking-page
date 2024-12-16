@@ -30,7 +30,7 @@ import { LiCart } from '@kalimahapps/vue-icons'
 .logo-link {
   display: flex;
   align-items: center;
-  width: 150px;
+  width: 60px;
 }
 
 .logo-image {
@@ -47,11 +47,11 @@ import { LiCart } from '@kalimahapps/vue-icons'
   display: flex;
   align-items: center;
   gap: 2rem; /* Add consistent spacing between links */
-  justify-content: center; /* Center the links */
+  justify-content: space-between; /* Center the links */
   flex: 1; /* Take up remaining space */
 }
 .nav-link:last-child {
-  width: 150px; /* Match logo width */
+  width: 60px;
   display: flex;
   justify-content: flex-end;
 }

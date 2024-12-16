@@ -6,7 +6,7 @@
       </div>
     </div>
 
-    <main class="content-wrapper">
+    <main class="content-wrapper nav-spacing">
       <router-view />
     </main>
   </div>
@@ -37,6 +37,10 @@ export default {
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 2rem;
+}
+
+.nav-spacing {
+  padding-top: 80px;
 }
 
 .full-bleed {
