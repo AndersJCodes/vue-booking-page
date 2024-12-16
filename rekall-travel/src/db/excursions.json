@@ -7,6 +7,20 @@
     "duration": "3 days"
   },
   {
+    "id": "mars_madness",
+    "name": "Mad Mars",
+    "description": "Go crazy in this always-off-road go-kart tour.",
+    "price": 80000,
+    "duration": "6 days"
+  },
+  {
+    "id": "mars_polar",
+    "name": "Mars in the Cold",
+    "description": "Journey to either of the everfrozen polar ice caps of Mars.",
+    "price": 120000,
+    "duration": "20 days"
+  },
+  {
     "id": "titan_sea_cruise",
     "name": "Titan Sea Cruise",
     "description": "Sail the methane lakes of Titan, Saturn's largest moon.",
@@ -47,6 +61,13 @@
     "description": "Watch- and tour the historic process of building Venus its very own artificial moon.",
     "price": 10000,
     "duration": "2 days"
+  },
+  {
+    "id": "venus_surf",
+    "name": "Venus Cloud Surf",
+    "description": "Surf the majestic clouds of Venus in our hyper-alloy protective suits.",
+    "price": 50000,
+    "duration": "3 days"
   },
   {
     "id": "sun_bask",
