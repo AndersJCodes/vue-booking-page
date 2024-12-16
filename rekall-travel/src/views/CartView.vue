@@ -8,6 +8,8 @@
       <p><strong>Travel Date:</strong> {{ cartItems.travelDate }}</p>
       <p><strong>Number of Days:</strong> {{ cartItems.numberOfDays }}</p>
       <p><strong>Selected Hotel:</strong> {{ cartItems.selectedHotel?.name || 'None selected' }}</p>
+      <p><strong>Price per Night:</strong> {{ formatPrice(cartStore.pricePerNight) }} kr</p>
+    <p><strong>Total Price:</strong> {{ formatPrice(cartStore.totalPrice) }} kr</p>
       <!-- Lägg till knappar för att gå vidare till betalning -->
       <button @click="goToPayment">Go to Payment</button>
     </div>
@@ -32,6 +34,8 @@ import { useCartStore } from '@/stores/cart';
 import { computed, ref } from 'vue';
 
 const cartStore = useCartStore();
+const formatPrice = (price: number) => price.toLocaleString('sv-SE');
+
 
 // Beräkna kundkorgens detaljer
 const cartItems = computed(() => {
@@ -40,7 +44,9 @@ const cartItems = computed(() => {
     travelers: cartStore.travelers,
     travelDate: cartStore.travelDate,
     numberOfDays: cartStore.numberOfDays,
-    selectedHotel: cartStore.selectedHotel
+    selectedHotel: cartStore.selectedHotel,
+    pricePerNight: cartStore.pricePerNight,
+    totalPrice: cartStore.totalPrice,
   });
 
   return {
@@ -49,6 +55,8 @@ const cartItems = computed(() => {
     travelDate: cartStore.travelDate,
     numberOfDays: cartStore.numberOfDays,
     selectedHotel: cartStore.selectedHotel as { name: string } | null,
+    pricePerNight: cartStore.pricePerNight,
+    totalPrice: cartStore.totalPrice,
   };
 });
 

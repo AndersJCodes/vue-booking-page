@@ -1,5 +1,7 @@
 
 // src/stores/cart.ts
+// src/stores/cart.ts
+
 import { defineStore } from 'pinia';
 
 export const useCartStore = defineStore('cart', {
@@ -9,22 +11,18 @@ export const useCartStore = defineStore('cart', {
     travelDate: '',
     numberOfDays: 0,
     selectedHotel: null,
+    pricePerNight: 0,
+    totalPrice:0,
   }),
   actions: {
-    setCartDetails(destination, travelers, travelDate, numberOfDays, selectedHotel) {
-      console.log('Setting cart details:', {
-        destination,
-        travelers,
-        travelDate,
-        numberOfDays,
-        selectedHotel
-      });
-
+    setCartDetails(destination, travelers, travelDate, numberOfDays, selectedHotel, pricePerNight) {
       this.destination = destination;
       this.travelers = travelers;
       this.travelDate = travelDate;
       this.numberOfDays = numberOfDays;
       this.selectedHotel = selectedHotel;
+      this.pricePerNight = pricePerNight;
+      this.totalPrice = pricePerNight * travelers * numberOfDays;
     },
     clearCart() {
       this.destination = null;
@@ -32,6 +30,8 @@ export const useCartStore = defineStore('cart', {
       this.travelDate = '';
       this.numberOfDays = 0;
       this.selectedHotel = null;
+      this.pricePerNight = 0;
+      this.totalPrice = 0;
     },
   },
 });

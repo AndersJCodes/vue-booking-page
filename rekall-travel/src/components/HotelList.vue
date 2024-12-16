@@ -33,7 +33,9 @@ import type { Destination, Hotel } from '@/types'
 import destinationsData from '@/db/destinations.json'
 import hotelsData from '@/db/hotels.json'
 import { useRouter } from 'vue-router'
+import {useCartStore} from '@/stores/cart'
 
+const cartStore = useCartStore()
 const router = useRouter()
 // Define the props expected
 const props = defineProps<{
@@ -54,6 +56,8 @@ const destinationInfo = computed(() =>
   destinationData.find((dest) => dest.id === props.destinationId),
 )
 
+
+
 // Format price to Swedish locale
 const formatPrice = (price: number) => {
   return new Intl.NumberFormat('sv-SE', {
@@ -67,8 +71,20 @@ const calculateTotalForHotel = (hotel: Hotel) => {
   return hotel.pricePerNight * props.travelers * props.days
 }
 
-// Handle hotel selection
 const selectHotel = (hotel: Hotel) => {
+  // Spara det valda hotellet i kundkorgen
+  cartStore.setCartDetails(
+    destinationInfo.value?.name || '',
+    props.travelers,
+    props.startDate,
+    props.days,
+    hotel,
+    hotel.pricePerNight,
+  );
+
+
+// Handle hotel selection
+
   router.push({
     name: 'excursions', // Name of the route to navigate to
     query: {
