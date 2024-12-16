@@ -18,45 +18,48 @@
 </template>
 
 <script setup lang="ts">
-import { useCartStore } from '@/stores/cart'
-import { computed } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
-import excursionsData from '@/db/excursions.json' // Import JSON data
-import TotalPrice from '@/components/TotalPrice.vue'
+import { useCartStore } from '@/stores/cart';
+import { computed } from 'vue';
+import { useRouter, useRoute } from 'vue-router';
+import excursionsData from '@/db/excursions.json';
+import TotalPrice from '@/components/TotalPrice.vue';
 
-const route = useRoute()
-const router = useRouter()
-const cartStore = useCartStore()
+const route = useRoute();
+const router = useRouter(); // Added to fix the error
+const cartStore = useCartStore();
 
 const addToCart = (excursion: { id: string; name: string; price: number }) => {
+  const cartDetails = {
+    destination: route.query.destination || 'Unknown Destination',
+    travelers: parseInt(route.query.travelers as string, 10) || 1,
+    travelDate: route.query.startDate || 'No Date Selected',
+    days: parseInt(route.query.days as string, 10) || 0,
+    hotelName: route.query.hotelName || 'None selected',
+    hotelPrice: parseFloat(route.query.hotelPrice as string) || 0,
+    excursionName: excursion.name,
+    excursionPrice: excursion.price,
+  };
+
   router.push({
     name: 'cart',
-    query: {
-      ...route.query,
-      excursionId: excursion.id,
-      excursionName: excursion.name,
-      excursionPrice: excursion.price.toString(),
-    },
-  })
-}
+    state: cartDetails, // Pass the data as state
+  });
+};
 
-// Extract destination from query parameters
-const destination = computed(() => route.query.destination as string)
-const travelers = computed(() => parseInt(route.query.travelers as string, 10) || 1)
 
-// Extract planet name from destination
+const destination = computed(() => route.query.destination as string || '');
+const travelers = computed(() => parseInt(route.query.travelers as string, 10) || 1);
+
 const planetName = computed(() => {
-  if (!destination.value) return ''
-  const match = destination.value.match(/(mars|venus|sun|jupiter|saturn|neptune|uranus|mercury)/i)
-  return match ? match[0].toLowerCase() : 'unknown'
-})
+  const match = destination.value.match(/(mars|venus|sun|jupiter|saturn|neptune|uranus|mercury)/i);
+  return match ? match[0].toLowerCase() : 'unknown';
+});
 
-// Filter excursions where the id contains the planet name
-const excursions = excursionsData
 const filteredExcursions = computed(() =>
-  excursions.filter((exc) => planetName.value && exc.id.toLowerCase().includes(planetName.value)),
-)
+  excursionsData.filter((exc) => planetName.value && exc.id.toLowerCase().includes(planetName.value)),
+);
 </script>
+
 
 <style scoped>
 .excursion-item {
