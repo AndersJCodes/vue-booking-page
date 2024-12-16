@@ -2,7 +2,7 @@
   <div class="hotels-page">
     <template v-if="isValidParams">
       <div class="hotels-header">
-        <h1>Wellcome to {{ destinationName }}</h1>
+        <h1>Welcome to {{ destinationName }}</h1>
         <div class="booking-details">
           <p>Travel Date: {{ formattedStartDate }}</p>
           <p>Duration: {{ days }} days</p>

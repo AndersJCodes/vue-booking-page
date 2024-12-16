@@ -195,6 +195,7 @@ const handleSubmit = () => {
   font-size: 0.75rem;
   font-weight: 600;
   margin-bottom: 0.25rem;
+  text-align: left;
   color: var(--text-color, #222);
 }
 
@@ -239,6 +240,7 @@ const handleSubmit = () => {
 .traveler-dropdown {
   position: relative;
   cursor: pointer;
+  color: #555;
 }
 
 .dropdown-toggle {
