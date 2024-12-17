@@ -13,9 +13,9 @@
             >${{ calculateDiscountedPrice(offer.price, offer.discount) }}</span
           >
         </p>
-        <p><span>Duration:</span> {{ offer.duration }}</p>
-        <p><span>Adults:</span> {{ offer.adults }}</p>
-        <p v-if="offer.children"><span>Children:</span> {{ offer.children }}</p>
+        <p><span>Duration:</span> {{ offer.duration }} days</p>
+        <p><span>Travelers:</span> {{ offer.travelers }}</p>
+
         <h3>Included Excursions:</h3>
         <ul>
           <li v-for="excursionId in offer.excursions" :key="excursionId">
@@ -25,7 +25,7 @@
         <h3>Hotel Options:</h3>
         <ul>
           <li v-for="hotelId in offer.hotel" :key="hotelId">
-            {{ getHotelById(hotelId).name }}
+            {{ getHotelById(hotelId)?.name || 'Unknown Hotel' }}
           </li>
         </ul>
 
@@ -37,31 +37,63 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import offers from '@/db/offers.json'
 import excursions from '@/db/excursions.json'
 import hotels from '@/db/hotels.json'
+import { useCartStore } from '@/stores/cart'
+import { Offer, Hotel, Excursion } from '@/types'
 
 export default {
   name: 'SpecialOffers',
   data() {
     return {
-      offers,
+      offers: [] as Offer[],
       excursions,
       hotels,
     }
   },
   methods: {
-    getExcursionById(id) {
+    getExcursionById(id: string): Excursion {
       return (
-        this.excursions.find((excursion) => excursion.id === id) || { name: 'Unknown Excursion' }
+        this.excursions.find((excursion: Excursion) => excursion.id === id) || {
+          id: 'unknown',
+          name: 'Unknown Excursion',
+          price: 0,
+        }
       )
     },
-    getHotelById(id) {
-      return this.hotels.find((hotel) => hotel.id === id) || { name: 'Unknown Hotel' }
+
+    getHotelById(id: string): Hotel | undefined {
+      return this.hotels.find((hotel: Hotel) => hotel.id === id)
     },
-    calculateDiscountedPrice(price, discount) {
+    calculateDiscountedPrice(price: number, discount: number) {
       return (price * (1 - discount / 100)).toFixed(2)
+    },
+    addToCart(offer: Offer) {
+      const cartStore = useCartStore()
+
+      // Получаем отель по ID
+      const hotel: Hotel | undefined = this.getHotelById(offer.hotel[0])
+      const hotelName = hotel?.name || 'Unknown Hotel'
+      const hotelPrice = hotel?.pricePerNight || 0
+
+      cartStore.setCartDetails({
+        destination: offer.name,
+        travelers: offer.travelers,
+        days: offer.duration,
+        hotelName: hotelName,
+        hotelPrice: hotelPrice,
+      })
+
+      // Установка экскурсий
+      const excursion = this.getExcursionById(offer.excursions[0])
+      if (excursion && excursion.name !== 'Unknown Excursion') {
+        cartStore.setExcursion({
+          name: excursion.name,
+          price: excursion.price || 0,
+        })
+      }
     },
   },
 }

@@ -10,16 +10,29 @@ interface Destination {
   departureFrom: string[]
 }
 
+interface Offer {
+  id: string
+  name: string
+  description: string
+  price: number
+  discount: number
+  duration: number
+  travelers: number
+  hotel: string[]
+  excursions: string[]
+  image: string
+}
+
 interface Hotel {
-  id: string;
-  destinationId: string;
-  name: string;
-  description: string;
-  pricePerNight: number;
-  rating: number;
-  category: string;
-  detailedDescription: string;
-  image: string;
+  id: string
+  destinationId: string
+  name: string
+  description: string
+  pricePerNight: number
+  rating: number
+  category: string
+  detailedDescription: string
+  image: string
 }
 
 interface BookingQuery {
@@ -43,7 +56,23 @@ interface BlogPost {
   content: string
   image: string // Include any other properties you have
 }
+interface Excursion {
+  id: string
+  name: string
+  price: number
+  description: string
+  duration: string
+}
 
 type BlogPostList = BlogPost[] // A list of blog posts
 
-export type { Destination, Hotel, BlogPost, BlogPostList, BookingQuery, PriceStore }
+export type {
+  Destination,
+  Hotel,
+  BlogPost,
+  BlogPostList,
+  BookingQuery,
+  PriceStore,
+  Excursion,
+  Offer,
+}
