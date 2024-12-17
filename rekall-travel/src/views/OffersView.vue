@@ -37,7 +37,7 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import offers from '@/db/offers.json'
 import excursions from '@/db/excursions.json'
 import hotels from '@/db/hotels.json'
@@ -62,6 +62,10 @@ export default {
     },
     calculateDiscountedPrice(price, discount) {
       return (price * (1 - discount / 100)).toFixed(2)
+    },
+    addToCart(offer) {
+      // Implement the logic to add the offer to the cart
+      console.log('Offer added to cart:', offer);
     },
   },
 }
