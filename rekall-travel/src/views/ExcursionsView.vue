@@ -13,14 +13,15 @@
         <h2>{{ excursion.name }}</h2>
         <p>{{ excursion.description }}</p>
         <p><strong>Duration:</strong> {{ excursion.duration }}</p>
-        <p><strong>Price:</strong> {{ excursion.price }}</p>
+        <p><strong>Price:</strong> ${{ excursion.price }}</p>
 
-        <!-- Add to Cart Button -->
+        <!-- Toggle Add/Remove Button -->
         <button
           class="add-button"
-          @click="addExcursion(excursion)"
+          :class="{ selected: isExcursionInCard(excursion.name) }"
+          @click="toggleExcursion(excursion)"
         >
-          Add to Cart
+          {{ isExcursionInCard(excursion.name) ? "Remove from Cart" : "Add to Cart" }}
         </button>
       </div>
     </div>
@@ -28,7 +29,7 @@
       <p>No excursions available for the selected destination.</p>
     </div>
 
-    <!-- Single Proceed to Cart Button -->
+    <!-- Proceed to Cart Button -->
     <button class="proceed-button" @click="proceedToCart">
       Proceed to Cart
     </button>
@@ -47,44 +48,64 @@ const router = useRouter();
 const route = useRoute();
 const cartStore = useCartStore();
 
-// Add an excursion to the current destination card
-const addExcursion = (excursion: { id: string; name: string; price: number }) => {
-  const cartDetails = {
-    destination: route.query.destination as string || 'Unknown Destination',
-    travelers: parseInt(route.query.travelers as string, 10) || 1,
-    travelDate: route.query.startDate as string || 'No Date Selected',
-    days: parseInt(route.query.days as string, 10) || 0,
-    hotelName: route.query.hotelName as string || 'None selected',
-    hotelPrice: parseFloat(route.query.hotelPrice as string) || 0,
-    excursionName: excursion.name,
-    excursionPrice: excursion.price,
-  };
-
-  cartStore.addExcursionToCard(cartDetails);
+// Current destination details
+const currentDestination = {
+  destination: route.query.destination as string || 'Unknown Destination',
+  travelers: parseInt(route.query.travelers as string, 10) || 1,
+  travelDate: route.query.startDate as string || 'No Date Selected',
+  days: parseInt(route.query.days as string, 10) || 0,
+  hotelName: route.query.hotelName as string || 'None selected',
+  hotelPrice: parseFloat(route.query.hotelPrice as string) || 0,
 };
 
-// Proceed to the cart page
-const proceedToCart = () => {
-  const cartDetails = {
-    destination: route.query.destination as string || 'Unknown Destination',
-    travelers: parseInt(route.query.travelers as string, 10) || 1,
-    travelDate: route.query.startDate as string || 'No Date Selected',
-    days: parseInt(route.query.days as string, 10) || 0,
-    hotelName: route.query.hotelName as string || 'None selected',
-    hotelPrice: parseFloat(route.query.hotelPrice as string) || 0,
-  };
+// Check if an excursion is in the card for the current destination
+const isExcursionInCard = (excursionName: string) => {
+  const card = cartStore.cartDetails.find(
+    (item) => item.destination === currentDestination.destination
+  );
+  return card?.excursions.some((exc) => exc.name === excursionName) || false;
+};
 
-  // Ensure the card is created without excursions
+// Toggle excursion in the current card
+const toggleExcursion = (excursion: { name: string; price: number }) => {
+  const card = cartStore.cartDetails.find(
+    (item) => item.destination === currentDestination.destination
+  );
+
+  if (card) {
+    const existingIndex = card.excursions.findIndex(
+      (exc) => exc.name === excursion.name
+    );
+
+    if (existingIndex > -1) {
+      // Remove excursion if it exists
+      card.excursions.splice(existingIndex, 1);
+    } else {
+      // Add excursion if it doesn't exist
+      card.excursions.push({
+        name: excursion.name,
+        price: excursion.price,
+      });
+    }
+  } else {
+    // Create a new card and add the excursion
+    cartStore.addExcursionToCard({
+      ...currentDestination,
+      excursionName: excursion.name,
+      excursionPrice: excursion.price,
+    });
+  }
+};
+
+// Proceed to Cart: Finalize the card and navigate
+const proceedToCart = () => {
   cartStore.addExcursionToCard({
-    ...cartDetails,
-    excursionName: undefined, // No excursions
+    ...currentDestination,
+    excursionName: undefined,
     excursionPrice: undefined,
   });
-
-  // Redirect to the Cart page
   router.push({ name: 'cart' });
 };
-
 
 // Planet name logic
 const planetName = computed(() => {
@@ -101,8 +122,6 @@ const filteredExcursions = computed(() =>
   )
 );
 </script>
-
-
 
 
 <style scoped>
@@ -131,6 +150,14 @@ button {
   background-color: #218838;
 }
 
+.add-button.selected {
+  background-color: #dc3545;
+}
+
+.add-button.selected:hover {
+  background-color: #c82333;
+}
+
 .proceed-button {
   display: block;
   width: 100%;
@@ -144,4 +171,3 @@ button {
   background-color: #e0a800;
 }
 </style>
-
