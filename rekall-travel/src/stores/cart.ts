@@ -3,25 +3,65 @@ import { defineStore } from 'pinia';
 
 export const useCartStore = defineStore('cart', {
   state: () => ({
-    cartDetails: {
-      destination: 'Unknown Destination',
-      travelers: 1,
-      travelDate: 'No Date Selected',
-      days: 0,
-      hotelName: 'None selected',
-      hotelPrice: 0,
-      excursionName: 'None selected',
-      excursionPrice: 0,
-    },
+    cartDetails: [] as Array<{
+      destination: string;
+      travelers: number;
+      travelDate: string;
+      days: number;
+      hotelName: string;
+      hotelPrice: number;
+      excursions: Array<{
+        name: string;
+        price: number;
+      }>;
+    }>,
   }),
   actions: {
-    // Set full cart details
-    setCartDetails(details: Partial<typeof this.cartDetails>) {
-      this.cartDetails = { ...this.cartDetails, ...details };
+    // Add an excursion to the card or create the card
+    addExcursionToCard(details: {
+      destination: string;
+      travelers: number;
+      travelDate: string;
+      days: number;
+      hotelName: string;
+      hotelPrice: number;
+      excursionName?: string;
+      excursionPrice?: number;
+    }) {
+      const existingCard = this.cartDetails.find(
+        (card) => card.destination === details.destination
+      );
+
+      if (existingCard) {
+        // Add excursion only if provided
+        if (details.excursionName && details.excursionPrice) {
+          existingCard.excursions.push({
+            name: details.excursionName,
+            price: details.excursionPrice,
+          });
+        }
+      } else {
+        // Create a new card even if no excursions are selected
+        this.cartDetails.push({
+          destination: details.destination,
+          travelers: details.travelers,
+          travelDate: details.travelDate,
+          days: details.days,
+          hotelName: details.hotelName,
+          hotelPrice: details.hotelPrice,
+          excursions: details.excursionName
+            ? [
+                {
+                  name: details.excursionName,
+                  price: details.excursionPrice || 0,
+                },
+              ]
+            : [], // Empty excursions if none are selected
+        });
+      }
     },
-    setExcursion(excursion: { name: string; price: number }) {
-      this.cartDetails.excursionName = excursion.name;
-      this.cartDetails.excursionPrice = excursion.price;
+    clearCart() {
+      this.cartDetails = [];
     },
   },
 });
