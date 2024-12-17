@@ -9,24 +9,27 @@ export const usePriceStore = defineStore('prices', (): PriceStore => {
   const route = useRoute()
 
   const destinationPrice = computed(() => {
-    const queries = route.query as BookingQuery
+    const queries = route.query as unknown as BookingQuery
     let price = 0
 
-    if (queries.destinationId) {
+    if (queries.destination) {
       // 2. Clean find operation (BookingQuery ensures destination is string)
-      const destination = destinationsData.find((d: Destination) => d.id === queries.destinationId)
+      const destination = destinationsData.find((d: Destination) => d.id === queries.destination)
 
       if (destination) {
         // 3. Simple access (BookingQuery ensures travelers is number)
         price = destination.pricePerPerson * (queries.travelers || 1)
       }
     }
+    console.log('destinationprice', price)
+    console.log('destination query', queries.destination)
+    console.log('destination data', destinationsData)
     return price
   })
 
   // Separate hotel price calculation
   const hotelPrice = computed(() => {
-    const queries = route.query as BookingQuery
+    const queries = route.query as unknown as BookingQuery
     let price = 0
 
     if (queries.hotelId) {

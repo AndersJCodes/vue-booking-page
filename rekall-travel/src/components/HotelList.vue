@@ -29,8 +29,8 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
-import type { Destination, Hotel, BookingQuery } from '@/types'
-import destinationsData from '@/db/destinations.json'
+import type { Hotel, BookingQuery } from '@/types'
+/* import destinationsData from '@/db/destinations.json' */
 import hotelsData from '@/db/hotels.json'
 import { useRouter } from 'vue-router'
 
@@ -38,16 +38,18 @@ const router = useRouter()
 // Define the props expected
 const props = defineProps<BookingQuery>()
 
+console.log(props)
+
 // Filter hotels based on destinationId
 const filteredHotels = computed(() =>
-  hotelsData.filter((hotel) => hotel.destinationId === props.destinationId),
+  hotelsData.filter((hotel) => hotel.destinationId === props.destination),
 )
 
 // Find destination name
-const destinationData: Destination[] = destinationsData
+/* const destinationData: Destination[] = destinationsData
 const destinationInfo = computed(() =>
   destinationData.find((dest) => dest.id === props.destinationId),
-)
+) */
 
 // Format price to Swedish locale
 const formatPrice = (price: number) => {
@@ -64,16 +66,13 @@ const calculateTotalForHotel = (hotel: Hotel) => {
 
 // Handle hotel selection
 const selectHotel = (hotel: Hotel) => {
-  const totalCost = calculateTotalForHotel(hotel)
-  bookingStore.setTotalPrice(totalCost)
-
   router.push({
     name: 'excursions', // Name of the route to navigate to
     query: {
       hotelId: hotel.id,
       hotelName: hotel.name,
       hotelPrice: hotel.pricePerNight.toString(), // Pass hotel price
-      destination: props.destinationName,
+      destination: props.destination,
       travelers: props.travelers.toString(),
       adults: props.adults?.toString(),
       children: props.children?.toString(),

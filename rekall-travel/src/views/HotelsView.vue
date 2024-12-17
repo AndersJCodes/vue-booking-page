@@ -20,8 +20,8 @@
 
       <div class="hotels-list-container">
         <HotelList
-          :destinationId="destination"
-          :destinationName="destination"
+          :destination="destination"
+          :destinationName="destinationName"
           :travelers="travelers"
           :adults="adults"
           :children="children"
