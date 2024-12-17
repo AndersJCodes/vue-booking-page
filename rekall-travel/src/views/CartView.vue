@@ -1,28 +1,34 @@
 <template>
   <div class="cart-page">
     <h1>Your Travel Cart</h1>
-    <div v-if="cartItems">
-      <p><strong>Destination:</strong> {{ cartItems.destination }}</p>
-      <p><strong>Travelers:</strong> {{ cartItems.travelers }} guests</p>
-      <p><strong>Travel Date:</strong> {{ cartItems.travelDate }}</p>
-      <p><strong>Number of Days:</strong> {{ cartItems.days }}</p>
-      <p><strong>Selected Hotel:</strong> {{ cartItems.hotelName }}</p>
-      <p><strong>Hotel Price Per Night:</strong> {{ cartItems.hotelPrice }}</p>
-      <p><strong>Total Hotel Cost:</strong> {{ totalHotelCost }}</p>
 
-      <h3>Selected Excursion:</h3>
-      <p><strong>Excursion:</strong> {{ cartItems.excursionName || 'None selected' }}</p>
-      <p><strong>Excursion Price:</strong> {{ cartItems.excursionPrice }}</p>
+    <!-- Check if cartItems has any data -->
+    <div v-if="cartItems.length">
+      <!-- Loop through cartItems -->
+      <div v-for="(item, index) in cartItems" :key="index" class="cart-card">
+        <h2>Booking {{ index + 1 }}</h2>
+        <p><strong>Destination:</strong> {{ item.destination }}</p>
+        <p><strong>Travelers:</strong> {{ item.travelers }} guests</p>
+        <p><strong>Travel Date:</strong> {{ item.travelDate }}</p>
+        <p><strong>Number of Days:</strong> {{ item.days }}</p>
+        <p><strong>Selected Hotel:</strong> {{ item.hotelName }}</p>
+        <p><strong>Hotel Price Per Night:</strong> {{ item.hotelPrice }}</p>
+        <p><strong>Total Hotel Cost:</strong> {{ totalHotelCost(item) }}</p>
 
-      <p><strong>Total Price:</strong> {{ totalPrice }}</p>
+        <h3>Selected Excursion:</h3>
+        <p><strong>Excursion:</strong> {{ item.excursionName || 'None selected' }}</p>
+        <p><strong>Excursion Price:</strong> {{ item.excursionPrice }}</p>
 
-      <button @click="goToPayment">Go to Payment</button>
+        <p><strong>Total Price:</strong> {{ totalPrice(item) }}</p>
+      </div>
     </div>
     <div v-else>
       <p>Your cart is empty. Please make a booking.</p>
     </div>
 
-    <!-- Modal -->
+    <!-- Button and Modal -->
+    <button @click="goToPayment">Go to Payment</button>
+
     <div v-if="showModal" class="modal">
       <div class="modal-content">
         <span @click="closeModal" class="close">&times;</span>
@@ -33,29 +39,35 @@
   </div>
 </template>
 
+
 <script setup lang="ts">
 import { useCartStore } from '@/stores/cart';
 import { computed, ref } from 'vue';
-import { useRoute } from 'vue-router';
 import { useRouter } from 'vue-router';
 
 const router = useRouter();
 const cartStore = useCartStore();
 
-// Retrieve data passed via router state
+// Ensure cartStore holds an array of items
 if (history.state?.destination) {
-  cartStore.setCartDetails(history.state); // Populate Pinia with the passed data
+  cartStore.addCartItem(history.state); // Add passed data to the cart array
 }
 
+// Get cart items as an array
 const cartItems = computed(() => cartStore.cartDetails);
-const totalHotelCost = computed(() => cartItems.value.hotelPrice * cartItems.value.days || 0);
-const totalPrice = computed(() => totalHotelCost.value + cartItems.value.excursionPrice * cartItems.value.travelers);
 
+// Compute total hotel cost for each item
+const totalHotelCost = (item) => item.hotelPrice * item.days || 0;
+
+// Compute total price for each card
+const totalPrice = (item) =>
+  totalHotelCost(item) + (item.excursionPrice || 0) * item.travelers;
 
 const showModal = ref(false);
 const goToPayment = () => { showModal.value = true; };
 const closeModal = () => { showModal.value = false; };
 </script>
+
 
 <style scoped>
 .cart-page {

@@ -3,25 +3,52 @@ import { defineStore } from 'pinia';
 
 export const useCartStore = defineStore('cart', {
   state: () => ({
-    cartDetails: {
-      destination: 'Unknown Destination',
-      travelers: 1,
-      travelDate: 'No Date Selected',
-      days: 0,
-      hotelName: 'None selected',
-      hotelPrice: 0,
-      excursionName: 'None selected',
-      excursionPrice: 0,
-    },
+    cartDetails: [] as Array<{
+      destination: string;
+      travelers: number;
+      travelDate: string;
+      days: number;
+      hotelName: string;
+      hotelPrice: number;
+      excursionName: string;
+      excursionPrice: number;
+    }>,
   }),
   actions: {
-    // Set full cart details
-    setCartDetails(details: Partial<typeof this.cartDetails>) {
-      this.cartDetails = { ...this.cartDetails, ...details };
+    // Add a new cart item to the array
+    addCartItem(details: Partial<typeof this.cartDetails[0]>) {
+      const newItem = {
+        destination: 'Unknown Destination',
+        travelers: 1,
+        travelDate: 'No Date Selected',
+        days: 0,
+        hotelName: 'None selected',
+        hotelPrice: 0,
+        excursionName: 'None selected',
+        excursionPrice: 0,
+        ...details, // Override defaults with provided details
+      };
+      this.cartDetails.push(newItem);
     },
-    setExcursion(excursion: { name: string; price: number }) {
-      this.cartDetails.excursionName = excursion.name;
-      this.cartDetails.excursionPrice = excursion.price;
+
+    // Update a specific cart item by index
+    updateCartItem(index: number, details: Partial<typeof this.cartDetails[0]>) {
+      if (this.cartDetails[index]) {
+        this.cartDetails[index] = { ...this.cartDetails[index], ...details };
+      }
+    },
+
+    // Clear all cart items
+    clearCart() {
+      this.cartDetails = [];
+    },
+
+    // Update excursion details for a specific cart item
+    setExcursion(index: number, excursion: { name: string; price: number }) {
+      if (this.cartDetails[index]) {
+        this.cartDetails[index].excursionName = excursion.name;
+        this.cartDetails[index].excursionPrice = excursion.price;
+      }
     },
   },
 });
