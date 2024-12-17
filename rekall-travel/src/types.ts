@@ -23,7 +23,7 @@ interface Hotel {
 }
 
 interface BookingQuery {
-  destination: string
+  destinationId: string
   destinationName?: string
   travelers: number
   adults?: number

@@ -12,9 +12,9 @@ export const usePriceStore = defineStore('prices', (): PriceStore => {
     const queries = route.query as BookingQuery
     let price = 0
 
-    if (queries.destination) {
+    if (queries.destinationId) {
       // 2. Clean find operation (BookingQuery ensures destination is string)
-      const destination = destinationsData.find((d: Destination) => d.id === queries.destination)
+      const destination = destinationsData.find((d: Destination) => d.id === queries.destinationId)
 
       if (destination) {
         // 3. Simple access (BookingQuery ensures travelers is number)

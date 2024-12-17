@@ -12,7 +12,7 @@
     "name": "Venus Cloud City",
     "description": "Float above Venus' surface in luxury cloud cities.",
     "pricePerPerson": 1200000,
-    "duration": "1 year",
+    "duration": "12 months",
     "departureFrom": ["Earth Orbit Station", "Moon Base Alpha"]
   },
   {

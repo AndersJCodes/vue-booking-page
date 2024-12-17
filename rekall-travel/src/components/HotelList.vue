@@ -13,7 +13,7 @@
             <strong>Total Hotel Cost:</strong>
             {{ formatPrice(calculateTotalForHotel(hotel)) }} kr
             <span class="price-breakdown">
-              ({{ props.travelers }} travelers × {{ props.days }} days)
+              ({{ props.travelers }} travelers x {{ props.days }} days)
             </span>
           </p>
         </div>
@@ -34,13 +34,10 @@ import destinationsData from '@/db/destinations.json'
 import hotelsData from '@/db/hotels.json'
 import { useRouter } from 'vue-router'
 
-
 const router = useRouter()
 // Define the props expected
 const props = defineProps<BookingQuery>()
 
-// Filter hotels based on destinationId
-const filteredHotels = computed(() =>
 // Filter hotels based on destinationId
 const filteredHotels = computed(() =>
   hotelsData.filter((hotel) => hotel.destinationId === props.destinationId),
@@ -67,6 +64,9 @@ const calculateTotalForHotel = (hotel: Hotel) => {
 
 // Handle hotel selection
 const selectHotel = (hotel: Hotel) => {
+  const totalCost = calculateTotalForHotel(hotel)
+  bookingStore.setTotalPrice(totalCost)
+
   router.push({
     name: 'excursions', // Name of the route to navigate to
     query: {

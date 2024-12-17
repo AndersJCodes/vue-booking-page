@@ -1,6 +1,6 @@
 <!-- this component is used to display the total price of the booking It uses the price store to get the total price and formats it to Swedish locale -->
 <template>
-  <div class="total-price">Total price: {{ formattedTotalPrice }} kr</div>
+  <span class="total-price">{{ formattedTotalPrice }} kr</span>
 </template>
 
 <script setup lang="ts">
@@ -21,7 +21,7 @@ const formattedTotalPrice = computed(() => numberFormatter.format(priceStore.tot
 
 <style scoped>
 .total-price {
-  font-size: 1.5rem;
+  /* font-size: 1.5rem; */
   font-weight: bold;
   /* Lägg till ytterligare styling vid behov */
 }

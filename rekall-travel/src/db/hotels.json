@@ -2,17 +2,6 @@
   {
     "id": "hotel_1",
     "destinationId": "mars_colony",
-    "image": "src/assets/images/hotel_01.webp",
-    "name": "Red Planet Resort",
-    "description": "Comfortable accommodations with breathtaking views.",
-    "pricePerNight": 3000,
-    "rating": 4.5,
-    "category": "Standard",
-    "detailedDescription": "Experience the beauty of Mars from the comfort of the Red Planet Resort. This luxurious hotel offers spacious rooms equipped with modern amenities, including high-speed internet, flat-screen TVs, and private balconies that provide stunning panoramic views of the Martian landscape. Guests can indulge in gourmet dining at our on-site restaurant, which features a menu inspired by both Martian and Earth cuisines. With a full-service spa, fitness center, and outdoor activities like guided tours of the Martian terrain, the Red Planet Resort is the perfect destination for relaxation and adventure."
-  },
-  {
-    "id": "hotel_2",
-    "destinationId": "mars_colony",
     "name": "Martian Meadows Inn",
     "image": "src/assets/images/hotel_02.webp",
     "description": "Affordable stays with essential amenities.",
@@ -20,6 +9,17 @@
     "rating": 4.0,
     "category": "Budget",
     "detailedDescription": "Enjoy a relaxing stay at Martian Meadows Inn, where comfort meets affordability. Our cozy rooms are designed for budget-conscious travelers, featuring comfortable beds, essential amenities, and a warm atmosphere. Each room includes a private bathroom, complimentary Wi-Fi, and access to a communal lounge area where guests can socialize and share travel stories. The inn is conveniently located near popular attractions, making it easy to explore the wonders of Mars. Start your day with a complimentary breakfast, and unwind in the evening with our friendly staff who are always ready to assist you."
+  },
+  {
+    "id": "hotel_2",
+    "destinationId": "mars_colony",
+    "image": "src/assets/images/hotel_01.webp",
+    "name": "Red Planet Resort",
+    "description": "Comfortable accommodations with breathtaking views.",
+    "pricePerNight": 3000,
+    "rating": 4.5,
+    "category": "Standard",
+    "detailedDescription": "Experience the beauty of Mars from the comfort of the Red Planet Resort. This luxurious hotel offers spacious rooms equipped with modern amenities, including high-speed internet, flat-screen TVs, and private balconies that provide stunning panoramic views of the Martian landscape. Guests can indulge in gourmet dining at our on-site restaurant, which features a menu inspired by both Martian and Earth cuisines. With a full-service spa, fitness center, and outdoor activities like guided tours of the Martian terrain, the Red Planet Resort is the perfect destination for relaxation and adventure."
   },
   {
     "id": "hotel_3",
@@ -47,7 +47,7 @@
     "id": "hotel_5",
     "destinationId": "venus_cloud_city",
     "name": "Cloud Nine Retreat",
-      "image": "src/assets/images/hotel_05.webp",
+    "image": "src/assets/images/hotel_05.webp",
     "description": "Enjoy comfortable accommodations with essential amenities in a peaceful setting.",
     "pricePerNight": 4000,
     "rating": 4.7,

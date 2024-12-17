@@ -4,10 +4,16 @@
       <div class="hotels-header">
         <h1>Welcome to {{ destinationName }}</h1>
         <div class="booking-details">
-          <p>
-            {{ formattedStartDate }} | {{ days }} days at location | {{ adults }} adults,
-            {{ children }} children, {{ seniors }} seniors
-          </p>
+          <div>
+            <p>
+              {{ formattedStartDate }} | {{ adults }}&nbsp;adults, {{ children }} children,
+              {{ seniors }} seniors |
+            </p>
+            <p>
+              {{ destinationDuration }}&nbsp;travel time one way |
+              {{ days }}&nbsp;days&nbsp;at&nbsp;location
+            </p>
+          </div>
           <TotalPrice />
         </div>
       </div>
@@ -16,6 +22,7 @@
         <HotelList
           :destinationId="destination"
           :destinationName="destination"
+          :travelers="travelers"
           :adults="adults"
           :children="children"
           :seniors="seniors"
@@ -63,6 +70,8 @@ const destinationInfo = computed(() =>
   destinationData.find((dest) => dest.id === destination.value),
 )
 const destinationName = computed(() => destinationInfo.value?.name || 'Unknown Destination')
+
+const destinationDuration = computed(() => destinationInfo.value?.duration || 'Unknown Duration')
 
 // Format the start date
 const formattedStartDate = computed(() => {
