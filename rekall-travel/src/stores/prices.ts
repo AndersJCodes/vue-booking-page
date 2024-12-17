@@ -40,7 +40,13 @@ export const usePriceStore = defineStore('prices', (): PriceStore => {
   })
 
   const addExcursion = (excursion: { id: string; price: number }) => {
-    selectedExcursions.value.push(excursion)
+    if (!selectedExcursions.value.some((e) => e.id === excursion.id)) {
+      selectedExcursions.value.push(excursion)
+    }
+  }
+
+  const removeExcursion = (excursionId: string) => {
+    selectedExcursions.value = selectedExcursions.value.filter((e) => e.id !== excursionId)
   }
 
   const excursionPrice = computed(() => {
@@ -55,6 +61,7 @@ export const usePriceStore = defineStore('prices', (): PriceStore => {
     destinationPrice,
     hotelPrice,
     addExcursion,
+    removeExcursion,
     excursionPrice,
     totalPrice,
   } as const

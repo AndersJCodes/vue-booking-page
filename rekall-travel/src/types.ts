@@ -44,6 +44,7 @@ interface PriceStore {
   hotelPrice: ComputedRef<number>
   excursionPrice: ComputedRef<number>
   addExcursion: (excursion: { id: string; price: number }) => void
+  removeExcursion: (excursionId: string) => void
   totalPrice: ComputedRef<number>
 }
 

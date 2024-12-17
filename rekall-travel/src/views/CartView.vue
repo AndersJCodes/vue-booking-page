@@ -21,13 +21,14 @@
 
       <p><strong>Total Excursion Cost:</strong> {{ totalExcursionCost(card.excursions) }}</p>
       <p><strong>Total Price:</strong> {{ totalPrice(card) }}</p>
+      Totalprice component: <TotalPrice />
     </div>
 
     <!-- Empty cart message -->
     <div v-if="cartItems.length === 0">
       <p>Your cart is empty. Please add a booking.</p>
     </div>
-<button @click="goToPayment">Go to Payment</button>
+    <button @click="goToPayment">Go to Payment</button>
     <!-- Modal -->
     <div v-if="showModal" class="modal">
       <div class="modal-content">
@@ -36,28 +37,28 @@
         <img src="@/assets/images/BankID.png" alt="Bank ID" class="bankid-image" />
       </div>
     </div>
-
   </div>
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue';
-import { useCartStore } from '@/stores/cart';
+import { computed, ref } from 'vue'
+import { useCartStore } from '@/stores/cart'
+import TotalPrice from '@/components/TotalPrice.vue'
 
-const cartStore = useCartStore();
+const cartStore = useCartStore()
 
 // Access cart details from Pinia store
-const cartItems = computed(() => cartStore.cartDetails);
+const cartItems = computed(() => cartStore.cartDetails)
 
 // Compute total hotel cost
-const totalHotelCost = (card) => card.hotelPrice * card.days;
+const totalHotelCost = (card) => card.hotelPrice * card.days
 
 // Compute total excursion cost
 const totalExcursionCost = (excursions) =>
-  excursions.reduce((sum, excursion) => sum + excursion.price, 0);
+  excursions.reduce((sum, excursion) => sum + excursion.price, 0)
 
 // Compute the total price for a card
-const totalPrice = (card) => totalHotelCost(card) + totalExcursionCost(card.excursions);
+const totalPrice = (card) => totalHotelCost(card) + totalExcursionCost(card.excursions)
 
 const showModal = ref(false)
 const goToPayment = () => {

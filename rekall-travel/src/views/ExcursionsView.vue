@@ -31,15 +31,15 @@
 </template>
 
 <script setup lang="ts">
-import { useCartStore } from '@/stores/cart'
-import { usePriceStore } from '@/stores/prices'
 import { computed } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
+import { useCartStore } from '@/stores/cart'
+import { usePriceStore } from '@/stores/prices'
 import excursionsData from '@/db/excursions.json'
 import TotalPrice from '@/components/TotalPrice.vue'
 
+const router = useRouter()
 const route = useRoute()
-const router = useRouter() // Added to fix the error
 const cartStore = useCartStore()
 const priceStore = usePriceStore()
 
@@ -73,12 +73,16 @@ const toggleExcursion = (excursion: { name: string; price: number }) => {
     if (existingIndex > -1) {
       // Remove excursion if it exists
       card.excursions.splice(existingIndex, 1)
+      // Update the pricestore to remove the excursion
+      priceStore.removeExcursion(excursion.id)
     } else {
       // Add excursion if it doesn't exist
       card.excursions.push({
         name: excursion.name,
         price: excursion.price,
       })
+      // Update the price store to add the excursion
+      priceStore.addExcursion({ id: excursion.id, price: excursion.price })
     }
   } else {
     // Create a new card and add the excursion
@@ -102,7 +106,9 @@ const proceedToCart = () => {
 
 // Planet name logic
 const planetName = computed(() => {
-  const match = destination.value.match(/(mars|venus|sun|jupiter|saturn|neptune|uranus|mercury)/i)
+  const match = ((route.query.destination as string) || '').match(
+    /(mars|venus|sun|jupiter|saturn|neptune|uranus|mercury)/i,
+  )
   return match ? match[0].toLowerCase() : 'unknown'
 })
 
