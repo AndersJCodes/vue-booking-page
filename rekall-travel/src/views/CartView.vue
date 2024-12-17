@@ -15,6 +15,7 @@
       <p><strong>Excursion Price:</strong> {{ cartItems.excursionPrice }}</p>
 
       <p><strong>Total Price:</strong> {{ totalPrice }}</p>
+      <TotalPrice />
 
       <button @click="goToPayment">Go to Payment</button>
     </div>
@@ -34,27 +35,33 @@
 </template>
 
 <script setup lang="ts">
-import { useCartStore } from '@/stores/cart';
-import { computed, ref } from 'vue';
-import { useRoute } from 'vue-router';
-import { useRouter } from 'vue-router';
+import { useCartStore } from '@/stores/cart'
+import { computed, ref } from 'vue'
+import { useRoute } from 'vue-router'
+import { useRouter } from 'vue-router'
+import TotalPrice from '@/components/TotalPrice.vue'
 
-const router = useRouter();
-const cartStore = useCartStore();
+const router = useRouter()
+const cartStore = useCartStore()
 
 // Retrieve data passed via router state
 if (history.state?.destination) {
-  cartStore.setCartDetails(history.state); // Populate Pinia with the passed data
+  cartStore.setCartDetails(history.state) // Populate Pinia with the passed data
 }
 
-const cartItems = computed(() => cartStore.cartDetails);
-const totalHotelCost = computed(() => cartItems.value.hotelPrice * cartItems.value.days || 0);
-const totalPrice = computed(() => totalHotelCost.value + cartItems.value.excursionPrice * cartItems.value.travelers);
+const cartItems = computed(() => cartStore.cartDetails)
+const totalHotelCost = computed(() => cartItems.value.hotelPrice * cartItems.value.days || 0)
+const totalPrice = computed(
+  () => totalHotelCost.value + cartItems.value.excursionPrice * cartItems.value.travelers,
+)
 
-
-const showModal = ref(false);
-const goToPayment = () => { showModal.value = true; };
-const closeModal = () => { showModal.value = false; };
+const showModal = ref(false)
+const goToPayment = () => {
+  showModal.value = true
+}
+const closeModal = () => {
+  showModal.value = false
+}
 </script>
 
 <style scoped>
@@ -114,7 +121,7 @@ button:hover {
 }
 
 .bankid-image {
-  width: 100%;  /* Gör bilden responsiv */
+  width: 100%; /* Gör bilden responsiv */
   max-width: 400px;
   margin-top: 1rem;
 }

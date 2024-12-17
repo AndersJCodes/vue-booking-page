@@ -42,6 +42,8 @@ interface BookingQuery {
 interface PriceStore {
   destinationPrice: ComputedRef<number>
   hotelPrice: ComputedRef<number>
+  excursionPrice: ComputedRef<number>
+  addExcursion: (excursion: { id: string; price: number }) => void
   totalPrice: ComputedRef<number>
 }
 

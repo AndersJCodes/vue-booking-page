@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { useRoute } from 'vue-router'
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import destinationsData from '@/db/destinations.json'
 import hotelsData from '@/db/hotels.json'
 import { Destination, Hotel, BookingQuery, PriceStore } from '@/types'
@@ -8,22 +8,19 @@ import { Destination, Hotel, BookingQuery, PriceStore } from '@/types'
 export const usePriceStore = defineStore('prices', (): PriceStore => {
   const route = useRoute()
 
+  const selectedExcursions = ref<{ id: string; price: number }[]>([])
+
   const destinationPrice = computed(() => {
     const queries = route.query as unknown as BookingQuery
     let price = 0
 
     if (queries.destination) {
-      // 2. Clean find operation (BookingQuery ensures destination is string)
       const destination = destinationsData.find((d: Destination) => d.id === queries.destination)
 
       if (destination) {
-        // 3. Simple access (BookingQuery ensures travelers is number)
         price = destination.pricePerPerson * (queries.travelers || 1)
       }
     }
-    console.log('destinationprice', price)
-    console.log('destination query', queries.destination)
-    console.log('destination data', destinationsData)
     return price
   })
 
@@ -42,11 +39,23 @@ export const usePriceStore = defineStore('prices', (): PriceStore => {
     return price
   })
 
-  const totalPrice = computed(() => destinationPrice.value + hotelPrice.value)
+  const addExcursion = (excursion: { id: string; price: number }) => {
+    selectedExcursions.value.push(excursion)
+  }
+
+  const excursionPrice = computed(() => {
+    return selectedExcursions.value.reduce((total, excursion) => total + excursion.price, 0)
+  })
+
+  const totalPrice = computed(
+    () => destinationPrice.value + hotelPrice.value + excursionPrice.value,
+  )
 
   return {
     destinationPrice,
     hotelPrice,
+    addExcursion,
+    excursionPrice,
     totalPrice,
   } as const
 })
