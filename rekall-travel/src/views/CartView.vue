@@ -27,11 +27,21 @@
     <div v-if="cartItems.length === 0">
       <p>Your cart is empty. Please add a booking.</p>
     </div>
+<button @click="goToPayment">Go to Payment</button>
+    <!-- Modal -->
+    <div v-if="showModal" class="modal">
+      <div class="modal-content">
+        <span @click="closeModal" class="close">&times;</span>
+        <h2>Open Your Bank ID</h2>
+        <img src="@/assets/images/BankID.png" alt="Bank ID" class="bankid-image" />
+      </div>
+    </div>
+
   </div>
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 import { useCartStore } from '@/stores/cart';
 
 const cartStore = useCartStore();
@@ -48,6 +58,10 @@ const totalExcursionCost = (excursions) =>
 
 // Compute the total price for a card
 const totalPrice = (card) => totalHotelCost(card) + totalExcursionCost(card.excursions);
+
+const showModal = ref(false);
+const goToPayment = () => { showModal.value = true; };
+const closeModal = () => { showModal.value = false; };
 </script>
 
 <style scoped>
