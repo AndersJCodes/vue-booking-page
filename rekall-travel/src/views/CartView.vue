@@ -82,4 +82,54 @@ const closeModal = () => { showModal.value = false; };
 .cart-card h2 {
   margin-bottom: 0.5rem;
 }
+
+button {
+  padding: 1rem;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #218838;
+}
+
+/* Stil för modal */
+.modal {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Mörk bakgrund */
+  z-index: 1000;
+}
+
+.modal-content {
+  background-color: #fff;
+  padding: 2rem;
+  border-radius: 10px;
+  text-align: center;
+  max-width: 500px;
+  width: 80%;
+}
+
+.close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 2rem;
+  cursor: pointer;
+}
+
+.bankid-image {
+  width: 100%;  /* Gör bilden responsiv */
+  max-width: 400px;
+  margin-top: 1rem;
+}
 </style>
