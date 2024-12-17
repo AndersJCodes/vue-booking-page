@@ -10,45 +10,58 @@ export const useCartStore = defineStore('cart', {
       days: number;
       hotelName: string;
       hotelPrice: number;
-      excursionName: string;
-      excursionPrice: number;
+      excursions: Array<{
+        name: string;
+        price: number;
+      }>;
     }>,
   }),
   actions: {
-    // Add a new cart item to the array
-    addCartItem(details: Partial<typeof this.cartDetails[0]>) {
-      const newItem = {
-        destination: 'Unknown Destination',
-        travelers: 1,
-        travelDate: 'No Date Selected',
-        days: 0,
-        hotelName: 'None selected',
-        hotelPrice: 0,
-        excursionName: 'None selected',
-        excursionPrice: 0,
-        ...details, // Override defaults with provided details
-      };
-      this.cartDetails.push(newItem);
-    },
+    // Add an excursion to the card or create the card
+    addExcursionToCard(details: {
+      destination: string;
+      travelers: number;
+      travelDate: string;
+      days: number;
+      hotelName: string;
+      hotelPrice: number;
+      excursionName?: string;
+      excursionPrice?: number;
+    }) {
+      const existingCard = this.cartDetails.find(
+        (card) => card.destination === details.destination
+      );
 
-    // Update a specific cart item by index
-    updateCartItem(index: number, details: Partial<typeof this.cartDetails[0]>) {
-      if (this.cartDetails[index]) {
-        this.cartDetails[index] = { ...this.cartDetails[index], ...details };
+      if (existingCard) {
+        // Add excursion only if provided
+        if (details.excursionName && details.excursionPrice) {
+          existingCard.excursions.push({
+            name: details.excursionName,
+            price: details.excursionPrice,
+          });
+        }
+      } else {
+        // Create a new card even if no excursions are selected
+        this.cartDetails.push({
+          destination: details.destination,
+          travelers: details.travelers,
+          travelDate: details.travelDate,
+          days: details.days,
+          hotelName: details.hotelName,
+          hotelPrice: details.hotelPrice,
+          excursions: details.excursionName
+            ? [
+                {
+                  name: details.excursionName,
+                  price: details.excursionPrice || 0,
+                },
+              ]
+            : [], // Empty excursions if none are selected
+        });
       }
     },
-
-    // Clear all cart items
     clearCart() {
       this.cartDetails = [];
-    },
-
-    // Update excursion details for a specific cart item
-    setExcursion(index: number, excursion: { name: string; price: number }) {
-      if (this.cartDetails[index]) {
-        this.cartDetails[index].excursionName = excursion.name;
-        this.cartDetails[index].excursionPrice = excursion.price;
-      }
     },
   },
 });
