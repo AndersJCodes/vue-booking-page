@@ -1,6 +1,6 @@
 <template>
   <div class="excursions-page">
-    <h1>Excursions för {{ planetName }}</h1>
+    <h1>Excursions for {{ planetName }}</h1>
     <TotalPrice />
 
     <div v-if="filteredExcursions.length > 0">
@@ -47,6 +47,7 @@ const route = useRoute()
 // Initiera Pinia store
 const cartStore = useCartStore()
 const priceStore = usePriceStore()
+console.log('Price Store:', priceStore)
 
 // Hämta destination detaljer från query parametrar
 const currentDestination = {
@@ -106,6 +107,7 @@ onMounted(() => {
       existingCart.excursions.forEach((exc) =>
         priceStore.addExcursion({ id: exc.id, price: exc.price }),
       )
+    }
   }
 })
 
@@ -115,6 +117,9 @@ const proceedToCart = () => {
   const selectedExcursionsArray = excursionsData.filter((exc) =>
     selectedExcursions.value.has(exc.id),
   )
+  ///Räkna ut totalpriset för allt
+  const totalPrice = priceStore.totalPrice
+  console.log('Total Price:', totalPrice)
 
   // Skapa en ny cart i butiken
   const cartDetails = {
@@ -130,7 +135,9 @@ const proceedToCart = () => {
       name: exc.name,
       price: exc.price,
     })),
+    totalPrice: totalPrice,
   }
+  console.log('Cart Details:', cartDetails.totalPrice)
 
   // Uppdatera den senaste carten istället för att skapa en ny
   cartStore.updateLatestCart(cartDetails)

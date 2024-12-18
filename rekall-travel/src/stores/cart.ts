@@ -18,6 +18,7 @@ export const useCartStore = defineStore('cart', {
         name: string
         price: number
       }>
+      totalPrice: number
     }>,
   }),
   actions: {
@@ -35,6 +36,7 @@ export const useCartStore = defineStore('cart', {
         name: string
         price: number
       }>
+      totalPrice: number
     }) {
       const cartId = uuidv4()
       this.cartDetails.push({
@@ -47,6 +49,7 @@ export const useCartStore = defineStore('cart', {
         hotelName: details.hotelName,
         hotelPrice: details.hotelPrice,
         excursions: details.excursions,
+        totalPrice: details.totalPrice,
       })
     },
     updateLatestCart(details: {
@@ -62,6 +65,7 @@ export const useCartStore = defineStore('cart', {
         name: string
         price: number
       }>
+      totalPrice: number
     }) {
       const existingCart = this.cartDetails.find((cart) => cart.sessionId === details.sessionId)
       if (existingCart) {
@@ -72,6 +76,7 @@ export const useCartStore = defineStore('cart', {
         existingCart.hotelName = details.hotelName
         existingCart.hotelPrice = details.hotelPrice
         existingCart.excursions = details.excursions
+        existingCart.totalPrice = details.totalPrice
       } else {
         this.setCartDetails(details)
       }

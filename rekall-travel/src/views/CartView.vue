@@ -14,6 +14,7 @@
         <ul>
           <li v-for="exc in cart.excursions" :key="exc.id">{{ exc.name }} - ${{ exc.price }}</li>
         </ul>
+        <p><strong>Total Price:</strong> ${{ cart.totalPrice }} kr</p>
       </div>
     </div>
     <div v-else>
