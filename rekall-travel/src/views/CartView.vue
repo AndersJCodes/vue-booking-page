@@ -48,6 +48,7 @@ const totalPrice = computed(() => {
 })
 
 const showModal = ref(false)
+
 const goToPayment = () => {
   showModal.value = true
 }

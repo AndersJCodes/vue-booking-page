@@ -56,6 +56,7 @@ const currentDestination = {
   days: parseInt(route.query.days as string, 10) || 0,
   hotelName: (route.query.hotelName as string) || 'None selected',
   hotelPrice: parseFloat(route.query.hotelPrice as string) || 0,
+  sessionId: (route.query.sessionId as string) || '',
 }
 
 // Lokalt tillstånd för valda excursions
@@ -66,11 +67,9 @@ const toggleExcursion = (excursion: { id: string; name: string; price: number })
   if (selectedExcursions.value.has(excursion.id)) {
     selectedExcursions.value.delete(excursion.id)
     priceStore.removeExcursion(excursion.id)
-    console.log(`Excursion Removed: ${excursion.id}`)
   } else {
     selectedExcursions.value.add(excursion.id)
     priceStore.addExcursion({ id: excursion.id, price: excursion.price })
-    console.log(`Excursion Added: ${excursion.id}`)
   }
 }
 
@@ -98,14 +97,15 @@ const filteredExcursions = computed(() =>
 
 // Ladda senaste cart vid mount om den finns
 onMounted(() => {
-  if (cartStore.cartDetails.length > 0) {
-    const latestCart = cartStore.cartDetails[cartStore.cartDetails.length - 1]
-    latestCart.excursions.forEach((exc) => selectedExcursions.value.add(exc.id))
-    // Lägg till priser i priceStore
-    latestCart.excursions.forEach((exc) =>
-      priceStore.addExcursion({ id: exc.id, price: exc.price }),
-    )
-    console.log('Laddad Senaste Cart för redigering:', latestCart.cartId)
+  const sessionId = currentDestination.sessionId
+  if (sessionId) {
+    const existingCart = cartStore.cartDetails.find((cart) => cart.sessionId === sessionId)
+    if (existingCart) {
+      existingCart.excursions.forEach((exc) => selectedExcursions.value.add(exc.id))
+      // Lägg till priser i priceStore
+      existingCart.excursions.forEach((exc) =>
+        priceStore.addExcursion({ id: exc.id, price: exc.price }),
+      )
   }
 })
 
@@ -124,6 +124,7 @@ const proceedToCart = () => {
     days: currentDestination.days,
     hotelName: currentDestination.hotelName,
     hotelPrice: currentDestination.hotelPrice,
+    sessionId: currentDestination.sessionId,
     excursions: selectedExcursionsArray.map((exc) => ({
       id: exc.id,
       name: exc.name,
@@ -134,14 +135,9 @@ const proceedToCart = () => {
   // Uppdatera den senaste carten istället för att skapa en ny
   cartStore.updateLatestCart(cartDetails)
 
-  console.log('Cart Added:', cartStore.cartDetails[cartStore.cartDetails.length - 1])
-
   // Navigera till cartvyn
   router.push({ name: 'cart' })
 }
-
-// Initial logg av cart state
-console.log('Initial Cart State:', cartStore.cartDetails)
 </script>
 
 <style scoped>

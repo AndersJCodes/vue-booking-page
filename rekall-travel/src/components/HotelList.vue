@@ -38,8 +38,6 @@ const router = useRouter()
 // Define the props expected
 const props = defineProps<BookingQuery>()
 
-console.log(props)
-
 // Filter hotels based on destinationId
 const filteredHotels = computed(() =>
   hotelsData.filter((hotel) => hotel.destinationId === props.destination),
@@ -79,6 +77,7 @@ const selectHotel = (hotel: Hotel) => {
       seniors: props.seniors?.toString(),
       startDate: props.startDate,
       days: props.days.toString(),
+      sessionId: props.sessionId,
     },
   })
 }

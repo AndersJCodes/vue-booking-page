@@ -140,6 +140,9 @@ const handleSubmit = () => {
     return
   }
 
+  // Generera ett unikt session ID
+  const sessionId = uuidv4()
+
   router.push({
     name: 'hotels',
     query: {
@@ -150,6 +153,7 @@ const handleSubmit = () => {
       seniors: guests.value.seniors,
       startDate: travelDate.value,
       days: numberOfDays.value,
+      sessionId: sessionId,
     },
   })
 }

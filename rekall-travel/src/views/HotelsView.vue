@@ -28,6 +28,7 @@
           :seniors="seniors"
           :startDate="startDate"
           :days="days"
+          :sessionId="sessionId"
         />
       </div>
     </template>
@@ -58,6 +59,7 @@ const children = computed(() => parseInt(route.query.children as string, 10) || 
 const seniors = computed(() => parseInt(route.query.seniors as string, 10) || 0)
 const startDate = computed(() => route.query.startDate as string)
 const days = computed(() => parseInt(route.query.days as string, 10) || 10)
+const sessionId = computed(() => route.query.sessionId as string)
 
 // Validate presence of required parameters
 const isValidParams = computed(() => {
