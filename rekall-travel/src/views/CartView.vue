@@ -4,7 +4,7 @@
 
     <!-- Loop through each card in the cart -->
     <div v-for="(card, index) in cartItems" :key="index" class="cart-card">
-      <h2>Destination: {{ card.destination }}</h2>
+      <h2>Destination: {{ card.destinationName }}</h2>
       <p><strong>Travelers:</strong> {{ card.travelers }} guests</p>
       <p><strong>Travel Date:</strong> {{ card.travelDate }}</p>
       <p><strong>Number of Days:</strong> {{ card.days }}</p>
@@ -44,11 +44,23 @@
 import { computed, ref } from 'vue'
 import { useCartStore } from '@/stores/cart'
 import TotalPrice from '@/components/TotalPrice.vue'
+import destinationsData from '@/db/destinations.json'
 
 const cartStore = useCartStore()
 
+const getDestinationName = (id: string): string => {
+  const destination = destinationsData.find((item) => item.id === id);
+  return destination ? destination.name : 'Unknown Destination';
+};
+
+
 // Access cart details from Pinia store
-const cartItems = computed(() => cartStore.cartDetails)
+const cartItems = computed(() => {
+  return cartStore.cartDetails.map((card) => ({
+    ...card,
+    destinationName: getDestinationName(card.destination), // Add name dynamically
+  }));
+});
 
 // Compute total hotel cost
 const totalHotelCost = (card) => card.hotelPrice * card.days
