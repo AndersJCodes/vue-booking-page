@@ -19,22 +19,25 @@
     <div v-else>
       <p>Din cart är tom.</p>
     </div>
-    <button class="back-button" @click="goBack">Tillbaka till Excursions</button>
+    <button @click="goToPayment">Go to Payment</button>
+    <!-- Modal -->
+    <div v-if="showModal" class="modal">
+      <div class="modal-content">
+        <span @click="closeModal" class="close">&times;</span>
+        <h2>Open Your Bank ID</h2>
+        <img src="@/assets/images/BankID.png" alt="Bank ID" class="bankid-image" />
+      </div>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { useCartStore } from '@/stores/cart'
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import { useRouter } from 'vue-router'
 
 const cartStore = useCartStore()
 const router = useRouter()
-
-// Funktion för att gå tillbaka till excursions sidan
-const goBack = () => {
-  router.push({ name: 'excursions' })
-}
 
 // Komputera totala priset
 const totalPrice = computed(() => {
@@ -43,6 +46,14 @@ const totalPrice = computed(() => {
     return total + cart.hotelPrice + excursionsTotal
   }, 0)
 })
+
+const showModal = ref(false)
+const goToPayment = () => {
+  showModal.value = true
+}
+const closeModal = () => {
+  showModal.value = false
+}
 </script>
 
 <style scoped>
@@ -86,5 +97,42 @@ ul {
 
 li {
   margin-bottom: 4px;
+}
+
+/* Stil för modal */
+.modal {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Mörk bakgrund */
+  z-index: 1000;
+}
+
+.modal-content {
+  background-color: #fff;
+  padding: 2rem;
+  border-radius: 10px;
+  text-align: center;
+  max-width: 500px;
+  width: 80%;
+}
+
+.close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 2rem;
+  cursor: pointer;
+}
+
+.bankid-image {
+  width: 100%; /* Gör bilden responsiv */
+  max-width: 400px;
+  margin-top: 1rem;
 }
 </style>
