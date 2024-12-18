@@ -46,6 +46,7 @@ interface PriceStore {
   addExcursion: (excursion: { id: string; price: number }) => void
   removeExcursion: (excursionId: string) => void
   totalPrice: ComputedRef<number>
+  resetStore: () => void
 }
 
 // New interfaces for Blog Posts

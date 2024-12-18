@@ -57,6 +57,10 @@ export const usePriceStore = defineStore('prices', (): PriceStore => {
     () => destinationPrice.value + hotelPrice.value + excursionPrice.value,
   )
 
+  const resetStore = () => {
+    selectedExcursions.value = []
+  }
+
   return {
     destinationPrice,
     hotelPrice,
@@ -64,5 +68,6 @@ export const usePriceStore = defineStore('prices', (): PriceStore => {
     removeExcursion,
     excursionPrice,
     totalPrice,
+    resetStore,
   } as const
 })
