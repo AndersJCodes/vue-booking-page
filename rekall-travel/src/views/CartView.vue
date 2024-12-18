@@ -33,7 +33,6 @@
 
       <p><strong>Total Excursion Cost:</strong> {{ totalExcursionCost(card.excursions) }}</p>
       <p><strong>Total Price:</strong> {{ totalPrice(card) }}</p>
-      Totalprice component: <TotalPrice />
       <p>
         <button class="remove-button" @click="removeCard(index)">Remove</button>
       </p>
@@ -61,6 +60,7 @@ import { useRouter } from 'vue-router'
 import destinationsData from '@/db/destinations.json'
 
 const cartStore = useCartStore()
+console.log('Cart Details:', cartStore.cartDetails)
 
 const totalCartPrice = computed(() => {
   return cartStore.cartDetails.reduce((total, cart) => {
