@@ -158,4 +158,18 @@ button:hover {
   max-width: 400px;
   margin-top: 1rem;
 }
+
+.remove-button {
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 1rem;
+}
+
+.remove-button:hover {
+  background-color: #c82333;
+}
 </style>
