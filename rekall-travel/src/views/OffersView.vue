@@ -6,41 +6,44 @@
       <div class="offer-details">
         <h2>{{ offer.name }}</h2>
         <p>{{ offer.description }}</p>
+        <p><strong>Travel Date:</strong> {{ offer.travelDate || 'No Date Selected' }}</p>
         <p>
           <span>Price:</span>
           <span class="old-price">${{ offer.price }}</span>
-          <span class="discounted-price"
-            >${{ calculateDiscountedPrice(offer.price, offer.discount) }}</span
-          >
+          <span class="discounted-price">
+            ${{ calculateDiscountedPrice(offer.price, offer.discount) }}
+          </span>
         </p>
-        <p><span>Duration:</span> {{ offer.duration }}</p>
-        <p><span>Adults:</span> {{ offer.adults }}</p>
-        <p v-if="offer.children"><span>Children:</span> {{ offer.children }}</p>
+        <p><span>Duration:</span> {{ offer.duration }} days</p>
+        <p><span>Travelers:</span> {{ offer.travelers }}</p>
+
         <h3>Included Excursions:</h3>
         <ul>
           <li v-for="excursionId in offer.excursions" :key="excursionId">
-            {{ getExcursionById(excursionId).name }}
+            {{ getExcursionById(excursionId)?.name || 'Unknown Excursion' }}
           </li>
         </ul>
         <h3>Hotel Options:</h3>
         <ul>
           <li v-for="hotelId in offer.hotel" :key="hotelId">
-            {{ getHotelById(hotelId).name }}
+            {{ getHotelById(hotelId)?.name || 'Unknown Hotel' }}
           </li>
         </ul>
 
         <div class="choose-btn-container">
-          <button class="choose-btn" @click="addToCart(offer)">Choose</button>
+          <button class="choose-btn" @click="handleChoose(offer)">Choose</button>
         </div>
       </div>
     </div>
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import offers from '@/db/offers.json'
 import excursions from '@/db/excursions.json'
 import hotels from '@/db/hotels.json'
+import { useCartStore } from '@/stores/cart'
+import { Offer, Hotel, Excursion } from '@/types'
 
 export default {
   name: 'SpecialOffers',
@@ -51,17 +54,43 @@ export default {
       hotels,
     }
   },
+
   methods: {
-    getExcursionById(id) {
-      return (
-        this.excursions.find((excursion) => excursion.id === id) || { name: 'Unknown Excursion' }
-      )
+    getExcursionById(id: string): Excursion | undefined {
+      return this.excursions.find((excursion: Excursion) => excursion.id === id)
     },
-    getHotelById(id) {
-      return this.hotels.find((hotel) => hotel.id === id) || { name: 'Unknown Hotel' }
+    getHotelById(id: string): Hotel | undefined {
+      return this.hotels.find((hotel: Hotel) => hotel.id === id)
     },
-    calculateDiscountedPrice(price, discount) {
+    calculateDiscountedPrice(price: number, discount: number) {
       return (price * (1 - discount / 100)).toFixed(2)
+    },
+    handleChoose(offer: Offer) {
+      this.addToCart(offer)
+      this.$router.push({ name: 'cart' })
+    },
+    addToCart(offer: Offer) {
+      const cartStore = useCartStore()
+
+      const excursions = offer.excursions.map((id) => {
+        const excursion = this.getExcursionById(id)
+        return {
+          id: excursion?.id || '',
+          name: excursion?.name || 'Unknown Excursion',
+          price: excursion?.price || 0,
+        }
+      })
+
+      const hotel = this.getHotelById(offer.hotel[0])
+      cartStore.setCartDetails({
+        destination: offer.name,
+        travelers: offer.travelers,
+        travelDate: offer.travelDate || 'No Date Selected',
+        days: offer.duration,
+        hotelName: hotel?.name || 'Unknown Hotel',
+        hotelPrice: hotel?.pricePerNight || 0,
+        excursions,
+      })
     },
   },
 }
