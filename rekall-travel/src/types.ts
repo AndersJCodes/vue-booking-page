@@ -37,6 +37,7 @@ interface BookingQuery {
   excursionId?: string
   excursionName?: string
   excursionPrice?: number
+  sessionId: string
 }
 
 interface PriceStore {

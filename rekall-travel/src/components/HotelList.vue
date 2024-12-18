@@ -79,6 +79,7 @@ const selectHotel = (hotel: Hotel) => {
       seniors: props.seniors?.toString(),
       startDate: props.startDate,
       days: props.days.toString(),
+      sessionId: props.sessionId,
     },
   })
 }

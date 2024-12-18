@@ -90,6 +90,7 @@ import { ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import type { Destination } from '@/types'
 import destinationsData from '@/db/destinations.json'
+import { v4 as uuidv4 } from 'uuid'
 
 const destinations: Destination[] = destinationsData
 const router = useRouter()
@@ -139,6 +140,9 @@ const handleSubmit = () => {
     return
   }
 
+  // Generera ett unikt session ID
+  const sessionId = uuidv4()
+
   router.push({
     name: 'hotels',
     query: {
@@ -149,6 +153,7 @@ const handleSubmit = () => {
       seniors: guests.value.seniors,
       startDate: travelDate.value,
       days: numberOfDays.value,
+      sessionId: sessionId,
     },
   })
 }
