@@ -26,9 +26,7 @@
     </div>
 
     <!-- Proceed to Cart Button -->
-    <button class="proceed-button" @click="proceedToCart">
-      Proceed to Cart
-    </button>
+    <button class="proceed-button" @click="proceedToCart">Proceed to Cart</button>
   </div>
 </template>
 
@@ -47,7 +45,6 @@ const route = useRoute()
 // Initiera Pinia store
 const cartStore = useCartStore()
 const priceStore = usePriceStore()
-console.log('Price Store:', priceStore)
 
 // Hämta destination detaljer från query parametrar
 const currentDestination = {
@@ -122,7 +119,6 @@ const proceedToCart = () => {
   )
   ///Räkna ut totalpriset för allt
   const totalPrice = priceStore.totalPrice
-  console.log('Total Price:', totalPrice)
 
   // Skapa en ny cart i butiken
   const cartDetails = {
@@ -143,7 +139,6 @@ const proceedToCart = () => {
     })),
     totalPrice: totalPrice,
   }
-  console.log('Cart Details:', cartDetails.totalPrice)
 
   // Uppdatera den senaste carten istället för att skapa en ny
   cartStore.updateLatestCart(cartDetails)

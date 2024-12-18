@@ -17,6 +17,7 @@
     <div class="navbar-right">
       <router-link to="/cart" class="nav-link cart-link">
         <LiCart />
+        <div v-if="hasItemsInCart" class="cart-dot">{{ cartStore.cartDetails.length }}</div>
       </router-link>
       <button class="hamburger" @click="toggleMenu" aria-label="Toggle menu">
         <span class="bar"></span>
@@ -37,10 +38,16 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import { LiCart } from '@kalimahapps/vue-icons'
+import { useCartStore } from '@/stores/cart'
 
+const cartStore = useCartStore()
 const isMenuOpen = ref(false)
+// Computed property to check if there are items in the cart
+const hasItemsInCart = computed(() => cartStore.cartDetails.length > 0)
+
+console.log('Cart Store:', cartStore.cartDetails.length)
 
 function toggleMenu() {
   isMenuOpen.value = !isMenuOpen.value
@@ -108,6 +115,24 @@ function toggleMenu() {
   font-size: 1.5rem;
 }
 
+.cart-dot {
+  position: absolute;
+  top: 8px; /* Adjust to position the dot on top */
+  right: 20px; /* Adjust to position the dot on top */
+  width: 20px; /* Adjust size for number */
+  height: 20px; /* Adjust size for number */
+  background-color: red;
+  border-radius: 50%;
+  border: 2px solid white; /* Optional: Add a border to make the dot stand out */
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.5); /* Optional: Add a shadow for better visibility */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white; /* Text color */
+  font-size: 12px; /* Adjust font size */
+  font-weight: bold; /* Make the number bold */
+}
+
 .cart-link:hover {
   color: #ff6347;
 }
@@ -158,6 +183,10 @@ function toggleMenu() {
   }
   .mobile-menu {
     display: flex;
+  }
+
+  .cart-dot {
+    right: 61px; /* Adjust to position the dot on top */
   }
 }
 </style>

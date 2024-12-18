@@ -61,11 +61,10 @@ import { useRouter } from 'vue-router'
 import destinationsData from '@/db/destinations.json'
 
 const cartStore = useCartStore()
-console.log('Cart Details:', cartStore.cartDetails)
 
 const totalCartPrice = computed(() => {
   return cartStore.cartDetails.reduce((total, cart) => {
-    console.log('Cart Total Price:', cart.totalPrice) // Debugging log
+    // Debugging log
     return total + (cart.totalPrice || 0) // Ensure totalPrice is a number
   }, 0)
 })
