@@ -1,10 +1,10 @@
 <template>
   <div class="excursions-page">
-    <h1>Excursions for {{ planetName }}</h1>
+    <h1>Excursions för {{ planetName }}</h1>
     <TotalPrice />
 
     <div v-if="filteredExcursions.length > 0">
-      <!-- Loop through excursions -->
+      <!-- Loop genom excursions -->
       <div v-for="excursion in filteredExcursions" :key="excursion.id" class="excursion-item">
         <h2>{{ excursion.name }}</h2>
         <p>{{ excursion.description }}</p>
@@ -14,36 +14,41 @@
         <!-- Toggle Add/Remove Button -->
         <button
           class="add-button"
-          :class="{ selected: isExcursionInCard(excursion.name) }"
+          :class="{ selected: isExcursionSelected(excursion.id) }"
           @click="toggleExcursion(excursion)"
         >
-          {{ isExcursionInCard(excursion.name) ? 'Remove from Cart' : 'Add to Cart' }}
+          {{ isExcursionSelected(excursion.id) ? 'Ta bort från Cart' : 'Lägg till i Cart' }}
         </button>
       </div>
     </div>
     <div v-else>
-      <p>No excursions available for the selected destination.</p>
+      <p>Inga excursions tillgängliga för den valda destinationen.</p>
     </div>
 
     <!-- Proceed to Cart Button -->
-    <button class="proceed-button" @click="proceedToCart">Proceed to Cart</button>
+    <button class="proceed-button" @click="proceedToCart" :disabled="!hasSelectedExcursions">
+      Proceed to Cart
+    </button>
   </div>
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { useCartStore } from '@/stores/cart'
 import { usePriceStore } from '@/stores/prices'
 import excursionsData from '@/db/excursions.json'
 import TotalPrice from '@/components/TotalPrice.vue'
 
+// Initialisera router och route
 const router = useRouter()
 const route = useRoute()
+
+// Initiera Pinia store
 const cartStore = useCartStore()
 const priceStore = usePriceStore()
 
-// Current destination details
+// Hämta destination detaljer från query parametrar
 const currentDestination = {
   destination: (route.query.destination as string) || 'Unknown Destination',
   travelers: parseInt(route.query.travelers as string, 10) || 1,
@@ -56,58 +61,31 @@ const currentDestination = {
   hotelPrice: parseFloat(route.query.hotelPrice as string) || 0,
 }
 
-// Check if an excursion is in the card for the current destination
-const isExcursionInCard = (excursionName: string) => {
-  const card = cartStore.cartDetails.find(
-    (item) => item.destination === currentDestination.destination,
-  )
-  return card?.excursions.some((exc) => exc.name === excursionName) || false
-}
+// Lokalt tillstånd för valda excursions
+const selectedExcursions = ref<Set<string>>(new Set())
 
-// Toggle excursion in the current card
-const toggleExcursion = (excursion: { name: string; price: number }) => {
-  const card = cartStore.cartDetails.find(
-    (item) => item.destination === currentDestination.destination,
-  )
-
-  if (card) {
-    const existingIndex = card.excursions.findIndex((exc) => exc.name === excursion.name)
-
-    if (existingIndex > -1) {
-      // Remove excursion if it exists
-      card.excursions.splice(existingIndex, 1)
-      // Update the pricestore to remove the excursion
-      priceStore.removeExcursion(excursion.id)
-    } else {
-      // Add excursion if it doesn't exist
-      card.excursions.push({
-        name: excursion.name,
-        price: excursion.price,
-      })
-      // Update the price store to add the excursion
-      priceStore.addExcursion({ id: excursion.id, price: excursion.price })
-    }
+// Funktion för att toggla excursion val
+const toggleExcursion = (excursion: { id: string; name: string; price: number }) => {
+  if (selectedExcursions.value.has(excursion.id)) {
+    selectedExcursions.value.delete(excursion.id)
+    priceStore.removeExcursion(excursion.id)
+    console.log(`Excursion Removed: ${excursion.id}`)
   } else {
-    // Create a new card and add the excursion
-    cartStore.addExcursionToCard({
-      ...currentDestination,
-      excursionName: excursion.name,
-      excursionPrice: excursion.price,
-    })
+    selectedExcursions.value.add(excursion.id)
+    priceStore.addExcursion({ id: excursion.id, price: excursion.price })
+    console.log(`Excursion Added: ${excursion.id}`)
   }
 }
 
-// Proceed to Cart: Finalize the card and navigate
-const proceedToCart = () => {
-  cartStore.addExcursionToCard({
-    ...currentDestination,
-    excursionName: undefined,
-    excursionPrice: undefined,
-  })
-  router.push({ name: 'cart' })
+// Kontrollera om en excursion är vald
+const isExcursionSelected = (excursionId: string) => {
+  return selectedExcursions.value.has(excursionId)
 }
 
-// Planet name logic
+// Kontrollera om minst en excursion är vald
+const hasSelectedExcursions = computed(() => selectedExcursions.value.size > 0)
+
+// Filtrera excursions baserat på planet
 const planetName = computed(() => {
   const match = ((route.query.destination as string) || '').match(
     /(mars|venus|sun|jupiter|saturn|neptune|uranus|mercury)/i,
@@ -115,12 +93,42 @@ const planetName = computed(() => {
   return match ? match[0].toLowerCase() : 'unknown'
 })
 
-// Filter excursions based on planet
 const filteredExcursions = computed(() =>
   excursionsData.filter(
     (exc) => planetName.value && exc.id.toLowerCase().includes(planetName.value),
   ),
 )
+
+// Funktion för att spara valda excursions till en ny cart
+const proceedToCart = () => {
+  // Hämta alla valda excursions objekt
+  const selectedExcursionsArray = excursionsData.filter((exc) =>
+    selectedExcursions.value.has(exc.id),
+  )
+
+  // Skapa en ny cart i butiken
+  cartStore.setCartDetails({
+    destination: currentDestination.destination,
+    travelers: currentDestination.travelers,
+    travelDate: currentDestination.travelDate,
+    days: currentDestination.days,
+    hotelName: currentDestination.hotelName,
+    hotelPrice: currentDestination.hotelPrice,
+    excursions: selectedExcursionsArray.map((exc) => ({
+      id: exc.id,
+      name: exc.name,
+      price: exc.price,
+    })),
+  })
+
+  console.log('Cart Added:', cartStore.cartDetails[cartStore.cartDetails.length - 1])
+
+  // Navigera till cartvyn
+  router.push({ name: 'cart' })
+}
+
+// Initial logg av cart state
+console.log('Initial Cart State:', cartStore.cartDetails)
 </script>
 
 <style scoped>
@@ -168,5 +176,10 @@ button {
 
 .proceed-button:hover {
   background-color: #e0a800;
+}
+
+.proceed-button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
 }
 </style>
