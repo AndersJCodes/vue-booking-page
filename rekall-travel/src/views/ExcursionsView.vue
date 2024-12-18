@@ -26,7 +26,7 @@
     </div>
 
     <!-- Proceed to Cart Button -->
-    <button class="proceed-button" @click="proceedToCart" :disabled="!hasSelectedExcursions">
+    <button class="proceed-button" @click="proceedToCart">
       Proceed to Cart
     </button>
   </div>
@@ -53,6 +53,9 @@ console.log('Price Store:', priceStore)
 const currentDestination = {
   destination: (route.query.destination as string) || 'Unknown Destination',
   travelers: parseInt(route.query.travelers as string, 10) || 1,
+  adults: parseInt(route.query.adults as string, 10) || 0,
+  children: parseInt(route.query.children as string, 10) || 0,
+  seniors: parseInt(route.query.seniors as string, 10) || 0,
   travelDate: (route.query.startDate as string) || 'No Date Selected',
   days: parseInt(route.query.days as string, 10) || 0,
   hotelName: (route.query.hotelName as string) || 'None selected',
@@ -125,6 +128,9 @@ const proceedToCart = () => {
   const cartDetails = {
     destination: currentDestination.destination,
     travelers: currentDestination.travelers,
+    adults: currentDestination.adults,
+    children: currentDestination.children,
+    seniors: currentDestination.seniors,
     travelDate: currentDestination.travelDate,
     days: currentDestination.days,
     hotelName: currentDestination.hotelName,

@@ -9,6 +9,9 @@ export const useCartStore = defineStore('cart', {
       sessionId: string
       destination: string
       travelers: number
+      adults: number;
+      children: number;
+      seniors: number;
       travelDate: string
       days: number
       hotelName: string
@@ -27,6 +30,9 @@ export const useCartStore = defineStore('cart', {
       sessionId: string
       destination: string
       travelers: number
+      adults: number
+      children: number
+      seniors: number
       travelDate: string
       days: number
       hotelName: string
@@ -44,6 +50,9 @@ export const useCartStore = defineStore('cart', {
         sessionId: details.sessionId,
         destination: details.destination,
         travelers: details.travelers,
+        adults: details.adults,
+        children: details.children,
+        seniors: details.seniors,
         travelDate: details.travelDate,
         days: details.days,
         hotelName: details.hotelName,
@@ -81,6 +90,12 @@ export const useCartStore = defineStore('cart', {
         this.setCartDetails(details)
       }
     },
+    removeCard(index: number) {
+      if (index >= 0 && index < this.cartDetails.length) {
+        this.cartDetails.splice(index, 1);
+      }
+    },
+
     clearCart() {
       this.cartDetails = []
     },

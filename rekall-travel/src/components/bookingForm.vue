@@ -22,7 +22,7 @@
       <div class="search-section">
         <label class="section-label" for="number-of-days">Check-out</label>
         <div class="days-wrapper">
-          <select v-model.number="selectedOption" id="number-of-days" required>
+          <select v-model.number="selectedOption" id="number-of-days" required :disabled="isSolarFarewell">
             <option disabled value="">Add stays</option>
             <option v-for="days in daysOptions" :key="days" :value="days">{{ days }} days</option>
             <option :value="customDaysFlag">Custom...</option>
@@ -50,20 +50,31 @@
 
         <!-- Dropdown menu -->
         <div v-if="isDropdownOpen" class="dropdown-menu">
-          <div class="guest-group">
-            <div class="guest-item" v-for="(label, type) in guestTypes" :key="type">
-              <label>{{ label }}</label>
-              <div class="guest-controls">
-                <button @click.prevent="updateGuests(type, -1)" :disabled="guests[type] <= 0">
-                  -
-                </button>
-                <span>{{ guests[type] }}</span>
-                <button @click.prevent="updateGuests(type, 1)">+</button>
-              </div>
-            </div>
-          </div>
-          <button type="button" class="done-button" @click="toggleDropdown">Done</button>
-        </div>
+  <div class="guest-group">
+    <div class="guest-item" v-for="(label, type) in guestTypes" :key="type">
+      <label>{{ label }}</label>
+      <div class="guest-controls">
+        <button
+         @click.prevent="updateGuests(type, -1)"
+          :disabled="guests[type] <= 0 || (type === 'children' && isSolarFarewell)"
+             >
+                 -
+           </button>
+
+            <span>{{ guests[type] }}</span>
+             <button
+             @click.prevent="updateGuests(type, 1)"
+             :disabled="type === 'children' && isSolarFarewell"
+             >
+              +
+             </button>
+
+      </div>
+    </div>
+  </div>
+  <button type="button" class="done-button" @click="toggleDropdown">Done</button>
+</div>
+
       </div>
 
       <!-- Submit Button -->
@@ -105,6 +116,12 @@ const daysOptions = [10, 20, 30]
 const customDaysFlag = 'custom'
 const customDaysValue = ref<number | null>(null)
 const isDropdownOpen = ref(false)
+// Is the selected destination Solar Farewell Voyage?
+const isSolarFarewell = computed(() => {
+  const selectedDestination = destinations.find(dest => dest.id === destination.value)
+  return selectedDestination?.name === 'Solar Farewell Voyage'
+})
+
 
 const guestTypes = {
   adults: 'Adults',
