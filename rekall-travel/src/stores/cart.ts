@@ -5,9 +5,11 @@ import { v4 as uuidv4 } from 'uuid'
 export const useCartStore = defineStore('cart', {
   state: () => ({
     cartDetails: [] as Array<{
-      cartId: string
       destination: string
       travelers: number
+      adults: number
+      children: number
+      seniors: number
       travelDate: string
       days: number
       hotelName: string
@@ -20,66 +22,56 @@ export const useCartStore = defineStore('cart', {
     }>,
   }),
   actions: {
-    // Lägg till en ny cart med excursions
-    setCartDetails(details: {
+    // Add an excursion to the card or create the card
+    addExcursionToCard(details: {
       destination: string
       travelers: number
+      adults: number
+      children: number
+      seniors: number
       travelDate: string
       days: number
       hotelName: string
       hotelPrice: number
-      excursions: Array<{
-        id: string
-        name: string
-        price: number
-      }>
+      excursionName?: string
+      excursionPrice?: number
     }) {
-      const cartId = uuidv4()
-      this.cartDetails.push({
-        cartId,
-        destination: details.destination,
-        travelers: details.travelers,
-        travelDate: details.travelDate,
-        days: details.days,
-        hotelName: details.hotelName,
-        hotelPrice: details.hotelPrice,
-        excursions: details.excursions,
-      })
-      console.log('Ny Cart skapad:', cartId)
-      console.log('Aktuell Cart Detaljer:', this.cartDetails)
-    },
-    // Uppdatera den senaste carten
-    updateLatestCart(details: {
-      destination: string
-      travelers: number
-      travelDate: string
-      days: number
-      hotelName: string
-      hotelPrice: number
-      excursions: Array<{
-        id: string
-        name: string
-        price: number
-      }>
-    }) {
-      if (this.cartDetails.length === 0) {
-        this.setCartDetails(details)
+      const existingCard = this.cartDetails.find((card) => card.destination === details.destination)
+
+      if (existingCard) {
+        // Add excursion only if provided
+        if (details.excursionName && details.excursionPrice) {
+          existingCard.excursions.push({
+            name: details.excursionName,
+            price: details.excursionPrice,
+          })
+        }
       } else {
-        const latestCart = this.cartDetails[this.cartDetails.length - 1]
-        latestCart.destination = details.destination
-        latestCart.travelers = details.travelers
-        latestCart.travelDate = details.travelDate
-        latestCart.days = details.days
-        latestCart.hotelName = details.hotelName
-        latestCart.hotelPrice = details.hotelPrice
-        latestCart.excursions = details.excursions
-        console.log('Senaste Cart uppdaterad:', latestCart.cartId)
-        console.log('Aktuell Cart Detaljer:', this.cartDetails)
+        // Create a new card even if no excursions are selected
+        this.cartDetails.push({
+          destination: details.destination,
+          travelers: details.travelers,
+          adults: details.adults,
+          children: details.children,
+          seniors: details.seniors,
+          travelDate: details.travelDate,
+          days: details.days,
+          hotelName: details.hotelName,
+          hotelPrice: details.hotelPrice,
+          excursions: details.excursionName
+            ? [
+                {
+                  name: details.excursionName,
+                  price: details.excursionPrice || 0,
+                },
+              ]
+            : [], // Empty excursions if none are selected
+        })
       }
     },
     removeCard(index: number) {
       if (index >= 0 && index < this.cartDetails.length) {
-        this.cartDetails.splice(index, 1);
+        this.cartDetails.splice(index, 1)
       }
     },
 
