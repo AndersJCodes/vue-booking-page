@@ -1,20 +1,30 @@
 <template>
   <div class="cart-page">
-    <h1>Din Cart</h1>
-    <div v-if="cartStore.cartDetails.length > 0">
-      <div v-for="cart in cartStore.cartDetails" :key="cart.cartId" class="cart-item">
-        <h2>Cart ID: {{ cart.cartId }}</h2>
-        <p><strong>Destination:</strong> {{ cart.destination }}</p>
-        <p><strong>Travelers:</strong> {{ cart.travelers }}</p>
-        <p><strong>Travel Date:</strong> {{ cart.travelDate }}</p>
-        <p><strong>Days:</strong> {{ cart.days }}</p>
-        <p><strong>Hotel:</strong> {{ cart.hotelName }} - ${{ cart.hotelPrice }}</p>
+    <h1>Your Travel Cart</h1>
 
-        <h3>Excursions:</h3>
-        <ul>
-          <li v-for="exc in cart.excursions" :key="exc.id">{{ exc.name }} - ${{ exc.price }}</li>
-        </ul>
-      </div>
+    <!-- Loop through each card in the cart -->
+    <div v-for="(card, index) in cartItems" :key="index" class="cart-card">
+      <h2>Destination: {{ card.destinationName }}</h2>
+      <p><strong>Travelers:</strong> {{ card.travelers }} guests</p>
+      <p><strong>Travel Date:</strong> {{ card.travelDate }}</p>
+      <p><strong>Number of Days:</strong> {{ card.days }}</p>
+      <p><strong>Hotel:</strong> {{ card.hotelName }}</p>
+      <p><strong>Hotel Price Per Night:</strong> {{ card.hotelPrice }}</p>
+      <p><strong>Total Hotel Cost:</strong> {{ totalHotelCost(card) }}</p>
+
+      <h3>Selected Excursions:</h3>
+      <ul>
+        <li v-for="(excursion, i) in card.excursions" :key="i">
+          {{ excursion.name }} - ${{ excursion.price }}
+        </li>
+      </ul>
+
+      <p><strong>Total Excursion Cost:</strong> {{ totalExcursionCost(card.excursions) }}</p>
+      <p><strong>Total Price:</strong> {{ totalPrice(card) }}</p>
+      Totalprice component: <TotalPrice />
+
+      <!-- Remove Button -->
+      <button class="remove-button" @click="removeCard(index)">Remove</button>
     </div>
     <div v-else>
       <p>Din cart är tom.</p>
@@ -33,19 +43,37 @@
 
 <script setup lang="ts">
 import { useCartStore } from '@/stores/cart'
-import { computed, ref } from 'vue'
-import { useRouter } from 'vue-router'
+import TotalPrice from '@/components/TotalPrice.vue'
+import destinationsData from '@/db/destinations.json'
 
 const cartStore = useCartStore()
-const router = useRouter()
 
-// Komputera totala priset
-const totalPrice = computed(() => {
-  return cartStore.cartDetails.reduce((total, cart) => {
-    const excursionsTotal = cart.excursions.reduce((sum, exc) => sum + exc.price, 0)
-    return total + cart.hotelPrice + excursionsTotal
-  }, 0)
+const getDestinationName = (id: string): string => {
+  const destination = destinationsData.find((item) => item.id === id)
+  return destination ? destination.name : 'Unknown Destination'
+}
+
+// Access cart details from Pinia store
+const cartItems = computed(() => {
+  return cartStore.cartDetails.map((card) => ({
+    ...card,
+    destinationName: getDestinationName(card.destination), // Add name dynamically
+  }))
 })
+
+// Compute total hotel cost
+const totalHotelCost = (card) => card.hotelPrice * card.days
+
+// Compute total excursion cost
+const totalExcursionCost = (excursions) =>
+  excursions.reduce((sum, excursion) => sum + excursion.price, 0)
+
+// Compute the total price for a card
+const totalPrice = (card) => totalHotelCost(card) + totalExcursionCost(card.excursions)
+
+const removeCard = (index: number) => {
+  cartStore.removeCard(index)
+}
 
 const showModal = ref(false)
 const goToPayment = () => {
@@ -134,5 +162,19 @@ li {
   width: 100%; /* Gör bilden responsiv */
   max-width: 400px;
   margin-top: 1rem;
+}
+
+.remove-button {
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 1rem;
+}
+
+.remove-button:hover {
+  background-color: #c82333;
 }
 </style>

@@ -77,6 +77,12 @@ export const useCartStore = defineStore('cart', {
         console.log('Aktuell Cart Detaljer:', this.cartDetails)
       }
     },
+    removeCard(index: number) {
+      if (index >= 0 && index < this.cartDetails.length) {
+        this.cartDetails.splice(index, 1);
+      }
+    },
+
     clearCart() {
       this.cartDetails = []
       console.log('All Cart Rensad.')
