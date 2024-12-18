@@ -90,6 +90,7 @@ import { ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import type { Destination } from '@/types'
 import destinationsData from '@/db/destinations.json'
+import { v4 as uuidv4 } from 'uuid'
 
 const destinations: Destination[] = destinationsData
 const router = useRouter()
