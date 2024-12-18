@@ -33,7 +33,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { computed, ref, onMounted } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { useCartStore } from '@/stores/cart'
 import { usePriceStore } from '@/stores/prices'
@@ -96,7 +96,20 @@ const filteredExcursions = computed(() =>
   ),
 )
 
-// Funktion för att spara valda excursions till en ny cart
+// Ladda senaste cart vid mount om den finns
+onMounted(() => {
+  if (cartStore.cartDetails.length > 0) {
+    const latestCart = cartStore.cartDetails[cartStore.cartDetails.length - 1]
+    latestCart.excursions.forEach((exc) => selectedExcursions.value.add(exc.id))
+    // Lägg till priser i priceStore
+    latestCart.excursions.forEach((exc) =>
+      priceStore.addExcursion({ id: exc.id, price: exc.price }),
+    )
+    console.log('Laddad Senaste Cart för redigering:', latestCart.cartId)
+  }
+})
+
+// Funktion för att spara valda excursions till den senaste carten
 const proceedToCart = () => {
   // Hämta alla valda excursions objekt
   const selectedExcursionsArray = excursionsData.filter((exc) =>
@@ -104,7 +117,7 @@ const proceedToCart = () => {
   )
 
   // Skapa en ny cart i butiken
-  cartStore.setCartDetails({
+  const cartDetails = {
     destination: currentDestination.destination,
     travelers: currentDestination.travelers,
     travelDate: currentDestination.travelDate,
@@ -116,7 +129,10 @@ const proceedToCart = () => {
       name: exc.name,
       price: exc.price,
     })),
-  })
+  }
+
+  // Uppdatera den senaste carten istället för att skapa en ny
+  cartStore.updateLatestCart(cartDetails)
 
   console.log('Cart Added:', cartStore.cartDetails[cartStore.cartDetails.length - 1])
 

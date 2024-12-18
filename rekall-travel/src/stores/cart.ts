@@ -48,6 +48,35 @@ export const useCartStore = defineStore('cart', {
       console.log('Ny Cart skapad:', cartId)
       console.log('Aktuell Cart Detaljer:', this.cartDetails)
     },
+    // Uppdatera den senaste carten
+    updateLatestCart(details: {
+      destination: string
+      travelers: number
+      travelDate: string
+      days: number
+      hotelName: string
+      hotelPrice: number
+      excursions: Array<{
+        id: string
+        name: string
+        price: number
+      }>
+    }) {
+      if (this.cartDetails.length === 0) {
+        this.setCartDetails(details)
+      } else {
+        const latestCart = this.cartDetails[this.cartDetails.length - 1]
+        latestCart.destination = details.destination
+        latestCart.travelers = details.travelers
+        latestCart.travelDate = details.travelDate
+        latestCart.days = details.days
+        latestCart.hotelName = details.hotelName
+        latestCart.hotelPrice = details.hotelPrice
+        latestCart.excursions = details.excursions
+        console.log('Senaste Cart uppdaterad:', latestCart.cartId)
+        console.log('Aktuell Cart Detaljer:', this.cartDetails)
+      }
+    },
     clearCart() {
       this.cartDetails = []
       console.log('All Cart Rensad.')
