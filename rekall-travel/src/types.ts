@@ -26,9 +26,9 @@ interface BookingQuery {
   destination: string
   destinationName?: string
   travelers: number
-  adults?: number
-  children?: number
-  seniors?: number
+  adults: number
+  children: number
+  seniors: number
   startDate: string
   days?: number
   hotelId?: string

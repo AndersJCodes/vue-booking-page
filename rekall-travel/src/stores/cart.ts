@@ -8,6 +8,9 @@ export const useCartStore = defineStore('cart', {
       cartId: string
       destination: string
       travelers: number
+      adults: number;
+      children: number;
+      seniors: number;
       travelDate: string
       days: number
       hotelName: string
@@ -24,6 +27,9 @@ export const useCartStore = defineStore('cart', {
     setCartDetails(details: {
       destination: string
       travelers: number
+      adults: number
+      children: number
+      seniors: number
       travelDate: string
       days: number
       hotelName: string
@@ -39,6 +45,9 @@ export const useCartStore = defineStore('cart', {
         cartId,
         destination: details.destination,
         travelers: details.travelers,
+        adults: details.adults,
+        children: details.children,
+        seniors: details.seniors,
         travelDate: details.travelDate,
         days: details.days,
         hotelName: details.hotelName,
@@ -48,6 +57,12 @@ export const useCartStore = defineStore('cart', {
       console.log('Ny Cart skapad:', cartId)
       console.log('Aktuell Cart Detaljer:', this.cartDetails)
     },
+    removeCard(index: number) {
+      if (index >= 0 && index < this.cartDetails.length) {
+        this.cartDetails.splice(index, 1);
+      }
+    },
+
     clearCart() {
       this.cartDetails = []
       console.log('All Cart Rensad.')
