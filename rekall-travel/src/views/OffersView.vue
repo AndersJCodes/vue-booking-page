@@ -30,7 +30,7 @@
         </ul>
 
         <div class="choose-btn-container">
-          <button class="choose-btn" @click="addToCart(offer)">Choose</button>
+          <button class="choose-btn" @click="cartStore.setCartDetails(offer)">Choose</button>
         </div>
       </div>
     </div>
@@ -41,6 +41,7 @@
 import offers from '@/db/offers.json'
 import excursions from '@/db/excursions.json'
 import hotels from '@/db/hotels.json'
+import { useCartStore } from '@/stores/cart'
 
 export default {
   name: 'SpecialOffers',
@@ -50,6 +51,11 @@ export default {
       excursions,
       hotels,
     }
+  },
+  computed: {
+    cartStore() {
+      return useCartStore()
+    },
   },
   methods: {
     getExcursionById(id) {
