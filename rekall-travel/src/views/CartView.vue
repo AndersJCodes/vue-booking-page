@@ -1,7 +1,6 @@
 <template>
   <div class="cart-page">
     <h1>Your Travel Cart</h1>
-
     <!-- Loop through each card in the cart -->
     <div v-for="(card, index) in cartItems" :key="index" class="cart-card">
       <h2>Destination: {{ card.destinationName }}</h2>
@@ -11,23 +10,21 @@
       <p><strong>Hotel:</strong> {{ card.hotelName }}</p>
       <p><strong>Hotel Price Per Night:</strong> {{ card.hotelPrice }}</p>
       <p><strong>Total Hotel Cost:</strong> {{ totalHotelCost(card) }}</p>
-
       <h3>Selected Excursions:</h3>
       <ul>
         <li v-for="(excursion, i) in card.excursions" :key="i">
           {{ excursion.name }} - ${{ excursion.price }}
         </li>
       </ul>
-
       <p><strong>Total Excursion Cost:</strong> {{ totalExcursionCost(card.excursions) }}</p>
       <p><strong>Total Price:</strong> {{ totalPrice(card) }}</p>
       Totalprice component: <TotalPrice />
-
       <!-- Remove Button -->
       <button class="remove-button" @click="removeCard(index)">Remove</button>
     </div>
-    <div v-else>
-      <p>Din cart är tom.</p>
+    <!-- Empty cart message -->
+    <div v-if="cartItems.length === 0">
+      <p>Your cart is empty. Please add a booking.</p>
     </div>
     <button @click="goToPayment">Go to Payment</button>
     <!-- Modal -->
@@ -45,6 +42,7 @@
 import { useCartStore } from '@/stores/cart'
 import TotalPrice from '@/components/TotalPrice.vue'
 import destinationsData from '@/db/destinations.json'
+import { computed, ref } from 'vue'
 
 const cartStore = useCartStore()
 
