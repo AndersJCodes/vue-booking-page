@@ -8,6 +8,7 @@
     "duration": 15,
     "image": "/src/assets/images/offer1.jpg",
     "travelers": 4,
+    "travelDate": "2024-01-03 to 2024-01-17",
     "excursions": ["mars_safari"],
     "hotel": ["hotel_2"]
   },
@@ -20,6 +21,7 @@
     "duration": 10,
     "image": "/src/assets/images/offer2.jpg",
     "travelers": 3,
+    "travelDate": "2024-01-02 to 2024-01-12",
     "excursions": ["io_volcano_tour"],
     "hotel": ["hotel_9"]
   },
@@ -32,6 +34,7 @@
     "duration": 10,
     "image": "/src/assets/images/offer3.jpg",
     "travelers": 2,
+    "travelDate": "2024-12-30 to 2024-01-08",
     "excursions": ["venus_moon"],
     "hotel": ["hotel_6"]
   }

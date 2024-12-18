@@ -21,6 +21,7 @@ interface Offer {
   hotel: string[]
   excursions: string[]
   image: string
+  travelDate: string
 }
 
 interface Hotel {

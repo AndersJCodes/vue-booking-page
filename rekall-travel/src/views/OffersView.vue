@@ -6,6 +6,7 @@
       <div class="offer-details">
         <h2>{{ offer.name }}</h2>
         <p>{{ offer.description }}</p>
+        <p><strong>Travel Date:</strong> {{ offer.travelDate || 'No Date Selected' }}</p>
         <p>
           <span>Price:</span>
           <span class="old-price">${{ offer.price }}</span>
@@ -19,7 +20,7 @@
         <h3>Included Excursions:</h3>
         <ul>
           <li v-for="excursionId in offer.excursions" :key="excursionId">
-            {{ getExcursionById(excursionId).name }}
+            {{ getExcursionById(excursionId)?.name || 'Unknown Excursion' }}
           </li>
         </ul>
         <h3>Hotel Options:</h3>
@@ -48,20 +49,14 @@ export default {
   name: 'SpecialOffers',
   data() {
     return {
-      offers: [] as Offer[],
+      offers,
       excursions,
       hotels,
     }
   },
   methods: {
-    getExcursionById(id: string): Excursion {
-      return (
-        this.excursions.find((excursion: Excursion) => excursion.id === id) || {
-          id: 'unknown',
-          name: 'Unknown Excursion',
-          price: 0,
-        }
-      )
+    getExcursionById(id: string): Excursion | undefined {
+      return this.excursions.find((excursion: Excursion) => excursion.id === id)
     },
 
     getHotelById(id: string): Hotel | undefined {
@@ -84,6 +79,7 @@ export default {
         days: offer.duration,
         hotelName: hotelName,
         hotelPrice: hotelPrice,
+        travelDate: offer.travelDate,
       })
 
       // Установка экскурсий
@@ -94,6 +90,7 @@ export default {
           price: excursion.price || 0,
         })
       }
+      this.$router.push('/cart')
     },
   },
 }
