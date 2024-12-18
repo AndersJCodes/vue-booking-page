@@ -14,8 +14,9 @@
         <ul>
           <li v-for="exc in cart.excursions" :key="exc.id">{{ exc.name }} - ${{ exc.price }}</li>
         </ul>
-        <p><strong>Total Price:</strong> ${{ cart.totalPrice }} kr</p>
+        <p><strong>Total Price:</strong> {{ cart.totalPrice }} kr</p>
       </div>
+      <p><strong>Total Price:</strong> {{ totalCartPrice }} kr</p>
     </div>
     <div v-else>
       <p>Din cart är tom.</p>
@@ -39,6 +40,14 @@ import { useRouter } from 'vue-router'
 
 const cartStore = useCartStore()
 const router = useRouter()
+
+//Räkna ut totalpriset för alla cart
+const totalCartPrice = computed(() => {
+  return cartStore.cartDetails.reduce((total, cart) => {
+    console.log('Cart Total Price:', cart.totalPrice) // Debugging log
+    return total + (cart.totalPrice || 0) // Ensure totalPrice is a number
+  }, 0)
+})
 
 // Komputera totala priset
 const totalPrice = computed(() => {
