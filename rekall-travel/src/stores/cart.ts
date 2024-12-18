@@ -21,7 +21,7 @@ export const useCartStore = defineStore('cart', {
   }),
   actions: {
     // Lägg till en ny cart med excursions
-    addExcursionToCart(details: {
+    setCartDetails(details: {
       destination: string
       travelers: number
       travelDate: string

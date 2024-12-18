@@ -104,7 +104,7 @@ const proceedToCart = () => {
   )
 
   // Skapa en ny cart i butiken
-  cartStore.addExcursionToCart({
+  cartStore.setCartDetails({
     destination: currentDestination.destination,
     travelers: currentDestination.travelers,
     travelDate: currentDestination.travelDate,
