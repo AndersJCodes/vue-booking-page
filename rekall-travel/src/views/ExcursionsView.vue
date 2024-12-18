@@ -47,6 +47,9 @@ const priceStore = usePriceStore()
 const currentDestination = {
   destination: (route.query.destination as string) || 'Unknown Destination',
   travelers: parseInt(route.query.travelers as string, 10) || 1,
+  adults: parseInt(route.query.adults as string, 10) || 1,
+  children: parseInt(route.query.children as string, 10) || 1,
+  seniors: parseInt(route.query.seniors as string, 10) || 1,
   travelDate: (route.query.startDate as string) || 'No Date Selected',
   days: parseInt(route.query.days as string, 10) || 0,
   hotelName: (route.query.hotelName as string) || 'None selected',

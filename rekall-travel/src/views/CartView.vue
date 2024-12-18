@@ -5,10 +5,21 @@
     <!-- Loop through each card in the cart -->
     <div v-for="(card, index) in cartItems" :key="index" class="cart-card">
       <h2>Destination: {{ card.destinationName }}</h2>
-      <p><strong>Travelers:</strong> {{ card.travelers }} guests</p>
-      <p><strong>Travel Date:</strong> {{ card.travelDate }}</p>
-      <p><strong>Number of Days:</strong> {{ card.days }}</p>
       <p><strong>Hotel:</strong> {{ card.hotelName }}</p>
+      <p><strong>Travel Date:</strong> {{ card.travelDate }}</p>
+      <h3>Travelers: {{ card.travelers }} </h3>
+      <ul>
+        <li>
+          <p><strong>Adults:</strong> {{ card.adults }}</p>
+        </li>
+        <li>
+          <p><strong>Children:</strong> {{ card.children }}</p>
+        </li>
+        <li>
+          <p><strong>Seniors:</strong> {{ card.seniors }}</p>
+        </li>
+      </ul>
+      <h3><strong>Number of Days:</strong> {{ card.days }}</h3>
       <p><strong>Hotel Price Per Night:</strong> {{ card.hotelPrice }}</p>
       <p><strong>Total Hotel Cost:</strong> {{ totalHotelCost(card) }}</p>
 
@@ -24,9 +35,11 @@
       Totalprice component: <TotalPrice />
 
       <!-- Remove Button -->
-      <button class="remove-button" @click="removeCard(index)">
-        Remove
-      </button>
+       <p>
+         <button class="remove-button" @click="removeCard(index)">
+           Remove
+          </button>
+        </p>
     </div>
 
     <!-- Empty cart message -->

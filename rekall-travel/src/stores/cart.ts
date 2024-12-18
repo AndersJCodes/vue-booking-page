@@ -6,6 +6,9 @@ export const useCartStore = defineStore('cart', {
     cartDetails: [] as Array<{
       destination: string;
       travelers: number;
+      adults: number;
+      children: number;
+      seniors: number;
       travelDate: string;
       days: number;
       hotelName: string;
@@ -21,6 +24,9 @@ export const useCartStore = defineStore('cart', {
     addExcursionToCard(details: {
       destination: string;
       travelers: number;
+      adults: number
+      children: number
+      seniors: number
       travelDate: string;
       days: number;
       hotelName: string;
@@ -45,17 +51,20 @@ export const useCartStore = defineStore('cart', {
         this.cartDetails.push({
           destination: details.destination,
           travelers: details.travelers,
+          adults: details.adults,
+          children: details.children,
+          seniors: details.seniors,
           travelDate: details.travelDate,
           days: details.days,
           hotelName: details.hotelName,
           hotelPrice: details.hotelPrice,
           excursions: details.excursionName
             ? [
-                {
-                  name: details.excursionName,
-                  price: details.excursionPrice || 0,
-                },
-              ]
+              {
+                name: details.excursionName,
+                price: details.excursionPrice || 0,
+              },
+            ]
             : [], // Empty excursions if none are selected
         });
       }
