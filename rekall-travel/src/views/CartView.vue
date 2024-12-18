@@ -29,7 +29,7 @@
           {{ excursion.name }} - ${{ excursion.price }}
         </li>
       </ul>
-      <p><strong>Total Price:</strong> {{ cart.totalPrice }} kr</p>
+      <p><strong>Total Price:</strong> {{ card.totalPrice }} kr</p>
 
       <p><strong>Total Excursion Cost:</strong> {{ totalExcursionCost(card.excursions) }}</p>
       <p><strong>Total Price:</strong> {{ totalPrice(card) }}</p>
