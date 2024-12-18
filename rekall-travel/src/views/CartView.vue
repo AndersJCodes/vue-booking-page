@@ -22,6 +22,11 @@
       <p><strong>Total Excursion Cost:</strong> {{ totalExcursionCost(card.excursions) }}</p>
       <p><strong>Total Price:</strong> {{ totalPrice(card) }}</p>
       Totalprice component: <TotalPrice />
+
+      <!-- Remove Button -->
+      <button class="remove-button" @click="removeCard(index)">
+        Remove
+      </button>
     </div>
 
     <!-- Empty cart message -->
@@ -71,6 +76,10 @@ const totalExcursionCost = (excursions) =>
 
 // Compute the total price for a card
 const totalPrice = (card) => totalHotelCost(card) + totalExcursionCost(card.excursions)
+
+const removeCard = (index: number) => {
+  cartStore.removeCard(index);
+};
 
 const showModal = ref(false)
 const goToPayment = () => {

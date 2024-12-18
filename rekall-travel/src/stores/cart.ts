@@ -60,6 +60,12 @@ export const useCartStore = defineStore('cart', {
         });
       }
     },
+    removeCard(index: number) {
+      if (index >= 0 && index < this.cartDetails.length) {
+        this.cartDetails.splice(index, 1);
+      }
+    },
+
     clearCart() {
       this.cartDetails = [];
     },
