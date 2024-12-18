@@ -1,140 +1,90 @@
 <template>
   <div class="cart-page">
-    <h1>Your Travel Cart</h1>
+    <h1>Din Cart</h1>
+    <div v-if="cartStore.cartDetails.length > 0">
+      <div v-for="cart in cartStore.cartDetails" :key="cart.cartId" class="cart-item">
+        <h2>Cart ID: {{ cart.cartId }}</h2>
+        <p><strong>Destination:</strong> {{ cart.destination }}</p>
+        <p><strong>Travelers:</strong> {{ cart.travelers }}</p>
+        <p><strong>Travel Date:</strong> {{ cart.travelDate }}</p>
+        <p><strong>Days:</strong> {{ cart.days }}</p>
+        <p><strong>Hotel:</strong> {{ cart.hotelName }} - ${{ cart.hotelPrice }}</p>
 
-    <!-- Loop through each card in the cart -->
-    <div v-for="(card, index) in cartItems" :key="index" class="cart-card">
-      <h2>Destination: {{ card.destination }}</h2>
-      <p><strong>Travelers:</strong> {{ card.travelers }} guests</p>
-      <p><strong>Travel Date:</strong> {{ card.travelDate }}</p>
-      <p><strong>Number of Days:</strong> {{ card.days }}</p>
-      <p><strong>Hotel:</strong> {{ card.hotelName }}</p>
-      <p><strong>Hotel Price Per Night:</strong> {{ card.hotelPrice }}</p>
-      <p><strong>Total Hotel Cost:</strong> {{ totalHotelCost(card) }}</p>
-
-      <h3>Selected Excursions:</h3>
-      <ul>
-        <li v-for="(excursion, i) in card.excursions" :key="i">
-          {{ excursion.name }} - ${{ excursion.price }}
-        </li>
-      </ul>
-
-      <p><strong>Total Excursion Cost:</strong> {{ totalExcursionCost(card.excursions) }}</p>
-      <p><strong>Total Price:</strong> {{ totalPrice(card) }}</p>
-      Totalprice component: <TotalPrice />
-    </div>
-
-    <!-- Empty cart message -->
-    <div v-if="cartItems.length === 0">
-      <p>Your cart is empty. Please add a booking.</p>
-    </div>
-    <button @click="goToPayment">Go to Payment</button>
-    <!-- Modal -->
-    <div v-if="showModal" class="modal">
-      <div class="modal-content">
-        <span @click="closeModal" class="close">&times;</span>
-        <h2>Open Your Bank ID</h2>
-        <img src="@/assets/images/BankID.png" alt="Bank ID" class="bankid-image" />
+        <h3>Excursions:</h3>
+        <ul>
+          <li v-for="exc in cart.excursions" :key="exc.id">{{ exc.name }} - ${{ exc.price }}</li>
+        </ul>
       </div>
     </div>
+    <div v-else>
+      <p>Din cart är tom.</p>
+    </div>
+    <button class="back-button" @click="goBack">Tillbaka till Excursions</button>
   </div>
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue'
 import { useCartStore } from '@/stores/cart'
-import TotalPrice from '@/components/TotalPrice.vue'
+import { computed } from 'vue'
+import { useRouter } from 'vue-router'
 
 const cartStore = useCartStore()
+const router = useRouter()
 
-// Access cart details from Pinia store
-const cartItems = computed(() => cartStore.cartDetails)
-
-// Compute total hotel cost
-const totalHotelCost = (card) => card.hotelPrice * card.days
-
-// Compute total excursion cost
-const totalExcursionCost = (excursions) =>
-  excursions.reduce((sum, excursion) => sum + excursion.price, 0)
-
-// Compute the total price for a card
-const totalPrice = (card) => totalHotelCost(card) + totalExcursionCost(card.excursions)
-
-const showModal = ref(false)
-const goToPayment = () => {
-  showModal.value = true
+// Funktion för att gå tillbaka till excursions sidan
+const goBack = () => {
+  router.push({ name: 'excursions' })
 }
-const closeModal = () => {
-  showModal.value = false
-}
+
+// Komputera totala priset
+const totalPrice = computed(() => {
+  return cartStore.cartDetails.reduce((total, cart) => {
+    const excursionsTotal = cart.excursions.reduce((sum, exc) => sum + exc.price, 0)
+    return total + cart.hotelPrice + excursionsTotal
+  }, 0)
+})
 </script>
 
 <style scoped>
 .cart-page {
-  padding: 2rem;
-  max-width: 800px;
-  margin: 0 auto;
+  padding: 20px;
 }
 
-.cart-card {
-  border: 1px solid #ddd;
-  padding: 1rem;
-  margin-bottom: 1.5rem;
+.cart-item {
+  border: 1px solid #ccc;
+  padding: 16px;
+  margin-bottom: 16px;
   border-radius: 8px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  background-color: #f9f9f9;
 }
 
-.cart-card h2 {
-  margin-bottom: 0.5rem;
-}
-
-button {
-  padding: 1rem;
-  background-color: #28a745;
+.back-button {
+  padding: 10px 20px;
+  background-color: #007bff;
   color: white;
   border: none;
-  border-radius: 5px;
+  border-radius: 4px;
   cursor: pointer;
 }
 
-button:hover {
-  background-color: #218838;
+.back-button:hover {
+  background-color: #0056b3;
 }
 
-/* Stil för modal */
-.modal {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5); /* Mörk bakgrund */
-  z-index: 1000;
+h2 {
+  margin-bottom: 8px;
 }
 
-.modal-content {
-  background-color: #fff;
-  padding: 2rem;
-  border-radius: 10px;
-  text-align: center;
-  max-width: 500px;
-  width: 80%;
+h3 {
+  margin-top: 16px;
 }
 
-.close {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  font-size: 2rem;
-  cursor: pointer;
+ul {
+  list-style-type: none;
+  padding-left: 0;
 }
 
-.bankid-image {
-  width: 100%; /* Gör bilden responsiv */
-  max-width: 400px;
-  margin-top: 1rem;
+li {
+  margin-bottom: 4px;
 }
 </style>

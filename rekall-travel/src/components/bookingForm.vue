@@ -23,7 +23,7 @@
         <label class="section-label" for="number-of-days">Check-out</label>
         <div class="days-wrapper">
           <select v-model.number="selectedOption" id="number-of-days" required>
-            <option disabled value="">Add dates</option>
+            <option disabled value="">Add stays</option>
             <option v-for="days in daysOptions" :key="days" :value="days">{{ days }} days</option>
             <option :value="customDaysFlag">Custom...</option>
           </select>
