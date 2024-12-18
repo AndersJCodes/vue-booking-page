@@ -26,7 +26,7 @@
     </div>
 
     <!-- Proceed to Cart Button -->
-    <button class="proceed-button" @click="proceedToCart" :disabled="!hasSelectedExcursions">
+    <button class="proceed-button" @click="proceedToCart">
       Proceed to Cart
     </button>
   </div>
@@ -110,6 +110,9 @@ const proceedToCart = () => {
   cartStore.setCartDetails({
     destination: currentDestination.destination,
     travelers: currentDestination.travelers,
+    adults: currentDestination.adults,
+    children: currentDestination.children,
+    seniors: currentDestination.seniors,
     travelDate: currentDestination.travelDate,
     days: currentDestination.days,
     hotelName: currentDestination.hotelName,
