@@ -29,18 +29,19 @@
           {{ excursion.name }} - ${{ excursion.price }}
         </li>
       </ul>
-      <p><strong>Total Price:</strong> {{ card.totalPrice }} kr</p>
+      <br />
+      <h3>Trip Cost: {{ card.totalPrice }} kr</h3>
 
-      <p><strong>Total Excursion Cost:</strong> {{ totalExcursionCost(card.excursions) }}</p>
-      <p><strong>Total Price:</strong> {{ totalPrice(card) }}</p>
+      <!--      <p><strong>Total Excursion Cost:</strong> {{ totalExcursionCost(card.excursions) }}</p> -->
+      <!-- <p><strong>Total Price:</strong> {{ totalPrice(card) }}</p> -->
       <p>
         <button class="remove-button" @click="removeCard(index)">Remove</button>
       </p>
-      <p><strong>Total Price:</strong> {{ totalCartPrice }} kr</p>
     </div>
     <div v-if="cartItems.length === 0">
       <p>Your cart is empty. Please add a booking.</p>
     </div>
+    <p><strong>Total Price:</strong> {{ totalCartPrice }} kr</p>
     <button @click="goToPayment">Go to Payment</button>
     <!-- Modal -->
     <div v-if="showModal" class="modal">
